@@ -1,4 +1,4 @@
-# TEAM - 06
+# TEAM - 06: Pipleline > Build
 ## Members
 | | Name | ID |
 | :---: | :---: | :---: |
