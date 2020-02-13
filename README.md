@@ -1,4 +1,4 @@
-# TEAM - 06: Pipleline > Build
+# TEAM - 06
 ## Members
 | | Name | ID |
 | :---: | :---: | :---: |
@@ -6,7 +6,7 @@
 |2| Jaydip Gabani| jgabani |
 |3| Sandeep Kundala | skundal |
 
-## Milestone 1
+## Milestone 1 - Pipleline > Build
 ### Tasks
 - Automatically configure jenkins server
 - Automatically configure a build environment
