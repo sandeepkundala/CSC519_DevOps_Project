@@ -41,15 +41,25 @@ async function run(privateKey) {
     result = child.spawnSync(`bakerx`, `run jenkins-srv bionic --ip 192.168.33.80`.split(' '), {shell:true, stdio: 'inherit'} );
     if( result.error ) { console.log(result.error); process.exit( result.status ); }
 
+    // wait for 30 sec
+    console.log("Wait for 30s");
+    await sleep(30000);
+
     console.log(chalk.blueBright('Installing privateKey on configuration server'));
     let identifyFile = privateKey || path.join(os.homedir(), '.bakerx', 'insecure_private_key');
-    result = scpSync (identifyFile, 'vagrant@192.168.33.10:/home/vagrant/.ssh/mm_rsa');
+    result = scpSync (identifyFile, 'vagrant@192.168.33.10:/home/vagrant/.ssh/jenkins_rsa');
     if( result.error ) { console.log(result.error); process.exit( result.status ); }
+
+    // wait for 30 sec
+    console.log("Wait for 30s");
+    await sleep(30000);
 
     console.log(chalk.blueBright('Running init script...'));
     result = sshSync('/bakerx/cm/server-init.sh', 'vagrant@192.168.33.10');
     if( result.error ) { console.log(result.error); process.exit( result.status ); }
 
+}
 
-
+async function sleep(ms) {
+    return new Promise(resolve => setTimeout(resolve, ms));
 }
