@@ -1,11 +1,11 @@
 {
-  "name": "cm",
+  "name": "pipeline",
   "version": "1.0.0",
-  "description": "Template for your hw2.",
+  "description": "Template for project",
   "main": "index.js",
   "bin": "index.js",
   "scripts": {},
-  "author": "YOU",
+  "author": "Team6",
   "license": "ISC",
   "dependencies": {
     "chalk": "^3.0.0",

@@ -6,7 +6,7 @@ const os = require('os');
 const scpSync = require('../lib/scp');
 const sshSync = require('../lib/ssh');
 
-exports.command = 'setup';
+exports.command = 'provide';
 exports.desc = 'Provision and configure the configuration server';
 exports.builder = yargs => {
     yargs.options({
