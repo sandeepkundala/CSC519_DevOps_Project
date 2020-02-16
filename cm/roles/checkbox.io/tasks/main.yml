@@ -20,23 +20,20 @@
     name: nginx
     state: present
 
-- name: Import the public key used by the package management system
-  apt_key: keyserver=hkp://keyserver.ubuntu.com:80 id=7F0CEB10 state=present
+- name: install gnupg
+  apt:
+    name: gnupg
+    state: present
 
-- name: Add MongoDB repository
-  apt_repository: repo='deb http://downloads-distro.mongodb.org/repo/ubuntu-upstart dist 10gen' state=present
+- name: GPG key
+  shell: wget -qO - https://www.mongodb.org/static/pgp/server-4.2.asc | sudo apt-key add -
 
-- name: install mongodb
+- name: create list file for mongo
+  shell: echo "deb [ arch=amd64,arm64 ] https://repo.mongodb.org/apt/ubuntu bionic/mongodb-org/4.2 multiverse" | sudo tee /etc/apt/sources.list.d/mongodb-org-4.2.list
+
+- name: Install mongo
   apt: pkg=mongodb-org state=latest update_cache=yes
-  notify:
-  - start mongodb
+  
 
-# - name: Add Mongo packages repo
-#   apt_key: 
-#     id: 2930ADAE8CAF5059EE73BB4B58712A2291FA4AD5  
-#     keyserver: keyserver.ubuntu.com
 
-# - name: add repo itself
-#   apt_repository: repo='deb http://repo.mongodb.org/apt/ubuntu bionic/mongodb-org/3.4 multiverse' state=present                                      
-# - name: install packages
-#   apt: pkg=mongodb-org state=present
+  
