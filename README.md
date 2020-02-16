@@ -28,7 +28,7 @@ pipeline provide
 pipeline setup
 
 # to configure build environment
-pipeline build checkbbox.io
+pipeline build checkbox.io
 ```
 
 ### Discussion points
