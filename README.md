@@ -13,8 +13,10 @@
 - Create build job
 ### Task Responsibilities
 
-### M.O.M
+### Discussion points
 | Date | Notes |
 | :---: | :---: |
+| 02-14-2020 | **Division of task:** All the Milestone 1a tasks are divided among team members to start parallely. |
 
 ### Report
+
