@@ -54,6 +54,8 @@ async function run(privateKey) {
     await sleep(30000);
 
     console.log(chalk.blueBright('Running init script...'));
+    result = sshSync('chmod +x /bakerx/cm/server-init.sh', 'vagrant@192.168.33.10')
+    if( result.error ) { console.log(result.error); process.exit( result.status ); }
     result = sshSync('/bakerx/cm/server-init.sh', 'vagrant@192.168.33.10');
     if( result.error ) { console.log(result.error); process.exit( result.status ); }
 

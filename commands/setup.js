@@ -19,7 +19,9 @@ async function run() {
     console.log(filePath);
     console.log(inventoryPath);
     console.log(chalk.blueBright('Running ansible script...'));
-    let result = sshSync(`sudo /bakerx/cm/run-ansible.sh ${filePath} ${inventoryPath}`, 'vagrant@192.168.33.10');
+    let result = sshSync('chmod +x /bakerx/cm/run-ansible.sh', 'vagrant@192.168.33.10')
+    if( result.error ) { console.log(result.error); process.exit( result.status ); }
+    result = sshSync(`/bakerx/cm/run-ansible.sh ${filePath} ${inventoryPath}`, 'vagrant@192.168.33.10');
     if( result.error ) { process.exit( result.status ); }
 
 }
