@@ -15,7 +15,8 @@
 
 
 ### Setup
-``` git clone https://github.ncsu.edu/cscdevops-spring2020/DEVOPS-06.git devops6
+``` 
+git clone https://github.ncsu.edu/cscdevops-spring2020/DEVOPS-06.git devops6
 cd devops6
 
 # to provision server:
