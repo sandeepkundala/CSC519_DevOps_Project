@@ -13,6 +13,21 @@
 - Create build job
 ### Task Responsibilities
 
+
+### Setup
+``` git clone https://github.ncsu.edu/cscdevops-spring2020/DEVOPS-06.git devops6
+cd devops6
+
+# to provision server:
+pipeline provide
+
+# to configure jenkins
+pipeline setup
+
+# to configure build environment
+pipeline build checkbbox.io
+```
+
 ### Discussion points
 | Date | Notes |
 | :---: | :---: |
