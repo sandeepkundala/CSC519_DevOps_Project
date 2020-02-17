@@ -1,0 +1,39 @@
+---
+- name: Update
+  apt:
+    upgrade: yes
+    update_cache: yes
+    cache_valid_time: 3600
+
+- name: add ppa for installing nodejs
+  shell: curl -sL https://deb.nodesource.com/setup_12.x | sudo -E bash -
+
+- name: Install Nodejs
+  apt: name=nodejs
+
+- name: Install Git
+  apt:
+    name: git
+
+- name: Install Nginx
+  apt:
+    name: nginx
+    state: present
+
+- name: install gnupg
+  apt:
+    name: gnupg
+    state: present
+
+- name: GPG key
+  shell: wget -qO - https://www.mongodb.org/static/pgp/server-4.2.asc | sudo apt-key add -
+
+- name: create list file for mongo
+  shell: echo "deb [ arch=amd64,arm64 ] https://repo.mongodb.org/apt/ubuntu bionic/mongodb-org/4.2 multiverse" | sudo tee /etc/apt/sources.list.d/mongodb-org-4.2.list
+
+- name: Install mongo
+  apt: pkg=mongodb-org state=latest update_cache=yes
+  
+
+
+  

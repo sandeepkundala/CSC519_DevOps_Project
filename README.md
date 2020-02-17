@@ -13,8 +13,28 @@
 - Create build job
 ### Task Responsibilities
 
-### M.O.M
+
+### Setup
+``` 
+git clone https://github.ncsu.edu/cscdevops-spring2020/DEVOPS-06.git devops6
+cd devops6
+dos2unix cm/server-init.sh
+dos2unix cm/run-ansible.sh
+
+# to provision server:
+pipeline provide
+
+# to configure jenkins
+pipeline setup
+
+# to configure build environment
+pipeline build checkbox.io
+```
+
+### Discussion points
 | Date | Notes |
 | :---: | :---: |
+| 02-14-2020 | **Division of task:** All the Milestone 1a tasks are divided among team members to start parallely. |
 
 ### Report
+
