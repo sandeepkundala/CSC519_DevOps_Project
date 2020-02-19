@@ -33,7 +33,6 @@
 
 - name: Install mongo
   apt: pkg=mongodb-org state=latest update_cache=yes
-  
 
 
   
