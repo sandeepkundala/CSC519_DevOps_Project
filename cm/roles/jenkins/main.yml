@@ -7,7 +7,6 @@
 
 - name: Check For Jenkins List    
   stat: path=/etc/apt/sources.list.d/jenkins.list
-  register: jenkins_list
 
 - name: Adding Jenkins Source List
   shell: sh -c 'echo deb http://pkg.jenkins.io/debian-stable binary/ > /etc/apt/sources.list.d/jenkins.list'
@@ -19,7 +18,6 @@
     name: jenkins     
     state: present
     update_cache: yes
-  register: jenkins_install
   become: true
 
 - name: Configure Jenkins port
