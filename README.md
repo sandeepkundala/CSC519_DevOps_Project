@@ -35,7 +35,7 @@ pipeline build checkbox.io
 | Date | Notes |
 | :---: | :---: |
 | 02-14-2020 | **Division of task:** All the Milestone 1a tasks are divided among team members to start parallely. |
-| 02-19-2020 | **Discussed task completion:** All the Milestone 1a tasks are divided among team members to start parallely. |
+| 02-19-2020 | **Discussed task completion and checkpoint 1 submission:** All the Milestone 1a tasks are divided among team members to start parallely. |
 
 ### Report
 
