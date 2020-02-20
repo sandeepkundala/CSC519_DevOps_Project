@@ -22,12 +22,6 @@
   register: jenkins_install
   become: true
 
-- name: Restarting Jenkins
-  service:
-    name: jenkins
-    state: restarted
-  become: true
-
 - name: Configure Jenkins port
   lineinfile:
     path: /etc/default/jenkins
