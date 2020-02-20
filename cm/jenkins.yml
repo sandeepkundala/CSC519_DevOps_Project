@@ -7,5 +7,5 @@
   become: yes
   roles:
     - ping
-    - environment
-#    - packages
+    - java8
+    - jenkins
