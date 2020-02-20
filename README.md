@@ -22,9 +22,6 @@ dos2unix cm/server-init.sh
 dos2unix cm/run-ansible.sh
 
 # to provision server:
-pipeline provide
-
-# to configure jenkins
 pipeline setup
 
 # to configure build environment
@@ -39,3 +36,4 @@ pipeline build checkbox.io
 
 ### Report
 
+Read [checkpoint1.md](https://github.ncsu.edu/cscdevops-spring2020/DEVOPS-06/blob/master/checkpoint1.md)
