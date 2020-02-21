@@ -5,7 +5,10 @@
 - hosts: jenkins
   gather_facts: false
   become: yes
+  vars_files:
+  - ./vars/vars.yml
   roles:
     - ping
+    - environment
     - java8
     - jenkins
