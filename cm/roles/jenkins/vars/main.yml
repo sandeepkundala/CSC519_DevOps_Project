@@ -1,0 +1,4 @@
+project_directory: /bakerx/cm
+jenkins_path: /var/lib/jenkins
+jenkins_username: "admin"
+jenkins_password: "admin"
