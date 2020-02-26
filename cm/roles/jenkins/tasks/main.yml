@@ -33,3 +33,41 @@
     name: jenkins
     state: restarted
   become: true
+
+- name: Wait while re-starting Jenkins
+  wait_for: 
+    port: 9000 
+    delay: 30
+
+- name: Create Directory For Groovy Script - Jenkins
+  file:
+    path: "{{jenkins_path}}/init.groovy.d"
+    state: directory
+    mode: 0755
+  register: groovy_dir
+  become: true
+
+- name: Copying Groovy Script For Deafult Jenkins User(ADMIN) Creation
+  template:
+    force: yes
+    src: "{{ project_directory }}/roles/jenkins/templates/jenkins_user.groovy.j2"
+    dest: "{{jenkins_path}}/init.groovy.d/basic-security.groovy"
+    mode: 0755
+  become: true
+
+- name: Restarting Jenkins
+  service:
+    name: jenkins
+    state: restarted
+  become: true
+
+- name: Wait while re-starting Jenkins
+  wait_for: 
+    port: 9000 
+    delay: 30
+
+- name: Removing Groovy Script so it doesn't create furthermore user
+  file:
+    path: "{{jenkins_path}}/init.groovy.d/basic-security.groovy"
+    state: absent
+  become: true
