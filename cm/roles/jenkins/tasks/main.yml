@@ -56,12 +56,29 @@
     mode: 0755
   become: true
 
+- name: Restarting Jenkins
+  service:
+    name: jenkins
+    state: restarted
+  become: true
+
+- name: Wait while re-starting Jenkins
+  wait_for: 
+    port: 9000 
+    delay: 30
+
+- name: Removing Groovy Script so it doesn't create furthermore user
+  file:
+    path: "{{jenkins_path}}/init.groovy.d/basic-security.groovy"
+    state: absent
+  become: true
+
 - name: Jenkin Plugins installation
   jenkins_plugin:
     name: "{{ item }}"
-    url_username: "{{jenkins_username}}"
-    url_password: "{{jenkins_password}}"
-    url: "{{jenkins_url}}"
+    url_username: "{{ jenkins_username }}"
+    url_password: "{{ jenkins_password }}"
+    url: "{{ jenkins_url }}"
   with_items:
     - github
     - postbuildscript
@@ -82,9 +99,3 @@
   wait_for: 
     port: 9000 
     delay: 30
-
-- name: Removing Groovy Script so it doesn't create furthermore user
-  file:
-    path: "{{jenkins_path}}/init.groovy.d/basic-security.groovy"
-    state: absent
-  become: true
