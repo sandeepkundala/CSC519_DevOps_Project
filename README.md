@@ -33,7 +33,9 @@ pipeline build checkbox.io
 | :---: | :---: |
 | 02-14-2020 | **Division of task:** All the Milestone 1a tasks are divided among team members to start parallely. |
 | 02-19-2020 | **Discussed task completion and checkpoint 1 submission:** Discussed the completion of our tasks, submitted work till today and discussed the further steps |
+| 02-26-2020 | **Discussed progress and future work:** Discussed the progress of project and tasks to be completed for the final submission of Milestone 1 |
 
 ### Report
 
 Read [checkpoint1.md](https://github.ncsu.edu/cscdevops-spring2020/DEVOPS-06/blob/master/checkpoint1.md)
+Read [checkpoint2.md](https://github.ncsu.edu/cscdevops-spring2020/DEVOPS-06/blob/master/checkpoint2.md)
