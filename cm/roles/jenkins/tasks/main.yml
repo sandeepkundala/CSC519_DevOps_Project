@@ -6,7 +6,8 @@
   become: true
 
 - name: Check For Jenkins List    
-  stat: path=/etc/apt/sources.list.d/jenkins.list
+  stat: 
+    path: /etc/apt/sources.list.d/jenkins.list
   register: jenkins_list
 
 - name: Adding Jenkins Source List
@@ -54,6 +55,21 @@
     dest: "{{jenkins_path}}/init.groovy.d/basic-security.groovy"
     mode: 0755
   become: true
+
+- name: Jenkin Plugins installation
+  jenkins_plugin:
+    name: "{{ item }}"
+    url_username: "{{jenkins_username}}"
+    url_password: "{{jenkins_password}}"
+    url: "{{jenkins_url}}"
+  with_items:
+    - github
+    - postbuildscript
+    - build-timeout
+    - postbuild-task
+    - ws-cleanup
+    - jenkins-job-builder
+    - html-xml-utils
 
 - name: Restarting Jenkins
   service:
