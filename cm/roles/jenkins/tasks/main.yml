@@ -70,6 +70,7 @@
     - ws-cleanup
     - jenkins-job-builder
     - html-xml-utils
+  ignore_errors: yes
 
 - name: Restarting Jenkins
   service:
