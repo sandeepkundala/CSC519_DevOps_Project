@@ -3,8 +3,26 @@
     description: 'automatically generated test'
     project-type: freestyle
     builders:
-      - shell: 'sudo git clone https://github.com/chrisparnin/checkbox.io.git'
-      - shell: 'cd /var/lib/jenkins/workspace/{{ checkbox_job_name }}/checkbox.io/server-side/site'
+      - shell: |
+          FLAG=0
+          if [ "$(ls -A /var/lib/jenkins/workspace/checkbox_job/)" ]; then
+              cd checkbox.io
+              git pull origin master
+              FLAG=1
+              
+          else
+              git clone https://github.com/chrisparnin/checkbox.io.git
+              cd checkbox.io
+          fi
+          sudo npm install
+          cd server-side/site
+          sudo npm install
+          sudo systemctl start mongod
+          if [$FLAG -eq 1]; then
+            BUILD_ID=dontKillMe forever -a -l myforever.log server.js &
+          else
+            BUILD_ID=dontKillMe forever restart -a -l myforever.log server.js &
+          fi
     publishers:
       - postbuildscript:
           builders:

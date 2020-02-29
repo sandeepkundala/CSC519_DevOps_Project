@@ -3,6 +3,9 @@
 - name: Install python
   raw: sudo apt-get -y install python
 
+- name: Install forever
+  npm: name=forever global=yes state=present
+
 - name: getting get-pip
   get_url:
     url: "https://bootstrap.pypa.io/get-pip.py"
@@ -108,7 +111,6 @@
     url: "{{jenkins_url}}/jnlpJars/jenkins-cli.jar"
     dest: "~/"
     mode: 0755
-
 
 - pip:
     name: "{{item}}"

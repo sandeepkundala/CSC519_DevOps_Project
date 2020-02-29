@@ -1,6 +1,3 @@
 ---
-- name: Update
-  apt:
-    upgrade: yes
-    update_cache: yes
-    cache_valid_time: 3600
+- name: Running the Build job for Checkbox
+  command: java -jar ~/jenkins-cli.jar -s http://admin:admin@localhost:9000/ build checkbox_job
