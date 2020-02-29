@@ -1,11 +1,25 @@
 ---   
+
+- name: Install python
+  raw: sudo apt-get -y install python
+
+- name: getting get-pip
+  get_url:
+    url: "https://bootstrap.pypa.io/get-pip.py"
+    dest: "/get-pip.py"
+    mode: 0755
+
+- name: Install pip3
+  shell: python /get-pip.py
+  become: true
+
 - name: Adding Apt Key For Jenkins
   apt_key:
     url: "https://jenkins-ci.org/debian/jenkins-ci.org.key"
     state: present
   become: true
 
-- name: Check For Jenkins List    
+- name: Check For Jenkins List, to see if it is already there   
   stat: 
     path: /etc/apt/sources.list.d/jenkins.list
   register: jenkins_list
@@ -15,7 +29,7 @@
   when: not jenkins_list.stat.exists
   become: true
 
-- name: Installing Jenkins
+- name: Installing Jenkins 
   apt:
     name: jenkins     
     state: present
@@ -35,7 +49,7 @@
     state: restarted
   become: true
 
-- name: Wait while re-starting Jenkins
+- name: Wait while Jenkins is getting restarted
   wait_for: 
     port: 9000 
     delay: 30
@@ -55,30 +69,24 @@
     dest: "{{jenkins_path}}/init.groovy.d/basic-security.groovy"
     mode: 0755
   become: true
-
+  
 - name: Restarting Jenkins
   service:
     name: jenkins
     state: restarted
   become: true
 
-- name: Wait while re-starting Jenkins
+- name: Wait while Jenkins is getting restarted
   wait_for: 
     port: 9000 
     delay: 30
 
-- name: Removing Groovy Script so it doesn't create furthermore user
-  file:
-    path: "{{jenkins_path}}/init.groovy.d/basic-security.groovy"
-    state: absent
-  become: true
-
-- name: Jenkin Plugins installation
+- name: Installation of Jenkins plugins
   jenkins_plugin:
     name: "{{ item }}"
-    url_username: "{{ jenkins_username }}"
-    url_password: "{{ jenkins_password }}"
-    url: "{{ jenkins_url }}"
+    url_username: "{{jenkins_username}}"
+    url_password: "{{jenkins_password}}"
+    url: "{{jenkins_url}}"
   with_items:
     - github
     - postbuildscript
@@ -89,13 +97,40 @@
     - html-xml-utils
   ignore_errors: yes
 
-- name: Restarting Jenkins
-  service:
-    name: jenkins
-    state: restarted
+- name: The Groovy Script should be  removed afer the creation of user once.
+  file:
+    path: "{{jenkins_path}}/init.groovy.d/basic-security.groovy"
+    state: absent
   become: true
 
-- name: Wait while re-starting Jenkins
-  wait_for: 
-    port: 9000 
-    delay: 30
+- name: Getting Jenkins CLI Jar
+  get_url:
+    url: "{{jenkins_url}}/jnlpJars/jenkins-cli.jar"
+    dest: "~/"
+    mode: 0755
+
+
+- pip:
+    name: "{{item}}"
+  with_items: 
+    - boto
+    - boto3 
+    - jenkins-job-builder
+  become: true
+
+- name: Have the Jenkins configuration file in place (jenkins_jobs.ini)
+  template:
+    src: "{{ project_directory }}/roles/jenkins/templates/jenkins_jobs.ini"
+    dest: ~/jenkins_jobs.ini
+
+- name: making a job directory to put all the jenkins jobs
+  file:
+    path: ~/jobs
+    state: directory
+
+- name: Change the SSH config file
+  lineinfile: 
+     path: /etc/ssh/ssh_config
+     regexp: '#   StrictHostKeyChecking ask'
+     line: '   StrictHostKeyChecking no'
+  become: true
