@@ -18,7 +18,7 @@
           cd server-side/site
           sudo npm install
           sudo systemctl start mongod
-          if [$FLAG -eq 1]; then
+          if [ $FLAG -eq 0 ]; then
             BUILD_ID=dontKillMe forever -a -l myforever.log server.js &
           else
             BUILD_ID=dontKillMe forever restart -a -l myforever.log server.js &
