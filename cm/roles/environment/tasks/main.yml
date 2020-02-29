@@ -93,6 +93,12 @@
     insertafter: 'EOF' 
     state: present
 
+- name: set environment variables
+  lineinfile:
+    dest: /etc/environment
+    line: BUILD_ID=dontKillMe
+    insertafter: 'EOF' 
+    state: present
 
 - name: Source environment variables
   shell: . /etc/environment
