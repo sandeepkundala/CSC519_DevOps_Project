@@ -96,6 +96,20 @@
 - name: set environment variables
   lineinfile:
     dest: /etc/environment
+    line: MONGO_USER="{{MONGO_USER}}"
+    insertafter: 'EOF' 
+    state: present
+
+- name: set environment variables
+  lineinfile:
+    dest: /etc/environment
+    line: MONGO_PASSWORD="{{MONGO_PASSWORD}}"
+    insertafter: 'EOF' 
+    state: present
+
+- name: set environment variables
+  lineinfile:
+    dest: /etc/environment
     line: BUILD_ID=dontKillMe
     insertafter: 'EOF' 
     state: present
