@@ -1,6 +1,7 @@
 ---
 - name: Running the Build job for Checkbox
   command: java -jar ~/jenkins-cli.jar -s http://admin:admin@localhost:9000/ build checkbox_job -s
+  ignore_errors: true
   
 - name: Get the logs and save in the register
   command: java -jar ~/jenkins-cli.jar -s http://admin:admin@localhost:9000/ command checkbox_job
@@ -8,4 +9,4 @@
   
 - name: Show log
   debug:
-    msg: "{{ log }}"
+    msg: "{{ log.stdout_lines }}"
