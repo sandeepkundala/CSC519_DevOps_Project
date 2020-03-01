@@ -10,4 +10,4 @@
   roles:
     - ping
     - checkbox.io
-    - create_jobs
+    #- create_jobs

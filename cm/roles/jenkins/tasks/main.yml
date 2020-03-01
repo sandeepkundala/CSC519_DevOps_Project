@@ -100,6 +100,17 @@
     - html-xml-utils
   ignore_errors: yes
 
+- name: Restarting Jenkins
+  service:
+    name: jenkins
+    state: restarted
+  become: true
+
+- name: Wait while Jenkins is getting restarted
+  wait_for: 
+    port: 9000 
+    delay: 30
+
 - name: The Groovy Script should be  removed afer the creation of user once.
   file:
     path: "{{jenkins_path}}/init.groovy.d/basic-security.groovy"
