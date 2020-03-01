@@ -1,0 +1,5 @@
+---
+checkbox_job_name: "checkbox_job"
+jenkins_username: "admin"
+jenkins_password: "admin"
+project_directory: /bakerx/cm
