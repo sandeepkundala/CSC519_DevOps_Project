@@ -51,6 +51,11 @@
     name: python-pip
     state: latest
 
+- name: Installing pm2
+  npm:
+    name: pm2
+    global: yes
+
 - name: Install the latest pymongo package
   pip: 
     name: pymongo
@@ -73,7 +78,7 @@
 - name: set environment variables
   lineinfile:
     dest: /etc/environment
-    line: APP_PORT="{{APP_PORT}}"
+    line: APP_PORT={{APP_PORT}}
     insertafter: 'EOF' 
     state: present
   
@@ -81,7 +86,7 @@
 - name: set environment variables
   lineinfile:
     dest: /etc/environment
-    line: MONGO_PORT="{{MONGO_PORT}}"
+    line: MONGO_PORT={{MONGO_PORT}}
     insertafter: 'EOF' 
     state: present
   
@@ -89,21 +94,21 @@
 - name: set environment variables
   lineinfile:
     dest: /etc/environment
-    line: MONGO_IP="{{MONGO_IP}}"
+    line: MONGO_IP={{MONGO_IP}}
     insertafter: 'EOF' 
     state: present
 
 - name: set environment variables
   lineinfile:
     dest: /etc/environment
-    line: MONGO_USER="{{MONGO_USER}}"
+    line: MONGO_USER={{MONGO_USER}}
     insertafter: 'EOF' 
     state: present
 
 - name: set environment variables
   lineinfile:
     dest: /etc/environment
-    line: MONGO_PASSWORD="{{MONGO_PASSWORD}}"
+    line: MONGO_PASSWORD={{MONGO_PASSWORD}}
     insertafter: 'EOF' 
     state: present
 

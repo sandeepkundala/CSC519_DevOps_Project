@@ -23,6 +23,7 @@
           else
             BUILD_ID=dontKillMe forever restart -a -l myforever.log server.js &
           fi
+          npm test
     publishers:
       - postbuildscript:
           builders:
