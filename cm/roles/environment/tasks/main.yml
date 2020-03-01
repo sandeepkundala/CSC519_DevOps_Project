@@ -73,7 +73,7 @@
 - name: set environment variables
   lineinfile:
     dest: /etc/environment
-    line: APP_PORT={{APP_PORT}}
+    line: APP_PORT="{{APP_PORT}}"
     insertafter: 'EOF' 
     state: present
   
@@ -81,7 +81,7 @@
 - name: set environment variables
   lineinfile:
     dest: /etc/environment
-    line: MONGO_PORT={{MONGO_PORT}}
+    line: MONGO_PORT="{{MONGO_PORT}}"
     insertafter: 'EOF' 
     state: present
   
