@@ -4,7 +4,7 @@
   ignore_errors: true
   
 - name: Get the logs and save in the register
-  command: java -jar ~/jenkins-cli.jar -s http://{{ jenkins_username }}:{{ jenkins_password }}@localhost:9000/ command {{ checkbox_job_name }}
+  command: java -jar ~/jenkins-cli.jar -s http://{{ jenkins_username }}:{{ jenkins_password }}@localhost:9000/ console {{ checkbox_job_name }}
   register: log
   
 - name: Show log

@@ -3,3 +3,9 @@ MONGO_PORT: 27017
 MONGO_USER: admin
 MONGO_PASSWORD: admin
 MONGO_IP: localhost
+checkbox_job_name: "checkbox_job"
+jenkins_username: "admin"
+jenkins_password: "admin"
+project_directory: /bakerx/cm
+jenkins_url: http://localhost:9000
+jenkins_path: /var/lib/jenkins
