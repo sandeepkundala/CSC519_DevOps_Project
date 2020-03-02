@@ -69,8 +69,8 @@
 - name: Create mongodb Database and User
   mongodb_user:
     database: admin
-    name: "admin"
-    password: "admin"
+    name: {{MONGO_USER}}
+    password: {{MONGO_PASSWORD}}
     state: present
     roles: readWrite
 

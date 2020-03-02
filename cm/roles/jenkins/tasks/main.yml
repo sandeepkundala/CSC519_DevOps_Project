@@ -117,6 +117,13 @@
     state: absent
   become: true
 
+- name: Restarting Jenkins
+  service:
+    name: jenkins
+    state: restarted
+  become: true
+
+
 - name: Getting Jenkins CLI Jar
   get_url:
     url: "{{jenkins_url}}/jnlpJars/jenkins-cli.jar"
@@ -143,7 +150,7 @@
 
 - name: Change the SSH config file
   lineinfile: 
-     path: /etc/ssh/ssh_config
-     regexp: '#   StrictHostKeyChecking ask'
-     line: '   StrictHostKeyChecking no'
+    path: /etc/ssh/ssh_config
+    regexp: '#   StrictHostKeyChecking ask'
+    line: '   StrictHostKeyChecking no'
   become: true
