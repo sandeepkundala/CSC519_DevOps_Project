@@ -1,3 +1,11 @@
 ---
 - name: Running the Build job for Checkbox
-  command: java -jar ~/jenkins-cli.jar -s http://admin:admin@localhost:9000/ build checkbox_job
+  command: java -jar ~/jenkins-cli.jar -s http://admin:admin@localhost:9000/ build checkbox_job -s
+  ignore_errors: true
+  
+- name: get logs
+  command: java -jar ~/jenkins-cli.jar -s http://admin:admin@localhost:9000/ console checkbox_job 
+  register: OUT
+
+- debug: 
+    msg: "{{ OUT.stdout_lines }}"
