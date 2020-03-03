@@ -69,6 +69,14 @@ pipeline build checkbox.io
 ### Screencast
 The link of the screencast is [here](https://drive.google.com/open?id=1YQkI-mi75f6QiPOK6zF41MpbfVinCOTS)
 
+### Issues
+
+All issues pertaining to Milestone 1 is [here](https://github.ncsu.edu/cscdevops-spring2020/DEVOPS-06/issues?q=is%3Aopen+is%3Aissue+project%3Acscdevops-spring2020%2FDEVOPS-06%2F1)
+
+### Kanban board
+
+The kanban project board is [here](https://github.ncsu.edu/cscdevops-spring2020/DEVOPS-06/projects/1)
+
 ### Checkpoint reports
 - Read [checkpoint1.md](https://github.ncsu.edu/cscdevops-spring2020/DEVOPS-06/blob/master/checkpoint1.md)
 - Read [checkpoint2.md](https://github.ncsu.edu/cscdevops-spring2020/DEVOPS-06/blob/master/checkpoint2.md)
