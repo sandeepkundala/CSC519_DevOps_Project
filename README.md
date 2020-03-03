@@ -14,22 +14,6 @@
 - Create build job
 
 
-### Setup
-``` 
-git clone https://github.ncsu.edu/cscdevops-spring2020/DEVOPS-06.git devops6
-cd devops6
-dos2unix cm/server-init.sh
-dos2unix cm/run-ansible.sh
-npm install
-npm link
-
-# to provision server and configure build environment:
-pipeline setup
-
-# to trigger build job:
-pipeline build checkbox.io
-```
-
 ### Discussion points
 | Date | Notes |
 | :---: | :---: |
@@ -64,6 +48,24 @@ pipeline build checkbox.io
 - Configuring build environment: JAYDIP GABANI
 - Build job configuration: RAJSHREE JAIN, JAYDIP GABANI, SANDEEP KUNDALA
 
+#### Setup
+``` 
+git clone https://github.ncsu.edu/cscdevops-spring2020/DEVOPS-06.git devops6
+cd devops6
+dos2unix cm/server-init.sh
+dos2unix cm/run-ansible.sh
+npm install
+npm link
+
+# to provision server and configure build environment:
+pipeline setup
+
+# to trigger build job:
+pipeline build checkbox.io
+```
+*Note:*
+- *In slower machines,  there has been issues where IP address of Jenkins-srv is not assigned during provisioning of VMs (pipeline setup). In such cases, it is advised to run the command (pipeline setup) again* 
+- *It is also observed that, while provisioning VM, in ansible-srv or jenkins-srv, there is dpkg-lock error. In such cases, shut down the VM and run bakerx run \<vm-name\> bionic --ip \<ip_addr\>*
 ### Screencast
 The link of the screencast is [here](https://drive.google.com/open?id=1YQkI-mi75f6QiPOK6zF41MpbfVinCOTS)
 
