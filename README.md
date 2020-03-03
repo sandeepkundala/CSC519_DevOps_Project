@@ -20,6 +20,8 @@ git clone https://github.ncsu.edu/cscdevops-spring2020/DEVOPS-06.git devops6
 cd devops6
 dos2unix cm/server-init.sh
 dos2unix cm/run-ansible.sh
+npm install
+npm link
 
 # to provision server and configure build environment:
 pipeline setup
@@ -49,11 +51,16 @@ pipeline build checkbox.io
 - Jenkins
 
 #### Challenges Faced:
-- Faced issues while provisioning VMs since the IP address for jenkins-srv doesn't get the desired IP.
+- Faced issues while provisioning VMs since the IP address for jenkins-srv doesn't get the desired IP
+- Execution of groovy script to configure Jenkins
 - Build-jobs failing due to mongodb port mismatch
 - Getting logs from the jenkins regarding the latest executed build
 
-
+#### Contribution:
+- Setting NodeJS wrapper to execute commands: SANDEEP KUNDALA
+- Configuring Jenkins: RAJSHREE JAIN
+- Configuring build environment: JAYDIP GABANI
+- Build job configuration: RAJSHREE JAIN, JAYDIP GABANI, SANDEEP KUNDALA
 
 Read [checkpoint1.md](https://github.ncsu.edu/cscdevops-spring2020/DEVOPS-06/blob/master/checkpoint1.md)
 Read [checkpoint2.md](https://github.ncsu.edu/cscdevops-spring2020/DEVOPS-06/blob/master/checkpoint2.md)
