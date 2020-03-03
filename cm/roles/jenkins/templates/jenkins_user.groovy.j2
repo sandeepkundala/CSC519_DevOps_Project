@@ -2,6 +2,7 @@
 
 import jenkins.model.*
 import hudson.security.*
+import jenkins.install.*
  
 def instance = Jenkins.getInstance()
 def hudsonRealm = new HudsonPrivateSecurityRealm(false)
@@ -16,5 +17,8 @@ def strategy = new hudson.security.FullControlOnceLoggedInAuthorizationStrategy(
 strategy.setAllowAnonymousRead(true)
 instance.setAuthorizationStrategy(strategy)
 
-instance.setInstallState(InstallState.INITIAL_SETUP_COMPLETED) 
+if (!instance.installState.isSetupComplete()) {
+  println '--> Neutering SetupWizard'
+  InstallState.INITIAL_SETUP_COMPLETED.initializeState()
+}
 instance.save()

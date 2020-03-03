@@ -117,13 +117,6 @@
     state: absent
   become: true
 
-- name: Restarting Jenkins
-  service:
-    name: jenkins
-    state: restarted
-  become: true
-
-
 - name: Getting Jenkins CLI Jar
   get_url:
     url: "{{jenkins_url}}/jnlpJars/jenkins-cli.jar"
