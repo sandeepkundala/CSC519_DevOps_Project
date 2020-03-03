@@ -74,14 +74,12 @@
     state: present
     roles: readWrite
 
-
 - name: set environment variables
   lineinfile:
     dest: /etc/environment
     line: APP_PORT={{APP_PORT}}
     insertafter: 'EOF' 
-    state: present
-  
+    state: present  
   
 - name: set environment variables
   lineinfile:

@@ -13,13 +13,3 @@
 - name: create jobs
   shell: 'cd  && jenkins-jobs --conf ~/jenkins_jobs.ini update ~/jobs'
 
-# - name: build checkbox job
-#   #shell: 'java -jar ~/jenkins-cli.jar -s http://localhost:9000/ build {{ checkbox_job_name }} -username {{ jenkins_username }} -password {{ jenkins_password }}'
-#   shell: java -jar ~/jenkins-cli.jar -s http://{{ jenkins_username }}:{{ jenkins_password }}@localhost:9000/ build {{ checkbox_job_name }}
-
-#   become: true
-
-#java -jar jenkins-cli.jar -s http://{{ checkbox_job_name }}:{{ jenkins_username }}@localhost:9000/ build checkbox_job 
-
-# - name: Running the Build job for Checkbox
-#   command: curl -X POST http://admin:admin@192.168.33.20:9000/job/checkbox_job/build
