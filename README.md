@@ -62,5 +62,7 @@ pipeline build checkbox.io
 - Configuring build environment: JAYDIP GABANI
 - Build job configuration: RAJSHREE JAIN, JAYDIP GABANI, SANDEEP KUNDALA
 
+
 Read [checkpoint1.md](https://github.ncsu.edu/cscdevops-spring2020/DEVOPS-06/blob/master/checkpoint1.md)
+
 Read [checkpoint2.md](https://github.ncsu.edu/cscdevops-spring2020/DEVOPS-06/blob/master/checkpoint2.md)
