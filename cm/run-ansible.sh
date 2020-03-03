@@ -18,8 +18,4 @@ function die {
 PLAYBOOK=$1
 INVENTORY=$2
 
-<<<<<<< HEAD
 ansible-playbook $PLAYBOOK -i $INVENTORY --vault-password-file /bakerx/cm/vars/pass.txt
-=======
-ansible-playbook $PLAYBOOK -i $INVENTORY --vault-password-file /bakerx/cm/password.txt
->>>>>>> 397ad2b1a291b7078976a8fb84b6c1ee0948f994
