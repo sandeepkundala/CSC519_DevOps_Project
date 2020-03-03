@@ -14,22 +14,6 @@
 - Create build job
 
 
-### Setup
-``` 
-git clone https://github.ncsu.edu/cscdevops-spring2020/DEVOPS-06.git devops6
-cd devops6
-dos2unix cm/server-init.sh
-dos2unix cm/run-ansible.sh
-npm install
-npm link
-
-# to provision server and configure build environment:
-pipeline setup
-
-# to trigger build job:
-pipeline build checkbox.io
-```
-
 ### Discussion points
 | Date | Notes |
 | :---: | :---: |
@@ -45,24 +29,54 @@ pipeline build checkbox.io
 ![](https://github.ncsu.edu/cscdevops-spring2020/DEVOPS-06/blob/master/resources/checkbox_io.png)
 
 #### Technologies Used
-- NodeJS
-- Virtual Box
-- Ansible
-- Jenkins
+- NodeJS: As a wrapper to execute custom commands like pipeline setup and pipeline build.
+- Bash: As a wrapper for to execute playbooks and running shell scripts.
+- Virtual Box: Provisioning of VMs with required configuration.
+- Ansible: Configuration of Jenkins-srv to install necessary packages for Jenkins, build environment and build job.
+- Jenkins: Perform build job using the set configuration.
 
 #### Challenges Faced:
 - Faced issues while provisioning VMs since the IP address for jenkins-srv doesn't get the desired IP
 - Execution of groovy script to configure Jenkins
 - Build-jobs failing due to mongodb port mismatch
+- Build-jobs failing due to quotes(") in the environment variables
 - Getting logs from the jenkins regarding the latest executed build
 
 #### Contribution:
-- Setting NodeJS wrapper to execute commands: SANDEEP KUNDALA
+- Setting NodeJS and Bash wrapper to execute commands: SANDEEP KUNDALA
 - Configuring Jenkins: RAJSHREE JAIN
 - Configuring build environment: JAYDIP GABANI
 - Build job configuration: RAJSHREE JAIN, JAYDIP GABANI, SANDEEP KUNDALA
 
+#### Setup
+``` 
+git clone https://github.ncsu.edu/cscdevops-spring2020/DEVOPS-06.git devops6
+cd devops6
+dos2unix cm/server-init.sh
+dos2unix cm/run-ansible.sh
+npm install
+npm link
 
-Read [checkpoint1.md](https://github.ncsu.edu/cscdevops-spring2020/DEVOPS-06/blob/master/checkpoint1.md)
+# to provision server and configure build environment:
+pipeline setup
 
-Read [checkpoint2.md](https://github.ncsu.edu/cscdevops-spring2020/DEVOPS-06/blob/master/checkpoint2.md)
+# to trigger build job:
+pipeline build checkbox.io
+```
+*Note:*
+- *In slower machines,  there has been issues where IP address of Jenkins-srv is not assigned during provisioning of VMs (pipeline setup). In such cases, it is advised to run the command (pipeline setup) again* 
+- *It is also observed that, while provisioning VM, in ansible-srv or jenkins-srv, there is dpkg-lock error. In such cases, shut down the VM and run bakerx run \<vm-name\> bionic --ip \<ip_addr\>*
+### Screencast
+The link of the screencast is [here](https://drive.google.com/open?id=1YQkI-mi75f6QiPOK6zF41MpbfVinCOTS)
+
+### Issues
+
+All issues pertaining to Milestone 1 is [here](https://github.ncsu.edu/cscdevops-spring2020/DEVOPS-06/issues?q=is%3Aopen+is%3Aissue+project%3Acscdevops-spring2020%2FDEVOPS-06%2F1)
+
+### Kanban board
+
+The kanban project board is [here](https://github.ncsu.edu/cscdevops-spring2020/DEVOPS-06/projects/1)
+
+### Checkpoint reports
+- Read [checkpoint1.md](https://github.ncsu.edu/cscdevops-spring2020/DEVOPS-06/blob/master/checkpoint1.md)
+- Read [checkpoint2.md](https://github.ncsu.edu/cscdevops-spring2020/DEVOPS-06/blob/master/checkpoint2.md)
