@@ -78,4 +78,4 @@ All issues pertaining to Milestone 1 is [here](https://github.ncsu.edu/cscdevops
 The kanban project board is [here](https://github.ncsu.edu/cscdevops-spring2020/DEVOPS-06/projects/1)
 
 ### Checkpoint reports
-- Read [checkpoint1.md](https://github.ncsu.edu/cscdevops-spring2020/DEVOPS-06/blob/master/CHECKPOINT.md)
+- Read [CHECKPOINT.md](https://github.ncsu.edu/cscdevops-spring2020/DEVOPS-06/blob/master/CHECKPOINT.md)
