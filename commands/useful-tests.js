@@ -35,6 +35,6 @@ exports.handler = async argv => {
 async function run(check){
     let filePath = '/bakerx/cm/iTrust_test.yml';
     console.log(chalk.blueBright(`Running tests ${check} time(s)...`));
-    let result = sshSync(`/bakerx/cm/run-ansible.sh ${filePath} ${inventoryPath}`, 'vagrant@192.168.33.10');
+    let result = sshSync(`ansible-playbook ${filePath} -i ${inventoryPath} --ask-vault-pass --extra-vars "check=${check}"`, 'vagrant@192.168.33.10');
     if( result.error ) { process.exit( result.status ); }
 }
