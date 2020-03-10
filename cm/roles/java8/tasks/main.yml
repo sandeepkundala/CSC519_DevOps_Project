@@ -1,17 +1,16 @@
 ---
 - name: Install add-apt-repostory
-  become: yes
   apt: 
     name: software-properties-common 
     state: latest
 
 - name: Add Oracle Java Repository
-  become: yes
   apt_repository: repo='ppa:webupd8team/java'
   
 - name: Update APT-GET
-  shell: apt-get update
-  become: true
+  apt:
+    upgrade: yes
+    update_cache: yes
 
 - name: Accept Java 8 License
   become: yes
@@ -22,11 +21,11 @@
     vtype: 'select'
 
 - name: Install Oracle Java 8
-  become: yes
   apt: 
     name: openjdk-8-jdk-headless
     state: latest
   
-- name: Update apt-get
-  action: apt update_cache=yes
-  become: true
+- name: Update APT-GET
+  apt:
+    upgrade: yes
+    update_cache: yes
