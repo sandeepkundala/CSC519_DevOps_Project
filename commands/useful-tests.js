@@ -4,7 +4,7 @@ const chalk = require('chalk');
 const sshSync = require('../lib/ssh');
 const inventoryPath = '/bakerx/cm/inventory.ini';
 
-exports.command = 'useful-tests <name>';
+exports.command = 'useful-tests';
 exports.desc = 'Test the package';
 exports.builder = yargs => {
     yargs.options({
@@ -18,13 +18,13 @@ exports.builder = yargs => {
 };
 
 exports.handler = async argv => {
-    const { name, check } = argv;
+    const { check } = argv;
     if (check == null){
         check = 1;
     }
     (async () => {
-        if (fs.existsSync(path.resolve('cm/'+name+'_test.yml'))){
-            await run(name, check);
+        if (fs.existsSync(path.resolve('cm/iTrust_test.yml'))){
+            await run(check);
         }
         else{
             console.error("Sorry, File doesn't exist");
@@ -32,8 +32,8 @@ exports.handler = async argv => {
     })();
 };
 
-async function run(name, check){
-    let filePath = '/bakerx/cm/'+name+'_test.yml';
+async function run(check){
+    let filePath = '/bakerx/cm/iTrust_test.yml';
     console.log(chalk.blueBright(`Running tests ${check} time(s)...`));
     let result = sshSync(`/bakerx/cm/run-ansible.sh ${filePath} ${inventoryPath}`, 'vagrant@192.168.33.10');
     if( result.error ) { process.exit( result.status ); }
