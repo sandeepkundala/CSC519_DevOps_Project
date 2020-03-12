@@ -4,16 +4,16 @@
     project-type: freestyle
     builders:
       - shell: |
-          FLAG=0
-          if [ "$(ls -A /var/lib/jenkins/workspace/checkbox_job/)" ]; then
-              cd checkbox.io
-              git pull origin master
-              FLAG=1
-              
-          else
-              git clone https://github.com/chrisparnin/checkbox.io.git
-              cd checkbox.io
-          fi
+          sudo rm -rf /var/lib/jenkins/workspace/checkbox_job/checkbox.io
+          sudo git clone https://github.com/chrisparnin/checkbox.io.git
+          cd / 
+          cd Complexity
+          sudo npm install
+          x=$(find /var/lib/jenkins/workspace/checkbox_job/checkbox.io/server-side/ -name '*.js') 
+          for i in $x; do 
+            node analysis.js $i; 
+          done
+          cd /var/lib/jenkins/workspace/checkbox_job/checkbox.io
           sudo npm install
           cd server-side/site
           sudo npm install

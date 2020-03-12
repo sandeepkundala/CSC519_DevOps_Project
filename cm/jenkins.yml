@@ -11,6 +11,7 @@
     - environment
     - java8
     - jenkins
+    - analysis
     - create_jobs
     
   vars:
