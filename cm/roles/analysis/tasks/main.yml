@@ -1,0 +1,8 @@
+---
+- name: copy analysis code
+  copy:
+    src: /bakerx/Complexity
+    dest: /var/lib/jenkins/workspace/checkbox_job
+    owner: root
+    group: root
+

@@ -8,11 +8,13 @@
   vars_files:
   - ./vars/vars.yml
   roles:
-    # - environment
-    # - java8
-    # - jenkins
-    # - create_jobs
+
+    - environment
     - iTrust_envi
-    
+    - java8
+    - jenkins
+    - analysis
+    - create_jobs
+      
   vars:
     ansible_python_interpreter: python
