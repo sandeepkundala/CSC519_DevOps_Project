@@ -86,7 +86,7 @@
 
 - name: Installation of Jenkins plugins
   jenkins_plugin:
-    name: ['github', 'postbuildscript', 'build-timeout', 'postbuild-task', 'ws-cleanup', 'jenkins-job-builder', 'html-xml-utils']
+    name: ['github', maven-plugin, junit, jacoco, test-stability, 'postbuildscript', 'build-timeout', 'postbuild-task', 'ws-cleanup', 'jenkins-job-builder', 'html-xml-utils']
     url_username: "{{jenkins_username}}"
     url_password: "{{jenkins_password}}"
     url: "{{jenkins_url}}"

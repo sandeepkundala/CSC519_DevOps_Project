@@ -1,0 +1,54 @@
+---
+- name: Update all packages to the latest version
+  apt:
+    upgrade: dist
+  become: yes
+
+- name: Install Maven
+  apt:
+    name: maven
+    state: latest
+    update_cache: yes
+
+- name: Set MySQL root password
+  debconf: 
+    name: 'mysql-server' 
+    question: 'mysql-server/root_password'
+    value: '{{mysql_password}}' 
+    vtype: 'password'
+  become: true
+
+- name: Confirm MySQL root password
+  debconf: 
+    name: 'mysql-server' 
+    question: 'mysql-server/root_password_again'
+    value: '{{mysql_password}}' 
+    vtype: 'password'
+  become: true
+
+
+- name: Download and install packages
+  apt:
+    name: [mysql-server, python-mysqldb, python-apt, python-dev, mysql-client]
+    update_cache: yes
+  become: yes
+
+- name: Upgrade all packages to the latest version
+  apt:
+    name: "*"
+    state: latest
+  become: yes
+
+- name: insert skip grant tables in my.cnf
+  lineinfile: 
+    dest: /etc/mysql/mysql.conf.d/mysqld.cnf
+    insertafter: 'skip-external-locking'
+    line: 'skip-grant-tables'
+  become: true
+
+- name: Restart the MySQL service
+  become: yes
+  service: 
+    name: mysql 
+    state: restarted
+    enabled: true
