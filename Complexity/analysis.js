@@ -23,8 +23,6 @@ function main()
 
 }
 
-
-
 var builders = {};
 
 // Represent a reusable "class" following the Builder pattern.
@@ -41,6 +39,8 @@ function FunctionBuilder()
 	// The max number of conditions if one decision statement.
 	this.MaxConditions      = 0;
 
+	this.MaxMessageChains = 0;
+	
 	this.report = function()
 	{
 		console.log(
@@ -50,11 +50,11 @@ function FunctionBuilder()
 			   "SimpleCyclomaticComplexity: {2}\t" +
 				"MaxNestingDepth: {3}\t" +
 				"MaxConditions: {4}\t" +
-				"Parameters: {5}\n\n"
+				"MaxMessageChains: {5}\n\n"
 			)
 			.format(this.FunctionName, this.StartLine,
 				     this.SimpleCyclomaticComplexity, this.MaxNestingDepth,
-			        this.MaxConditions, this.ParameterCount)
+			        this.MaxConditions, this.MaxMessageChains)
 		);
 	}
 };
@@ -120,12 +120,34 @@ function complexity(filePath)
 			var builder = new FunctionBuilder();
 
 			builder.FunctionName = functionName(node);
-			builder.StartLine    = node.loc.start.line;
+			builder.StartLine    = node.loc.end.line - node.loc.start.line;
 
 			builders[builder.FunctionName] = builder;
+
+			traverseWithParents(node, function (child) 
+			{
+				if (child.type === "MemberExpression")
+				{
+					max = 1;
+					traverseWithParents(child.object, function(child)
+					{
+						if (child.type === 'MemberExpression') 
+						{
+							max++;	
+						}							
+					});
+					builder.MaxMessageChains = Math.max(max, builder.MaxMessageChains);
+				}
+						
+			});
+
 		}
 
+		
+
 	});
+
+	
 
 }
 
