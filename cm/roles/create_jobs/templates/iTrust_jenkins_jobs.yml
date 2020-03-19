@@ -1,0 +1,15 @@
+- job:
+    name: "{{itrust_job_name}}"
+    description: 'automatically generated test'
+    project-type: freestyle
+    builders:
+      - shell: |
+          sudo git clone https://4a8fc03ff69e1b510505843bf978b6a71caee839@github.ncsu.edu/engr-csc326-staff/iTrust2-v6.git
+          cd iTrust/iTrust2/
+          sudo mvn -f pom-data.xml process-test-classes
+          sudo mvn clean test verify org.apache.maven.plugins:maven-checkstyle-plugin:3.1.0:checkstyle
+    publishers:
+      - postbuildscript:
+          builders:
+            - build-steps:
+              - shell: 'ls'

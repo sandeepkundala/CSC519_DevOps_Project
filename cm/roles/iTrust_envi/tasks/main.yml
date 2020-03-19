@@ -52,3 +52,31 @@
     name: mysql 
     state: restarted
     enabled: true
+
+- name: Downloading the Google Chrome package for Ubuntu
+  get_url:
+    url: https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
+    dest: /home/vagrant/
+
+- name: Install google chrome on the Jenkins server using .deb
+  apt:
+    deb: /home/vagrant/google-chrome-stable_current_amd64.deb
+
+- name: Configure
+  shell: sudo timedatectl set-timezone America/New_York
+  become: true
+    
+
+#- name: Update Timezone to Etc/UTC
+  # copy: content="America/New_York\n" dest=/etc/timezone owner=root group=root mode=0644
+  # sudo: true
+  # register: timezone
+
+# - name: Reconfigure Timezone Data
+#   shell: dpkg-reconfigure -f noninteractive tzdata
+#   sudo: true
+#   when: timezone.changed
+
+## Install google chrome on the Jenkins server
+## sertup the time on the Jenkins Server
+#https://docs.ansible.com/ansible/latest/modules/timezone_module.html
