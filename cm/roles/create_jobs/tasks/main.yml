@@ -14,8 +14,7 @@
   template:
     src: "{{ project_directory }}/roles/create_jobs/templates/iTrust_jenkins_jobs.yml"
     dest: ~/jobs/iTrust_jenkins_jobs.yml
-  ignore_errors: true
-
+ 
 - name: create jobs
   shell: 'cd  && jenkins-jobs --conf ~/jenkins_jobs.ini update ~/jobs'
 

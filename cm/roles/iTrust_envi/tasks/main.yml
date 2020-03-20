@@ -66,6 +66,17 @@
   shell: sudo timedatectl set-timezone America/New_York
   become: true
     
+- name: Copying the new email.properties with updated credentials
+  template:
+    src: "{{ project_directory }}/roles/itrust_setup/templates/email.properties.j2"
+    dest: /home/vagrant
+    force: yes
+
+- name: Copying the new db.properties with updated credentials
+  template:
+    src: "{{ project_directory }}/roles/itrust_setup/templates/db.properties.j2"
+    dest: /home/vagrant
+    force: yes
 
 #- name: Update Timezone to Etc/UTC
   # copy: content="America/New_York\n" dest=/etc/timezone owner=root group=root mode=0644
