@@ -29,6 +29,7 @@ var builders = {};
 function FunctionBuilder()
 {
 	this.StartLine = 0;
+	this.LongMethod = false;
 	this.FunctionName = "";
 	// The number of parameters for functions
 	this.ParameterCount  = 0,
@@ -36,8 +37,6 @@ function FunctionBuilder()
 	this.SimpleCyclomaticComplexity = 0;
 	// The max depth of scopes (nested ifs, loops, etc)
 	this.MaxNestingDepth    = 0;
-	// The max number of conditions if one decision statement.
-	this.MaxConditions      = 0;
 
 	this.MaxMessageChains = 0;
 	
@@ -45,16 +44,15 @@ function FunctionBuilder()
 	{
 		console.log(
 		   (
-		   	"{0}(): {1}\n" +
-		   	"============\n" +
-			   "SimpleCyclomaticComplexity: {2}\t" +
-				"MaxNestingDepth: {3}\t" +
-				"MaxConditions: {4}\t" +
-				"MaxMessageChains: {5}\n\n"
+		   	"{0}():\n" +
+			   "============\n" +
+			   "Line of Code: {1}\t" +
+				"MaxNestingDepth: {2}\t" +
+				"MaxMessageChains: {3}\n\n"
 			)
 			.format(this.FunctionName, this.StartLine,
-				     this.SimpleCyclomaticComplexity, this.MaxNestingDepth,
-			        this.MaxConditions, this.MaxMessageChains)
+					this.MaxNestingDepth,
+			        this.MaxMessageChains)
 		);
 	}
 };
@@ -120,8 +118,13 @@ function complexity(filePath)
 			var builder = new FunctionBuilder();
 
 			builder.FunctionName = functionName(node);
-			builder.StartLine    = node.loc.end.line - node.loc.start.line;
-
+			builder.StartLine    = node.loc.end.line - node.loc.start.line + 1;
+			if(builder.StartLine > 100)
+			{
+				builder.LongMethod = true;
+				process.exit(1);
+			}
+			maxNestedIf(node, 0, builder);
 			builders[builder.FunctionName] = builder;
 
 			traverseWithParents(node, function (child) 
@@ -141,6 +144,11 @@ function complexity(filePath)
 						
 			});
 
+			if(builder.MaxMessageChains > 10 || builder.MaxNestingDepth > 5)
+			{
+				process.ecit(1);
+			}
+
 		}
 
 		
@@ -149,6 +157,30 @@ function complexity(filePath)
 
 	
 
+}
+function maxNestedIf(node, clvl, builder) {
+	var key, child;
+	var lvl = 0;
+	for (key in node) {
+		if (node.hasOwnProperty(key)) {
+				child = node[key];
+				if (typeof child === 'object' && child !== null && key != 'parent') {
+					lvl++;
+					if( key == "alternate"){
+						maxNestedIf(child,clvl,builder)
+					} else if( child.type == 'IfStatement'){
+							maxNestedIf(child, clvl+1, builder);
+					}	else {
+							maxNestedIf(child, clvl, builder);
+				}
+			}
+		}
+	}
+  if( lvl == 0 ) {
+    if( builder.MaxNestingDepth < clvl ) {
+			builder.MaxNestingDepth = clvl;
+    }
+	}
 }
 
 // Helper function for counting children of node.
