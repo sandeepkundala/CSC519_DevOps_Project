@@ -87,16 +87,16 @@ async function run(privateKey, ghUser, ghPass) {
 
     if (flag == 0)
     {
-        result = sshSync(`/bakerx/cm/run-ansible.sh ${filePath} ${inventoryPath}`, 'vagrant@192.168.33.10');
+        result = sshSync(`ansible-playbook ${filePath} -i ${inventoryPath} --vault-password-file /bakerx/cm/vars/pass.txt --extra-vars "GH_FLAG=0"`,'vagrant@192.168.33.10');
         if( result.error ) { process.exit( result.status ); }
     }
     else if(flag == 1)
     {
-        result = sshSync(`ansible-playbook ${filePath} -i ${inventoryPath} --vault-password-file /bakerx/cm/vars/pass.txt --extra-vars "GH_USER=${ghUser}"`,'vagrant@192.168.33.10');
+        result = sshSync(`ansible-playbook ${filePath} -i ${inventoryPath} --vault-password-file /bakerx/cm/vars/pass.txt --extra-vars "GH_FLAG=1 GH_USER=${ghUser}"`,'vagrant@192.168.33.10');
         if( result.error ) { process.exit( result.status ); }
     }
     else{
-        result = sshSync(`ansible-playbook ${filePath} -i ${inventoryPath} --vault-password-file /bakerx/cm/vars/pass.txt --extra-vars "GH_USER=${ghUser} GH_PASS=${ghPass}"`,'vagrant@192.168.33.10');
+        result = sshSync(`ansible-playbook ${filePath} -i ${inventoryPath} --vault-password-file /bakerx/cm/vars/pass.txt --extra-vars "GH_FLAG=2 GH_USER=${ghUser} GH_PASS=${ghPass}"`,'vagrant@192.168.33.10');
         if( result.error ) { process.exit( result.status ); }
     }
 
