@@ -7,6 +7,7 @@ const sshSync = require('../lib/ssh');
 const filePath = '/bakerx/cm/jenkins.yml';
 const inventoryPath = '/bakerx/cm/inventory.ini';
 
+
 exports.command = 'setup';
 exports.desc = 'Provision and configure the configuration server';
 exports.builder = yargs => {
@@ -14,23 +15,41 @@ exports.builder = yargs => {
         privateKey: {
             describe: 'Install the provided private key on the configuration server',
             type: 'string'
+        },
+        'gh-user':{
+            describe: 'Github Username/ token',
+            type: 'string'
+        },
+        'gh-pass':{
+            describe: 'Github password',
+            type: 'string'
         }
     });
 };
 
 
 exports.handler = async argv => {
-    const { privateKey } = argv;
+    const { privateKey, ghUser, ghPass } = argv;
+
 
     (async () => {
 
-        await run( privateKey );
+        await run( privateKey, ghUser, ghPass );
 
     })();
 
 };
 
-async function run(privateKey) {
+async function run(privateKey, ghUser, ghPass) {
+
+    let flag = 0;
+
+    if (ghUser){
+        if(ghPass){
+            flag = 2;
+        }
+        flag = 1;
+    }
 
     console.log(chalk.greenBright('Installing configuration server!'));
 
@@ -65,8 +84,21 @@ async function run(privateKey) {
 
     result = sshSync('chmod +x /bakerx/cm/run-ansible.sh', 'vagrant@192.168.33.10');
     if( result.error ) { console.log(result.error); process.exit( result.status ); }
-    result = sshSync(`/bakerx/cm/run-ansible.sh ${filePath} ${inventoryPath}`, 'vagrant@192.168.33.10');
-    if( result.error ) { process.exit( result.status ); }
+
+    if (flag == 0)
+    {
+        result = sshSync(`/bakerx/cm/run-ansible.sh ${filePath} ${inventoryPath}`, 'vagrant@192.168.33.10');
+        if( result.error ) { process.exit( result.status ); }
+    }
+    else if(flag == 1)
+    {
+        result = sshSync(`ansible-playbook ${filePath} -i ${inventoryPath} --vault-password-file /bakerx/cm/vars/pass.txt --extra-vars "GH_USER=${ghUser}"`,'vagrant@192.168.33.10');
+        if( result.error ) { process.exit( result.status ); }
+    }
+    else{
+        result = sshSync(`ansible-playbook ${filePath} -i ${inventoryPath} --vault-password-file /bakerx/cm/vars/pass.txt --extra-vars "GH_USER=${ghUser} GH_PASS=${ghPass}"`,'vagrant@192.168.33.10');
+        if( result.error ) { process.exit( result.status ); }
+    }
 
 }
 
