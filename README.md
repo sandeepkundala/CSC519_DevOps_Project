@@ -82,5 +82,6 @@ Read [CHECKPOINT.md](https://github.ncsu.edu/cscdevops-spring2020/DEVOPS-06/blob
 
 ## Milestone 2 - Test + Analysis
 
-### Read [CHECKPOINT.md](https://github.ncsu.edu/cscdevops-spring2020/DEVOPS-06/blob/master/CHECKPOINT_MILESTONE2.md)
+### Checkpoint reports
+Read [CHECKPOINT.md](https://github.ncsu.edu/cscdevops-spring2020/DEVOPS-06/blob/master/CHECKPOINT_MILESTONE2.md)
 
