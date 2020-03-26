@@ -17,4 +17,4 @@
 - Working, on the implementation of fuzzing and test prioritization analysis.
 
 #### Issues:
-https://github.ncsu.edu/cscdevops-spring2020/DEVOPS-06/issues?q=is%3Aissue+milestone%3A%22Milestone+1A%22+is%3Aclosed
+https://github.ncsu.edu/cscdevops-spring2020/DEVOPS-06/issues?utf8=%E2%9C%93&q=is%3Aissue+label%3A%22Milestone+2%22
