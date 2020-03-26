@@ -6,7 +6,6 @@
 - Tried to run the maven build commands given in the project document and rectified all the tests to pass.
 - It required the installation of Google chrome and setting up of timezone, which we set using ansible.
 - We have worked on the Static Analysis part of the project and extended the checkbox.io build to incorporate the same.
-- Further 
 
 #### Further work for Milestone 2:
 
