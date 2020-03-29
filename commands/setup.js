@@ -49,6 +49,9 @@ async function run(privateKey, ghUser, ghPass) {
         process.exit(1);
     }
 
+    ghUser = encodeURIComponent(ghUser);
+    ghPass = encodeURIComponent(ghPass);
+
     console.log(chalk.greenBright('Installing configuration server!'));
 
     console.log(chalk.blueBright('Provisioning configuration server...'));
