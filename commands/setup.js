@@ -42,13 +42,11 @@ exports.handler = async argv => {
 
 async function run(privateKey, ghUser, ghPass) {
 
-    let flag = 0;
+    
 
-    if (ghUser){
-        if(ghPass){
-            flag = 2;
-        }
-        flag = 1;
+    if (!ghUser || !ghPass){
+        console.log('GITHUB credentials MISSING!!!');
+        process.exit(1);
     }
 
     console.log(chalk.greenBright('Installing configuration server!'));
@@ -85,21 +83,9 @@ async function run(privateKey, ghUser, ghPass) {
     result = sshSync('chmod +x /bakerx/cm/run-ansible.sh', 'vagrant@192.168.33.10');
     if( result.error ) { console.log(result.error); process.exit( result.status ); }
 
-    if (flag == 0)
-    {
-        result = sshSync(`ansible-playbook ${filePath} -i ${inventoryPath} --vault-password-file /bakerx/cm/vars/pass.txt --extra-vars "GH_FLAG=0"`,'vagrant@192.168.33.10');
-        if( result.error ) { process.exit( result.status ); }
-    }
-    else if(flag == 1)
-    {
-        result = sshSync(`ansible-playbook ${filePath} -i ${inventoryPath} --vault-password-file /bakerx/cm/vars/pass.txt --extra-vars "GH_FLAG=1 GH_USER=${ghUser}"`,'vagrant@192.168.33.10');
-        if( result.error ) { process.exit( result.status ); }
-    }
-    else{
-        result = sshSync(`ansible-playbook ${filePath} -i ${inventoryPath} --vault-password-file /bakerx/cm/vars/pass.txt --extra-vars "GH_FLAG=2 GH_USER=${ghUser} GH_PASS=${ghPass}"`,'vagrant@192.168.33.10');
-        if( result.error ) { process.exit( result.status ); }
-    }
-
+    result = sshSync(`ansible-playbook ${filePath} -i ${inventoryPath} --vault-password-file /bakerx/cm/vars/pass.txt --extra-vars "GH_USER=${ghUser} GH_PASS=${ghPass}"`,'vagrant@192.168.33.10');
+    if( result.error ) { process.exit( result.status ); }
+    
 }
 
 async function sleep(ms) {

@@ -135,5 +135,20 @@
     insertafter: 'EOF' 
     state: present
 
+- name: set environment variables - GH User
+  lineinfile:
+    dest: /etc/environment
+    line: GH_USER={{GH_USER}}
+    nsertafter: 'EOF' 
+    state: present
+
+- name: set environment variables - GH Password
+  lineinfile:
+    dest: /etc/environment
+    line: GH_PASS={{GH_PASS}}
+    nsertafter: 'EOF' 
+    state: present
+
+
 - name: Source environment variables
   shell: . /etc/environment
