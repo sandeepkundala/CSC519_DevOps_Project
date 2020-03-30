@@ -86,7 +86,7 @@ async function run(privateKey, ghUser, ghPass) {
     result = sshSync('chmod +x /bakerx/cm/run-ansible.sh', 'vagrant@192.168.33.10');
     if( result.error ) { console.log(result.error); process.exit( result.status ); }
 
-    result = sshSync(`ansible-playbook ${filePath} -i ${inventoryPath} --vault-password-file /bakerx/cm/vars/pass.txt --extra-vars "GH_USER=${ghUser} GH_PASS=${ghPass}"`,'vagrant@192.168.33.10');
+    result = sshSync(`ansible-playbook ${filePath} -i ${inventoryPath} --vault-password-file /bakerx/cm/vars/pass.txt -e "GH_USER=${ghUser}" -e "GH_PASS=${ghPass}"`,'vagrant@192.168.33.10');
     if( result.error ) { process.exit( result.status ); }
     
 }

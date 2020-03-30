@@ -139,14 +139,14 @@
   lineinfile:
     dest: /etc/environment
     line: GH_USER={{GH_USER}}
-    nsertafter: 'EOF' 
+    insertafter: 'EOF' 
     state: present
 
 - name: set environment variables - GH Password
   lineinfile:
     dest: /etc/environment
     line: GH_PASS={{GH_PASS}}
-    nsertafter: 'EOF' 
+    insertafter: 'EOF' 
     state: present
 
 
