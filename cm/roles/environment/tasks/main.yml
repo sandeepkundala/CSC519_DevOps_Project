@@ -96,14 +96,14 @@
   lineinfile:
     dest: /etc/environment
     line: APP_PORT={{APP_PORT}}
-    insertafter: 'EOF' 
+    regexp: '^APP_PORT=' 
     state: present  
   
 - name: set environment variables
   lineinfile:
     dest: /etc/environment
     line: MONGO_PORT={{MONGO_PORT}}
-    insertafter: 'EOF' 
+    regexp: '^MONGO_PORT='
     state: present
   
 
@@ -111,44 +111,40 @@
   lineinfile:
     dest: /etc/environment
     line: MONGO_IP={{MONGO_IP}}
-    insertafter: 'EOF' 
+    regexp: '^MONGO_IP=' 
     state: present
 
 - name: set environment variables
   lineinfile:
     dest: /etc/environment
     line: MONGO_USER={{MONGO_USER}}
-    insertafter: 'EOF' 
+    regexp: '^MONGO_USER=' 
     state: present
 
 - name: set environment variables
   lineinfile:
     dest: /etc/environment
     line: MONGO_PASSWORD={{MONGO_PASSWORD}}
-    insertafter: 'EOF' 
+    regexp: '^MONGO_PASSWORD=' 
     state: present
 
 - name: set environment variables
   lineinfile:
     dest: /etc/environment
     line: BUILD_ID=dontKillMe
-    insertafter: 'EOF' 
+    regexp: '^BUILD_ID=' 
     state: present
 
 - name: set environment variables - GH User
   lineinfile:
     dest: /etc/environment
     line: GH_USER={{GH_USER}}
-    insertafter: 'EOF' 
+    regexp: '^GH_USER='
     state: present
 
 - name: set environment variables - GH Password
   lineinfile:
     dest: /etc/environment
     line: GH_PASS={{GH_PASS}}
-    insertafter: 'EOF' 
+    regexp: '^GH_PASS=' 
     state: present
-
-
-- name: Source environment variables
-  shell: . /etc/environment

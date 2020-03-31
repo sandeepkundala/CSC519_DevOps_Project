@@ -78,6 +78,15 @@
     dest: /home/vagrant
     force: yes
 
+- name: "Copy ansible-srv:/bakerx/Fuzzer to jenkins-srv:/home/vagrant/Fuzzer"
+  copy:
+    src: /bakerx/Fuzzer
+    dest: /home/vagrant
+
+- name: install node packages in /home/vagrant/Fuzzer
+  npm:
+    path: /home/vagrant/Fuzzer
+
 #- name: Update Timezone to Etc/UTC
   # copy: content="America/New_York\n" dest=/etc/timezone owner=root group=root mode=0644
   # sudo: true

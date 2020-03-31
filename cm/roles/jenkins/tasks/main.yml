@@ -4,7 +4,10 @@
   raw: sudo apt-get -y install python
 
 - name: Install forever
-  npm: name=forever global=yes state=present
+  npm: 
+    name: forever
+    global: yes
+    state: present
 
 - name: getting get-pip
   get_url:
@@ -115,7 +118,8 @@
     dest: "~/"
     mode: 0755
 
-- pip:
+- name: Install python packages
+  pip:
     name: ['boto', 'boto3', 'jenkins-job-builder']
 
 - name: Have the Jenkins configuration file in place (jenkins_jobs.ini)
