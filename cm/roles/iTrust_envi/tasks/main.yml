@@ -1,82 +1,82 @@
 ---
-- name: Update all packages to the latest version
-  apt:
-    upgrade: dist
-  become: yes
+# - name: Update all packages to the latest version
+#   apt:
+#     upgrade: dist
+#   become: yes
 
-- name: Install Maven
-  apt:
-    name: maven
-    state: latest
-    update_cache: yes
+# - name: Install Maven
+#   apt:
+#     name: maven
+#     state: latest
+#     update_cache: yes
 
-- name: Set MySQL root password
-  debconf: 
-    name: 'mysql-server' 
-    question: 'mysql-server/root_password'
-    value: '{{mysql_password}}' 
-    vtype: 'password'
-  become: true
+# - name: Set MySQL root password
+#   debconf: 
+#     name: 'mysql-server' 
+#     question: 'mysql-server/root_password'
+#     value: '{{mysql_password}}' 
+#     vtype: 'password'
+#   become: true
 
-- name: Confirm MySQL root password
-  debconf: 
-    name: 'mysql-server' 
-    question: 'mysql-server/root_password_again'
-    value: '{{mysql_password}}' 
-    vtype: 'password'
-  become: true
+# - name: Confirm MySQL root password
+#   debconf: 
+#     name: 'mysql-server' 
+#     question: 'mysql-server/root_password_again'
+#     value: '{{mysql_password}}' 
+#     vtype: 'password'
+#   become: true
 
 
-- name: Download and install packages
-  apt:
-    name: [mysql-server, python-mysqldb, python-apt, python-dev, mysql-client]
-    update_cache: yes
-  become: yes
+# - name: Download and install packages
+#   apt:
+#     name: [mysql-server, python-mysqldb, python-apt, python-dev, mysql-client]
+#     update_cache: yes
+#   become: yes
 
-- name: Upgrade all packages to the latest version
-  apt:
-    name: "*"
-    state: latest
-  become: yes
+# - name: Upgrade all packages to the latest version
+#   apt:
+#     name: "*"
+#     state: latest
+#   become: yes
 
-- name: insert skip grant tables in my.cnf
-  lineinfile: 
-    dest: /etc/mysql/mysql.conf.d/mysqld.cnf
-    insertafter: 'skip-external-locking'
-    line: 'skip-grant-tables'
-  become: true
+# - name: insert skip grant tables in my.cnf
+#   lineinfile: 
+#     dest: /etc/mysql/mysql.conf.d/mysqld.cnf
+#     insertafter: 'skip-external-locking'
+#     line: 'skip-grant-tables'
+#   become: true
 
-- name: Restart the MySQL service
-  become: yes
-  service: 
-    name: mysql 
-    state: restarted
-    enabled: true
+# - name: Restart the MySQL service
+#   become: yes
+#   service: 
+#     name: mysql 
+#     state: restarted
+#     enabled: true
 
-- name: Downloading the Google Chrome package for Ubuntu
-  get_url:
-    url: https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
-    dest: /home/vagrant/
+# - name: Downloading the Google Chrome package for Ubuntu
+#   get_url:
+#     url: https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
+#     dest: /home/vagrant/
 
-- name: Install google chrome on the Jenkins server using .deb
-  apt:
-    deb: /home/vagrant/google-chrome-stable_current_amd64.deb
+# - name: Install google chrome on the Jenkins server using .deb
+#   apt:
+#     deb: /home/vagrant/google-chrome-stable_current_amd64.deb
 
-- name: Configure
-  shell: sudo timedatectl set-timezone America/New_York
-  become: true
+# - name: Configure
+#   shell: sudo timedatectl set-timezone America/New_York
+#   become: true
     
-- name: Copying the new email.properties with updated credentials
-  template:
-    src: "{{ project_directory }}/roles/itrust_setup/templates/email.properties.j2"
-    dest: /home/vagrant
-    force: yes
+# - name: Copying the new email.properties with updated credentials
+#   template:
+#     src: "{{ project_directory }}/roles/itrust_setup/templates/email.properties.j2"
+#     dest: /home/vagrant
+#     force: yes
 
-- name: Copying the new db.properties with updated credentials
-  template:
-    src: "{{ project_directory }}/roles/itrust_setup/templates/db.properties.j2"
-    dest: /home/vagrant
-    force: yes
+# - name: Copying the new db.properties with updated credentials
+#   template:
+#     src: "{{ project_directory }}/roles/itrust_setup/templates/db.properties.j2"
+#     dest: /home/vagrant
+#     force: yes
 
 - name: "Copy ansible-srv:/bakerx/Fuzzer to jenkins-srv:/home/vagrant/Fuzzer"
   copy:

@@ -39,9 +39,6 @@ function main(directoryPath) {
     //console.log(directoryPath)
     var args = process.argv.slice(2);
 
-    console.log(args)
-    console.log(args[0])
-
     var dirPath = directoryPath || args[0];
 
     if (!dirPath)
@@ -51,92 +48,58 @@ function main(directoryPath) {
     //console.log(listOfFiles)
     console.log(listOfFiles.length)
     var sampleList = randomizer.sample(listOfFiles, randomizer.integer(0, 0.10*listOfFiles.length));
-    console.log(listOfFiles)
-    listOfFiles.forEach(function(ele) {
+    console.log(sampleList)
+    sampleList.forEach(function(ele) {
         createRandomChangesInAFile(ele);
     });
 }
 
 function createRandomChangesInAFile(filePath) {
-    var data = fs.readFileSync(filePath, 'utf-8').split('\n');
-    console.log(data)
-    data.forEach(function(ele, index) {
-        // var match = ele.match(/\"[\w|\d]*\"/i);
-        // //console.log(match)
+    var data = fs.readFileSync(filePath, 'utf-8');
+    fs.writeFileSync(filePath,'','utf8');
+    var lines = data.split("\n");
+    //console.log(data)
+    
+    lines.forEach(function(line) {
+        
+        if (randomizer.bool(0.20)) {
+            if (line.match(">") && !line.match("->")) {
+                line = line.replace(/>/g, "<");
+            }
 
-        // if (match != undefined) {
-        //     //console.log(ele)
-        //     var original = match[0].substring(1, match[0].length - 1);
-        //     var replacement = original;
-
-        //     if (randomizer.bool(0.40)) {
-        //         replacement = replacement.split('').reverse().join('');
-        //     }
-
-        //     if (randomizer.bool(0.20)) {
-        //         replacement = randomizer.string(randomizer.integer(0, 2 * replacement.length));
-        //     }
-
-        //     if (randomizer.bool(0.05)) {
-        //         replacement = '';
-        //     }
-
-        //     data[index] = data[index].replace(match, "\""+replacement+"\"");
-
-
-        //     if (randomizer.bool(0.01)) {
-        //         data[index] = data[index].replace(match, null);
-        //     }
-        // }
-
-        if  (ele.includes(">")) {
-            console.log(ele)
-            //if (randomizer.bool(0.20)) {
-                data[index] = ele.replace(/>/g, "<");
-            //}
+            else if (line.match("<")) {
+                line = line.replace(/</g, ">");
+            }
         }
 
-        else if (ele.includes("<")) {
-            console.log(ele)
-            //if (randomizer.bool(0.20)) {
-                data[index] = ele.replace(/</g, ">");
-            //}
+        if (randomizer.bool()){
+            if (line.match("!=")){
+                line=line.replace(/!=/g,'==');
+            }
+            else if (line.match('==')){
+                line=line.replace(/==/g,'!=');
+            }
         }
 
-        else if (ele.includes("!=")) {
-            console.log(ele)
-            //if (randomizer.bool()) {
-                data[index] = ele.replace(/!=/g, "==");
-            //}
+        if (randomizer.bool(0.2)){
+            if (line.match(/[0]/)){
+                line = line.replace(/[0]/g, "1");
+            }
+            else if (line.match(/[1]/)){
+                line = line.replace(/[1]/,"0");
+            }
         }
 
-        else if (ele.includes("==")) {
-            console.log(ele)
-            //if (randomizer.bool()) {
-                data[index] = ele.replace(/==/g, "!=");
-            //}
+        if(line != '\r'){
+            line += '\n'
         }
 
-        else if (ele.includes("1")) {
-            console.log(ele)
-            //if (randomizer.bool(0.60)) {
-                console.log(ele)
-                data[index] = ele.replace(/1/g, "0");
-            //}
-        }
+        fs.appendFileSync(filePath, line);
 
-        else if (ele.includes("0")) {
-            console.log(ele)
-            //if (randomizer.bool(0.25)) {
-                data[index] = ele.replace(/0/g, "1");
-            //}
-        }
 
     });
 
-    data = data.join(" ");
-
-    fs.writeFileSync(filePath, data);
+    
 }
 
 exports.main = main;

@@ -1,231 +1,112 @@
 const fs = require('fs');
-
 const fsExtra = require('fs-extra');
-
 const fuzzer = require('./fuzzer');
-
 var sleep = require('system-sleep');
-// const child_process = require('child_process');
-
-// var USER = "{{github_username}}";
-
-// var KEY = "{{github_password}}";
-
-// const REPO = "github.ncsu.edu/agarg12/iTrust-v23.git";
-
-// var REMOTE = ``;
-
-// const BRANCH = "fuzzer";
-
-// var LOCALPATH = "/var/lib/jenkins/fuzzer";
-
-// const ITRUST_V23 = "iTrust-v23";
-
-// const ITRUST = "iTrust";
-
-// var GITPATH = ``;
-
-// const ITRUST_RELATIVE_PATH = '/iTrust-v23/iTrust/src/main/edu/ncsu/csc/itrust';
-
-// var numberOfIterations = 100;
+const child_process = require('child_process');
+const REPO = "github.ncsu.edu/engr-csc326-staff/iTrust2-v6.git";
+const ITRUST2_V6 = "iTrust2-v6";
+const ITRUST2 = "iTrust2";
+const ITRUST_RELATIVE_PATH = 'iTrust2-v6/iTrust2/src/main/java/edu/ncsu/csc/itrust2';
+const LOCALPATH = "/home/vagrant";
 
 
-function main() {
+var numberOfIterations = 1;
+var args = process.argv.slice(2)[0];
+run(args);
 
-    //USER = process.env.USER;
-
-    //KEY = process.env.KEY;
-
-    //LOCALPATH = process.env.LOCALPATH;
-
-    // numberOfIterations = process.env.ITERATIONS || 100;
-
-    // REMOTE = `https://${USER}:${KEY}@${REPO}`;
-
-    // GITPATH = `${LOCALPATH}/${ITRUST_V23}`;
-
-    // console.log("from env");
-    // console.log(USER);
-    // console.log(KEY);
-    // console.log(LOCALPATH);
-    // console.log(numberOfIterations);
-
-    // clone(REMOTE, LOCALPATH, BRANCH);
-
-    // for (var i = 1; i <= 1; i++) {
-
-    //     var maxRetries = 50;
-
-    //     var runJenkinsJob = false;
-
-    //     var commitID = '';
-
-
+function run(check) {
     
-    //     pull(GITPATH);
-    //console.log("/Users/rajshreejain/fuzzer/cheating/iTrust2-v6/iTrust2")
 
-    fuzzer.main("/Users/rajshreejain/fuzzer/cheating/iTrust2-v6/iTrust2/src/main/java/edu/ncsu/csc/itrust2/forms/patient/");
-    //     while (maxRetries > 0) {
-    //         fuzzer.main(LOCALPATH + ITRUST_RELATIVE_PATH);
-    //         var result = maven(GITPATH + "/" + ITRUST, ['compile']);
-    //         console.log("maven build------------------");
-    //         //console.log(result);
+    USER = process.env.GH_USER;
+    KEY = process.env.GH_PASS;
+    
+    numberOfIterations = check;
+    var REMOTE = `https://${USER}:${KEY}@${REPO}`;
 
-    //         if (!result.match(/BUILD FAILURE/)) {
-    //             console.log('build success')
-    //             commit(GITPATH, "Test" + i);
+    console.log(REMOTE);
 
-    //             commitID = getCommitID(GITPATH, BRANCH);
+    var GITPATH = `${LOCALPATH}/${ITRUST2_V6}/${ITRUST2}`;
+    var loopCount = 0;
+    clone(REMOTE, LOCALPATH);
+    setCredentials(GITPATH, USER, KEY);
+    while (loopCount < numberOfIterations){
+        var maxRetries = 50;
+        while (maxRetries > 0){
+            
+            // fuzzer.main(LOCALPATH +'/'+ ITRUST_RELATIVE_PATH);
+            var result = maven(GITPATH, "compile");
 
-    //             console.log(commitID);
+            if (!result.match(/BUILD FAILURE/)) {
+                console.log("COMPILE BUILD PASSED!!!");
+                loopCount += 1;
+                break;
+            }
+            
+            else {
+                console.log("COMPILE BUILD FAILED!!!"); 
+                maxRetries -= 1;
+                
+            }
 
-    //             revertChanges(GITPATH);
+            // commit(GITPATH, `COMPILE ${loopCount}-${maxRetries-50}`);
+            // reset(GITPATH);
+        }
 
-    //             runJenkinsJob = true;
-    //             break;
-    //         } else {
-    //             console.log('build failure');
-    //             reset(GITPATH, 'HEAD');
-    //         }
+        maven(GITPATH, 'clean test verify');
 
-    //     }
+    }
+}
 
-    //     if (runJenkinsJob) {
-    //         console.log("runnning jenkins job");
-    //         //Run jenkins job and check the status
-    //         triggerJenkinsJob(commitID);
+function clone(remote, local) {
+    console.log("CLONING REPO");
+    fsExtra.ensureDirSync(local);
+    
+    if (fs.existsSync(local + "/" + ITRUST2_V6)) {
+       fsExtra.removeSync(local + "/" + ITRUST2_V6);
+    }
 
-    //     }
-    //     sleep(80000);
+    var result = child_process.execSync(`git clone ${remote}`, {
+        cwd: local
+    }).toString('utf8');
 
-    // }
+    return result;
+}
+
+function setCredentials(local, user, pass){
+    console.log("Setting credentials");
+    child_process.execSync(`git config user.name ${user} && git config user.email ${user}.ncsu.edu && git config user.password ${pass}`, {
+        cwd: local
+    });
 
 }
 
-// function clone(remote, local, branch) {
-//     fsExtra.ensureDirSync(local);
+function commit(local, message) {
+    console.log("COMMITING FILE(S)");
+    var result = child_process.execSync(`git add *.java && git commit -m "${message}"`, {
+        cwd: local
+    }).toString('utf8');
+    return result;
+}
 
-//     if (fs.existsSync(local + "/" + ITRUST_V23)) {
-//         fsExtra.removeSync(local + "/" + ITRUST_V23);
-//     }
+function reset(local){
+    console.log("REVERTING BACK");
+    var result = child_process.execSync('git reset HEAD~', {
+        cwd: local
+    }).toString('utf8');
+    return result;
+}
 
-//     console.log("inside clone");
-//     console.log(local + "/" + ITRUST_V23);
+function maven(local, args){
+    console.log(local);
+    console.log("RUNNING MAVEN COMMAND");
+    var result = child_process.execSync(`mvn ${args}`, {
+        cwd: local, maxBuffer: 100 * 2000 * 2000
+    }).toString('utf-8');
+    if (result.error) {
+        console.log("Cannot execute maven command:\n" + error);
+    }
+    else {
+        return result;
+    }
+}
 
-//     var result = child_process.execSync(`git clone ${remote}`, {
-//         cwd: local
-//     }).toString('utf8');
-
-//     if (result.match(/fatal|error/)) {
-//         throw new Error("Error pulling changes from remote:\n" + result);
-//     }
-
-//     child_process.execSync(`git push origin --delete fuzzer`, {
-//         cwd: local + "/" + ITRUST_V23
-//     });
-
-//     child_process.execSync(`git checkout -b fuzzer && git push -u origin fuzzer`, {
-//         cwd: local + "/" + ITRUST_V23
-//     });
-
-// }
-
-// function pull(local) {
-//     var result = child_process.execSync('git pull', {
-//         cwd: local
-//     }).toString('utf8');
-
-
-//     if (result.match(/fatal|error/)) {
-//         throw new Error("Error pulling changes from remote:\n" + result);
-//     }
-
-// }
-
-
-
-// function commit(local, message) {
-
-//     var result = child_process.execSync(`git pull && git add *java && git commit -m "${message}" && git push`, {
-//         cwd: local
-//     }).toString('utf8');
-
-
-
-//     if (result.match(/fatal|error/)) {
-//         throw new Error("Error commiting changes:\n" + result);
-//     }
-
-// }
-
-
-
-// function reset(local, commit) {
-
-//     var result = child_process.execSync(`git reset --hard ${commit}`, {
-//         cwd: local
-//     }).toString('utf-8');
-
-
-//     if (result.match(/fatal|error/)) {
-//         throw new Error("Error reverting changes:\n" + result);
-//     }
-
-// }
-
-// function revertChanges(local) {
-
-//     var result = child_process.execSync('git revert --no-edit HEAD && git push', {
-//         cwd: local
-//     }).toString('utf8');
-
-//     if (result.match(/fatal|error/)) {
-//         throw new Error("Error reverting changes to remote:\n" + result);
-//     }
-
-// }
-
-// function getCommitID(local, branch) {
-//     var result = child_process.execSync(`git rev-parse ${branch}`, {
-//         cwd: local
-//     }).toString('utf8').trim();
-
-//     console.log("getcommit:" + result);
-//     if (result.match(/fatal|error/)) {
-//         throw new Error("Error reverting changes to remote:\n" + result);
-//     }
-
-//     return result;
-// }
-
-// /*
-// args should be an Array
-// returns stdout*/
-// function maven(local, args) {
-//     if (!Array.isArray(args)) {
-//         throw new Error("args is not present or args is not an array");
-//     }
-
-//     var result = child_process.spawnSync('mvn', args, {
-//         cwd: local
-//     });
-
-//     if (result.error) {
-//         throw new Error("Cannot execute maven command:\n" + error);
-//     } else {
-//         return analysis = result.stdout.toString('utf-8') + result.stderr.toString('utf-8');
-//     }
-// }
-
-// function triggerJenkinsJob(commitID) {
-//     var result = child_process.execSync('curl http://{{username}}:{{jenkinspassword}}@localhost:8080/job/itrust-main/build?token=itrust-trigger', {
-//         cwd: '.'
-//     }).toString('utf8');
-
-//     if (result.match(/error|fatal/i)) {
-//         console.error(result);
-//     }
-// }
-
-main();
