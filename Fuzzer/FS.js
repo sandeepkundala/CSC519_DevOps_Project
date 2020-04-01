@@ -137,6 +137,7 @@ async function calculatePriority(numberOfIterations)
         //return tests;
         for ( var test of tests)
         {
+	    console.log(test);
             if (!map.hasOwnProperty(test.name))
         {
             map[test.name]={pass:0 ,fail:0}
@@ -157,7 +158,18 @@ async function calculatePriority(numberOfIterations)
 
     }
     console.log(map);
-    return;
+	 var tupleArray = [];
+        for (var key in map) tupleArray.push([key, map[key].fail]);
+        tupleArray.sort(function (a, b) {
+            return b[1] - a[1]
+        });
+        var sortedMap = {};
+        tupleArray.forEach(function (el) {
+            sortedMap[el[0]] = el[1]
+        });
+        console.log (sortedMap);
+        
+	return;
 
 }
 
