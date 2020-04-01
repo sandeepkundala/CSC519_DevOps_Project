@@ -18,6 +18,11 @@
     "random-js": "^1.0.8",
     "simple-git": "^1.80.1",
     "system-sleep": "^1.3.6",
-    "recursive-readdir": "^2.2.2"
+    "recursive-readdir": "^2.2.2", 
+    "chai": "^4.1.2",
+    "chair": "0.0.0",
+    "cross-env": "^5.1.3",
+    "mocha": "^5.0.1", 
+    "xml2js": "^0.4.17"
   }
 }
