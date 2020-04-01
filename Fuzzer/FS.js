@@ -15,7 +15,7 @@ const ITRUST2 = "iTrust2";
 const ITRUST_RELATIVE_PATH = 'iTrust2-v6/iTrust2/src/main/java/edu/ncsu/csc/itrust2';
 const LOCALPATH = "/home/vagrant";
 const REPO = "github.ncsu.edu/engr-csc326-staff/iTrust2-v6.git";
-const TEST_REPORT =  "/home/vagrant/iTrust/iTrust2-v6/iTrust2/target/surefire-reports";
+const TEST_REPORT =  "/home/vagrant/iTrust2-v6/iTrust2/target/surefire-reports";
 
 const REMOTE = `https://${USER}:${KEY}@${REPO}`;
 const GITPATH = `${LOCALPATH}/${ITRUST2_V6}/${ITRUST2}`;
@@ -32,7 +32,7 @@ copy("/home/vagrant/db.properties.j2", "/home/vagrant/iTrust2-v6/iTrust2/src/mai
 copy("/home/vagrant/email.properties.j2", "/home/vagrant/iTrust2-v6/iTrust2/src/main/java/email.properties")
 
 // execute mvn -f pom-data.xml process-test-classes
-child.execSync("cd /home/vagrant/iTrust/iTrust2-v6/iTrust2 && sudo mvn -f pom-data.xml process-test-classes");
+child.execSync("cd /home/vagrant/iTrust2-v6/iTrust2 && sudo mvn -f pom-data.xml process-test-classes");
 
 const read = (dir) =>
     fs.readdirSync(dir)
@@ -111,7 +111,7 @@ async function calculatePriority(numberOfIterations)
             var flag = 0;
             try{
                 fuzzer.main(LOCALPATH +'/'+ ITRUST_RELATIVE_PATH);
-                child.execSync('cd /home/vagrant/iTrust/iTrust2-v6/iTrust2 && sudo mvn clean test verify org.apache.maven.plugins:maven-checkstyle-plugin:3.1.0:checkstyle');
+                child.execSync('cd /home/vagrant/iTrust2-v6/iTrust2 && sudo mvn clean test verify org.apache.maven.plugins:maven-checkstyle-plugin:3.1.0:checkstyle');
             }
             catch(e){
                 var error1=new Buffer(e.stdout).toString("ascii");
@@ -153,7 +153,7 @@ async function calculatePriority(numberOfIterations)
     }
 
     // delete the surefire-reports for previous iteration
-    child.execSync(`cd ${TEST_REPORT} && rm -rf *.xml`)
+    child.execSync(`cd ${TEST_REPORT} && sudo rm -rf *.xml`)
 
     }
     console.log(map);
@@ -162,4 +162,3 @@ async function calculatePriority(numberOfIterations)
 }
 
 module.exports.calculatePriority = calculatePriority;
-
