@@ -8,6 +8,6 @@
   vars_files:
    - ./vars/vars.yml
   tasks:
-    - name: print times
-      debug:
-        msg: "{{ check }}"
+    - name: Run iTrust test {{check}} time(s)
+      shell: node /home/vagrant/Fuzzer/FS.js {{check}}
+      
