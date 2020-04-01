@@ -32,7 +32,7 @@ copy("/home/vagrant/db.properties.j2", "/home/vagrant/iTrust2-v6/iTrust2/src/mai
 copy("/home/vagrant/email.properties.j2", "/home/vagrant/iTrust2-v6/iTrust2/src/main/java/email.properties")
 
 // execute mvn -f pom-data.xml process-test-classes
-child.execSync("cd /home/vagrant/iTrust2-v6/iTrust2 && sudo mvn -f pom-data.xml process-test-classes");
+//child.execSync("cd /home/vagrant/iTrust2-v6/iTrust2 && sudo mvn -f pom-data.xml process-test-classes");
 
 const read = (dir) =>
     fs.readdirSync(dir)
@@ -111,7 +111,7 @@ async function calculatePriority(numberOfIterations)
             var flag = 0;
             try{
                 fuzzer.main(LOCALPATH +'/'+ ITRUST_RELATIVE_PATH);
-                child.execSync('cd /home/vagrant/iTrust2-v6/iTrust2 && sudo mvn clean test verify org.apache.maven.plugins:maven-checkstyle-plugin:3.1.0:checkstyle');
+                child.execSync('cd /home/vagrant/iTrust2-v6/iTrust2 && cd /home/vagrant/iTrust2-v6/iTrust2 && sudo mvn -f pom-data.xml process-test-classes && sudo mvn clean test verify');
             }
             catch(e){
                 var error1=new Buffer(e.stdout).toString("ascii");
