@@ -153,7 +153,7 @@ async function calculatePriority(numberOfIterations)
     }
 
     // delete the surefire-reports for previous iteration
-    child.execSync(`cd ${TEST_REPORT} && sudo rm -rf *.xml`)
+    child.execSync(`cd ${TEST_REPORT} && sudo rm -rf *.xml && mysql -u root -e 'DROP DATABASE IF EXISTS iTrust2'`)
 
     }
     console.log(map);
