@@ -7,7 +7,7 @@
           cd /home/vagrant
           sudo mkdir iTrust
           cd iTrust
-          sudo git clone https://4a8fc03ff69e1b510505843bf978b6a71caee839@github.ncsu.edu/engr-csc326-staff/iTrust2-v6.git
+          sudo git clone https://$GH_USER:$GH_PASS@github.ncsu.edu/engr-csc326-staff/iTrust2-v6.git
           cd iTrust2-v6/iTrust2/src/main/java
           sudo touch email.properties
           sudo touch db.properties
