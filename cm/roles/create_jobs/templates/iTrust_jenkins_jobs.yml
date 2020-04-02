@@ -5,6 +5,7 @@
     builders:
       - shell: |
           cd /home/vagrant
+          sudo rm -rf iTrust
           sudo mkdir iTrust
           cd iTrust
           sudo git clone https://$GH_USER:$GH_PASS@github.ncsu.edu/engr-csc326-staff/iTrust2-v6.git
@@ -20,7 +21,6 @@
           sudo mvn -f pom-data.xml process-test-classes
           sudo mvn clean test verify org.apache.maven.plugins:maven-checkstyle-plugin:3.1.0:checkstyle
           cd ../../..
-          sudo rm -rf iTrust
     publishers:
       - postbuildscript:
           builders:

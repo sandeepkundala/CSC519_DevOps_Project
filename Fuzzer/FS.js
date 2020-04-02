@@ -25,11 +25,11 @@ var validFileExtensions = ["xml"];
 var map={};
 var numberOfIterations = process.argv.slice(2)[0];
 
-clone(REMOTE, LOCALPATH);
-setCredentials(GITPATH, USER, KEY);
+// clone(REMOTE, LOCALPATH);
+//setCredentials(GITPATH, USER, KEY);
 // copy the db.properties and email.prperties
-copy("/home/vagrant/db.properties.j2", "/home/vagrant/iTrust2-v6/iTrust2/src/main/java/db.properties")
-copy("/home/vagrant/email.properties.j2", "/home/vagrant/iTrust2-v6/iTrust2/src/main/java/email.properties")
+// copy("/home/vagrant/db.properties.j2", "/home/vagrant/iTrust2-v6/iTrust2/src/main/java/db.properties")
+// copy("/home/vagrant/email.properties.j2", "/home/vagrant/iTrust2-v6/iTrust2/src/main/java/email.properties")
 
 // execute mvn -f pom-data.xml process-test-classes
 //child.execSync("cd /home/vagrant/iTrust2-v6/iTrust2 && sudo mvn -f pom-data.xml process-test-classes");
@@ -112,14 +112,17 @@ async function calculatePriority(numberOfIterations)
             try{
                 fuzzer.main(LOCALPATH +'/'+ ITRUST_RELATIVE_PATH);
                 child.execSync('cd /home/vagrant/iTrust2-v6/iTrust2 && cd /home/vagrant/iTrust2-v6/iTrust2 && sudo mvn -f pom-data.xml process-test-classes && sudo mvn clean test verify');
+                
             }
             catch(e){
                 var error1=new Buffer(e.stdout).toString("ascii");
                 if (error1.includes("Compilation")==true){
+                    console.log("failed");
                     maxRetries -= 1;
                     flag = 1;
                 }
             }
+            console.log(`successfull build: ${i}`);
             // reset the repo
             child.execSync(`cd ${GITPATH} && git reset --hard HEAD`);
             if (flag == 0){
@@ -150,12 +153,47 @@ async function calculatePriority(numberOfIterations)
             map[test.name].fail++
             }
         }
+        
     }
-
+    console.log(map);
+    
     // delete the surefire-reports for previous iteration
     child.execSync(`cd ${TEST_REPORT} && sudo rm -rf *.xml && mysql -u root -e 'DROP DATABASE IF EXISTS iTrust2'`)
 
     }
+
+    result = [];
+
+    for (key in map){
+        console.log(key);
+        result.push({
+            name:   key,
+            pass:   map[key].pass,
+            fail:   map[key].fail
+            })
+    }
+    
+    result.sort((a, b)=>{
+        if (a.fail < b.fail)
+            return -1000;
+        else if (a.pass > b.pass && a.fail == b.fail)
+            return -1000;
+    })
+
+    for (i in result){
+        str += `${result[i].pass}/${result[i].total} ${result[i].name}` + '\n';
+    }
+    
+    let data = JSON.stringify(map);
+    fs.writeFileSync('map.json', data);
+    fs.writeFile('result.txt', str, (err) => {
+        
+        if (err) throw err;
+    
+        // success case, the file was saved
+        console.log('result saved!');
+    });
+
     console.log(map);
     return;
 
