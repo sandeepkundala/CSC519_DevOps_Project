@@ -23,11 +23,11 @@
   - name: fetch
     fetch:
       src: /home/vagrant/Fuzzer/result.txt
-      dest: /bakerx/Fuzzer
+      dest: /bakerx/results
 
   - name: Print results
     debug: var=item
     with_file:
-      - "/bakerx/Fuzzer/192.168.33.20/home/vagrant/Fuzzer/result.txt"
+      - "/bakerx/results/192.168.33.20/home/vagrant/Fuzzer/result.txt"
   
       
