@@ -91,7 +91,7 @@ function readResults(result)
     {
         var testcase = result.testsuite.testcase[i];
         tests.push({
-        name:   testcase["$"].name,
+        name:   testcase["$"].classname+testcase["$"].name,
         time:   testcase["$"].time,
         status: testcase.hasOwnProperty("failure") ? "failed": "passed"
         });
