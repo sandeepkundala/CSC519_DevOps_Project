@@ -5,38 +5,22 @@
     builders:
       - shell: |
           cd /home/vagrant
+          sudo rm -rf iTrust2-v6
           sudo git clone https://$GH_USER:$GH_PASS@github.ncsu.edu/engr-csc326-staff/iTrust2-v6.git
           cd iTrust2-v6/iTrust2/src/main/java
           sudo touch email.properties
           sudo touch db.properties
           sudo rm db.properties.template
           sudo rm email.properties.template
-          sudo cp /home/vagrant/db.properties.j2 /home/vagrant/iTrust/iTrust2-v6/iTrust2/src/main/java/db.properties
-          sudo cp /home/vagrant/email.properties.j2 /home/vagrant/iTrust/iTrust2-v6/iTrust2/src/main/java/email.properties
+          sudo cp /home/vagrant/db.properties.j2 /home/vagrant/iTrust2-v6/iTrust2/src/main/java/db.properties
+          sudo cp /home/vagrant/email.properties.j2 /home/vagrant/iTrust2-v6/iTrust2/src/main/java/email.properties
           cd /home/vagrant/iTrust2-v6/iTrust2/
           sudo mvn -f pom-data.xml process-test-classes
           sudo mvn clean test verify org.apache.maven.plugins:maven-checkstyle-plugin:3.1.0:checkstyle
-          sudo rm -rf /home/vagrant/iTrust2-v6
     publishers:
       - postbuildscript:
           builders:
             - build-steps:
               - shell: 'ls'
 
-# cd /home/vagrant
-# sudo mkdir iTrust
-# cd iTrust
-# sudo git clone https://$GH_USER:$GH_PASS@github.ncsu.edu/engr-csc326-staff/iTrust2-v6.git
-# cd iTrust2-v6/iTrust2/src/main/java
-# sudo touch email.properties
-# sudo touch db.properties
-# sudo rm db.properties.template
-# sudo rm email.properties.template
-# cd ../../../../../..
-# sudo cp /home/vagrant/db.properties.j2 /home/vagrant/iTrust/iTrust2-v6/iTrust2/src/main/java/db.properties
-# sudo cp /home/vagrant/email.properties.j2 /home/vagrant/iTrust/iTrust2-v6/iTrust2/src/main/java/email.properties
-# cd iTrust/iTrust2-v6/iTrust2/
-# sudo mvn -f pom-data.xml process-test-classes
-# sudo mvn clean test verify org.apache.maven.plugins:maven-checkstyle-plugin:3.1.0:checkstyle
-# cd ../../..
-# sudo rm -rf iTrust
+
