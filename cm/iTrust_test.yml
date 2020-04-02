@@ -16,7 +16,18 @@
   - name: install node packages in /home/vagrant/Fuzzer
     npm:
       path: /home/vagrant/Fuzzer
- 
-  # - name: Run iTrust test {{check}} time(s)
-    # shell: node /home/vagrant/Fuzzer/FS.js {{check}}
+  
+  - name: Run iTrust test {{check}} time(s)
+    shell: node /home/vagrant/Fuzzer/FS.js {{check}}
+
+  - name: fetch
+    fetch:
+      src: /home/vagrant/Fuzzer/result.txt
+      dest: /bakerx/Fuzzer
+
+  - name: Print results
+    debug: var=item
+    with_file:
+      - "/bakerx/Fuzzer/192.168.33.20/home/vagrant/Fuzzer/result.txt"
+  
       

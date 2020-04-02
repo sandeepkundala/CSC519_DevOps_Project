@@ -142,16 +142,16 @@ async function calculatePriority(numberOfIterations)
         {
 	    console.log(test);
             if (!map.hasOwnProperty(test.name))
-        {
-            map[test.name]={pass:0 ,fail:0}
+            {
+                map[test.name]={pass:0 ,fail:0}
             }
             if (test.status == "passed")
-        {
-            map[test.name].pass++;
+            {
+                map[test.name].pass++;
             }
             if (test.status == "failed")
-        {
-            map[test.name].fail++
+            {
+                map[test.name].fail++
             }
         }
         
@@ -170,7 +170,8 @@ async function calculatePriority(numberOfIterations)
         result.push({
             name:   key,
             pass:   map[key].pass,
-            fail:   map[key].fail
+            fail:   map[key].fail,
+            total: map[key].pass + map[key].fail
             })
     }
     
@@ -180,6 +181,8 @@ async function calculatePriority(numberOfIterations)
         else if (a.pass > b.pass && a.fail == b.fail)
             return -1000;
     })
+
+    var str = '';
 
     for (i in result){
         str += `${result[i].pass}/${result[i].total} ${result[i].name}` + '\n';
