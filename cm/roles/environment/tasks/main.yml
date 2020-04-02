@@ -1,139 +1,139 @@
 ---
-# - name: Install Python
-#   raw: apt-get -y install python
+- name: Install Python
+  raw: apt-get -y install python
 
-# - name: Update
-#   apt:
-#     upgrade: yes
-#     update_cache: yes
-#     cache_valid_time: 3600
+- name: Update
+  apt:
+    upgrade: yes
+    update_cache: yes
+    cache_valid_time: 3600
 
-# - name: add apt key for nodesource
-#   apt_key: 
-#     url: https://deb.nodesource.com/gpgkey/nodesource.gpg.key
+- name: add apt key for nodesource
+  apt_key: 
+    url: https://deb.nodesource.com/gpgkey/nodesource.gpg.key
 
-# - name: add ppa for installing nodejs
-#   apt_repository:
-#         repo: "deb https://deb.nodesource.com/node_{{ NODEJS_VERSION }}.x {{ ansible_distribution_release }} main"
-#         state: present
-#         update_cache: yes
-#   register: node_repo
+- name: add ppa for installing nodejs
+  apt_repository:
+        repo: "deb https://deb.nodesource.com/node_{{ NODEJS_VERSION }}.x {{ ansible_distribution_release }} main"
+        state: present
+        update_cache: yes
+  register: node_repo
 
 
-# - name: Update apt cache if repo was added.
-#   apt: 
-#     update_cache: yes
-#   when: node_repo.changed
-#   tags: ['skip_ansible_lint']
+- name: Update apt cache if repo was added.
+  apt: 
+    update_cache: yes
+  when: node_repo.changed
+  tags: ['skip_ansible_lint']
 
-# - name: Install Nodejs
-#   apt: 
-#     name: nodejs
+- name: Install Nodejs
+  apt: 
+    name: nodejs
 
-# - name: Install Git
-#   apt:
-#     name: git
+- name: Install Git
+  apt:
+    name: git
 
-# - name: Install Nginx
-#   apt:
-#     name: nginx
-#     state: present
+- name: Install Nginx
+  apt:
+    name: nginx
+    state: present
 
-# - name: install gnupg
-#   apt:
-#     name: gnupg
-#     state: present
+- name: install gnupg
+  apt:
+    name: gnupg
+    state: present
 
-# - name: Import the public key
-#   apt_key: 
-#     keyserver: hkp://keyserver.ubuntu.com:80 
-#     id: 4B7C549A058F8B6B 
-#     state: present
+- name: Import the public key
+  apt_key: 
+    keyserver: hkp://keyserver.ubuntu.com:80 
+    id: 4B7C549A058F8B6B 
+    state: present
   
-# - name: Add MongoDB repository
-#   apt_repository: 
-#     repo: deb http://repo.mongodb.org/apt/ubuntu bionic/mongodb-org/4.2 multiverse
-#     state: present
+- name: Add MongoDB repository
+  apt_repository: 
+    repo: deb http://repo.mongodb.org/apt/ubuntu bionic/mongodb-org/4.2 multiverse
+    state: present
 
-# - name: install mongodb
-#   apt: 
-#     name: mongodb-org 
-#     state: latest 
-#     update_cache: yes
-#   notify: 
-#   - start mongodb
+- name: install mongodb
+  apt: 
+    name: mongodb-org 
+    state: latest 
+    update_cache: yes
+  notify: 
+  - start mongodb
 
     
-# - name: Installing Python-Pip
-#   apt:
-#     name: python-pip
-#     state: latest
+- name: Installing Python-Pip
+  apt:
+    name: python-pip
+    state: latest
 
-# - name: Installing pm2
-#   npm:
-#     name: pm2
-#     global: yes
+- name: Installing pm2
+  npm:
+    name: pm2
+    global: yes
 
-# - name: Install the latest pymongo package
-#   pip: 
-#     name: pymongo
-#     state: present
+- name: Install the latest pymongo package
+  pip: 
+    name: pymongo
+    state: present
 
-# - name: start mongodb
-#   systemd: 
-#     name: mongod 
-#     state: started
+- name: start mongodb
+  systemd: 
+    name: mongod 
+    state: started
 
-# - name: Create mongodb Database and User
-#   mongodb_user:
-#     database: admin
-#     name: "{{ MONGO_USER }}"
-#     password: "{{ MONGO_USER }}"
-#     state: present
-#     roles: readWrite
+- name: Create mongodb Database and User
+  mongodb_user:
+    database: admin
+    name: "{{ MONGO_USER }}"
+    password: "{{ MONGO_USER }}"
+    state: present
+    roles: readWrite
 
-# - name: set environment variables
-#   lineinfile:
-#     dest: /etc/environment
-#     line: APP_PORT={{APP_PORT}}
-#     regexp: '^APP_PORT=' 
-#     state: present  
+- name: set environment variables
+  lineinfile:
+    dest: /etc/environment
+    line: APP_PORT={{APP_PORT}}
+    regexp: '^APP_PORT=' 
+    state: present  
   
-# - name: set environment variables
-#   lineinfile:
-#     dest: /etc/environment
-#     line: MONGO_PORT={{MONGO_PORT}}
-#     regexp: '^MONGO_PORT='
-#     state: present
+- name: set environment variables
+  lineinfile:
+    dest: /etc/environment
+    line: MONGO_PORT={{MONGO_PORT}}
+    regexp: '^MONGO_PORT='
+    state: present
   
 
-# - name: set environment variables
-#   lineinfile:
-#     dest: /etc/environment
-#     line: MONGO_IP={{MONGO_IP}}
-#     regexp: '^MONGO_IP=' 
-#     state: present
+- name: set environment variables
+  lineinfile:
+    dest: /etc/environment
+    line: MONGO_IP={{MONGO_IP}}
+    regexp: '^MONGO_IP=' 
+    state: present
 
-# - name: set environment variables
-#   lineinfile:
-#     dest: /etc/environment
-#     line: MONGO_USER={{MONGO_USER}}
-#     regexp: '^MONGO_USER=' 
-#     state: present
+- name: set environment variables
+  lineinfile:
+    dest: /etc/environment
+    line: MONGO_USER={{MONGO_USER}}
+    regexp: '^MONGO_USER=' 
+    state: present
 
-# - name: set environment variables
-#   lineinfile:
-#     dest: /etc/environment
-#     line: MONGO_PASSWORD={{MONGO_PASSWORD}}
-#     regexp: '^MONGO_PASSWORD=' 
-#     state: present
+- name: set environment variables
+  lineinfile:
+    dest: /etc/environment
+    line: MONGO_PASSWORD={{MONGO_PASSWORD}}
+    regexp: '^MONGO_PASSWORD=' 
+    state: present
 
-# - name: set environment variables
-#   lineinfile:
-#     dest: /etc/environment
-#     line: BUILD_ID=dontKillMe
-#     regexp: '^BUILD_ID=' 
-#     state: present
+- name: set environment variables
+  lineinfile:
+    dest: /etc/environment
+    line: BUILD_ID=dontKillMe
+    regexp: '^BUILD_ID=' 
+    state: present
 
 - name: set environment variables - GH User
   lineinfile:
