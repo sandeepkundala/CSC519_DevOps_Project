@@ -91,7 +91,7 @@ function readResults(result)
     {
         var testcase = result.testsuite.testcase[i];
         tests.push({
-        name:   testcase["$"].name,
+        name:   testcase["$"].classname+testcase["$"].name,
         time:   testcase["$"].time,
         status: testcase.hasOwnProperty("failure") ? "failed": "passed"
         });
@@ -140,6 +140,7 @@ async function calculatePriority(numberOfIterations)
         //return tests;
         for ( var test of tests)
         {
+	    console.log(test);
             if (!map.hasOwnProperty(test.name))
         {
             map[test.name]={pass:0 ,fail:0}
@@ -194,8 +195,28 @@ async function calculatePriority(numberOfIterations)
         console.log('result saved!');
     });
 
-    console.log(map);
-    return;
+    // console.log(map);
+	//  var tupleArray = [];
+    //     for (var key in map) tupleArray.push([key, map[key].fail]);
+    //     tupleArray.sort(function (a, b) {
+    //         return (b[1] - a[1])
+    //     });
+    //     var sortedMap = {};
+    //     tupleArray.forEach(function (el) {
+    //         sortedMap[el[0]] = el[1]
+    //     });
+    //     console.log (sortedMap);
+	
+	// var myJSON = JSON.stringify(sortedMap);
+    //     fs.writeFile('output.txt', myJSON, (err) => {
+    //         // throws an error, you could also catch it here
+    //         if (err) throw err;
+        
+    //         // success case, the file was saved
+    //         //console.log('Lyric saved!');
+    //     });
+        
+	return;
 
 }
 
