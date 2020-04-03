@@ -25,14 +25,12 @@ var validFileExtensions = ["xml"];
 var map={};
 var numberOfIterations = process.argv.slice(2)[0];
 
+// child.execSync("sudo rm -rf /home/vagrant/iTrust2-v6");
 // clone(REMOTE, LOCALPATH);
-//setCredentials(GITPATH, USER, KEY);
-// copy the db.properties and email.prperties
+// setCredentials(GITPATH, USER, KEY);
+// // copy the db.properties and email.prperties
 // copy("/home/vagrant/db.properties.j2", "/home/vagrant/iTrust2-v6/iTrust2/src/main/java/db.properties")
 // copy("/home/vagrant/email.properties.j2", "/home/vagrant/iTrust2-v6/iTrust2/src/main/java/email.properties")
-
-// execute mvn -f pom-data.xml process-test-classes
-//child.execSync("cd /home/vagrant/iTrust2-v6/iTrust2 && sudo mvn -f pom-data.xml process-test-classes");
 
 const read = (dir) =>
     fs.readdirSync(dir)
@@ -111,7 +109,7 @@ async function calculatePriority(numberOfIterations)
             var flag = 0;
             try{
                 fuzzer.main(LOCALPATH +'/'+ ITRUST_RELATIVE_PATH);
-                child.execSync('cd /home/vagrant/iTrust2-v6/iTrust2 && cd /home/vagrant/iTrust2-v6/iTrust2 && sudo mvn -f pom-data.xml process-test-classes && sudo mvn clean test verify');
+                child.execSync('cd /home/vagrant/iTrust2-v6/iTrust2 && sudo mvn -f pom-data.xml process-test-classes && sudo mvn clean test verify');
                 
             }
             catch(e){
