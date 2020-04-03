@@ -71,7 +71,7 @@ async function calculatePriority(numberOfIterations)
         
         while (maxRetries>0){
             var flag = 0;
-            console.llog(`trying ${maxRetries}`);
+            console.log(`trying ${maxRetries}`);
             try{
                 fuzzer.main(LOCALPATH +'/'+ ITRUST_RELATIVE_PATH);
                 child.execSync('cd /home/vagrant/iTrust2-v6/iTrust2 && sudo mvn -f pom-data.xml process-test-classes && sudo mvn clean test verify');
