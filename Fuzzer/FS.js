@@ -176,9 +176,9 @@ async function calculatePriority(numberOfIterations)
     }
     
     result.sort((a, b)=>{
-        if (a.fail < b.fail)
+        if (a.fail > b.fail)
             return -1000;
-        else if (a.pass > b.pass && a.fail == b.fail)
+        else if (a.pass < b.pass && a.fail == b.fail)
             return -1000;
     })
 
