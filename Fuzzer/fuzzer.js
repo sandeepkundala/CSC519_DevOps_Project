@@ -37,10 +37,14 @@ function main(directoryPath) {
 
     var listOfFiles = read(dirPath);
     
+    console.log(listOfFiles[0]);
+    createRandomChangesInAFile(listOfFiles[0]);
     listOfFiles.forEach(function(ele) {
         if (randomizer.bool(0.1)){
+            
             createRandomChangesInAFile(ele);
-        }
+         
+       }
     });
 }
 
@@ -52,22 +56,24 @@ function createRandomChangesInAFile(filePath) {
     lines.forEach(function(line) {
 
         if (randomizer.bool(0.1)) {
+            console.log(line);
             let words = line.split(' ');
+            console.log(words);
             for(var i = 0; i< words.length; i++)
             {
-                if(words[i].match(">"))
+                if(words[i]==">")
                 {
                     words[i] = "<";
                 }
-                else if(words[i].match("<"))
+                else if(words[i]=="<")
                 {
                     words[i] = ">";
                 }
-                else if(words[i].match("!="))
+                else if(words[i]=="!=")
                 {
                     words[i] = "==";
                 }
-                else if(words[i].match("=="))
+                else if(words[i]=="==")
                 {
                     words[i] = "!=";
                 }
@@ -75,19 +81,20 @@ function createRandomChangesInAFile(filePath) {
                 {
                     words[i] = words[i].split("").reverse().join("");
                 }
-                else if(words[i].match == "true")
+                else if(words[i].equals == "true")
                 {
                     words[i] = "false";
                 }
-                else if(words[i].match == "false")
+                else if(words[i].equals == "false")
                 {
                     words[i] = "true";
                 }
                 
+                
             }
-
+            console.log(words);
             line = words.join(" ");
-                    
+            console.log(line);          
             if (line.match(/[0]/)){
                 line = line.replace(/[0]/g, "1");
             }
