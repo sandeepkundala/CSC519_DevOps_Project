@@ -52,49 +52,46 @@ function createRandomChangesInAFile(filePath) {
     lines.forEach(function(line) {
 
         if (randomizer.bool(0.1)) {
-            if (line.match(">") && !line.match("->")) {
-                line = line.replace(/>/g, "<");
+            let words = line.split(' ');
+            for(var i = 0; i< words.length; i++)
+            {
+                if(words[i].match(">"))
+                {
+                    words[i] = "<";
+                }
+                else if(words[i].match("<"))
+                {
+                    words[i] = ">";
+                }
+                else if(words[i].match("!="))
+                {
+                    words[i] = "==";
+                }
+                else if(words[i].match("=="))
+                {
+                    words[i] = "!=";
+                }
+                else if((words[i].startsWith("'") && words[i].endsWith("'") ) ||(words[i].startsWith('"') && words[i].endsWith('"')))
+                {
+                    words[i] = words[i].split("").reverse().join("");
+                }
+                else if(words[i].match == "true")
+                {
+                    words[i] = "false";
+                }
+                else if(words[i].match == "false")
+                {
+                    words[i] = "true";
+                }
+                
             }
-
-            else if (line.match("<")) {
-                line = line.replace(/</g, ">");
-            }
-        }
-
-        if (randomizer.bool(0.1)){
-            if (line.match("!=")){
-                line=line.replace(/!=/g,'==');
-            }
-            else if (line.match('==')){
-                line=line.replace(/==/g,'!=');
-            }
-        }
-
-        if (randomizer.bool(0.1)){
+                    
             if (line.match(/[0]/)){
                 line = line.replace(/[0]/g, "1");
             }
             else if (line.match(/[1]/)){
                 line = line.replace(/[1]/,"0");
             }
-        }
-
-        if (randomizer.bool(0.1)){
-            if (line.match(/"[\w\d\s]*"/g)){
-                var stringVar = line.match(/"[\w\d\s]*"/g);
-                stringVar.forEach(function(string){
-                    line = line.replace(string, Math.random().toString(36).substr(2,string.length-2));
-                })                    
-            }
-        }
-        
-        if(randomizer.bool(0.1)){
-          if(line.match('true')){
-                  line = line.replace('true', 'false');
-                }
-            else if(line.match('false')){
-                  line = line.replace('false', 'true');
-           }
          }
 
 
