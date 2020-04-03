@@ -151,7 +151,7 @@ async function calculatePriority(numberOfIterations)
     
     let data = JSON.stringify(map);
     fs.writeFileSync('map.json', data);
-    fs.writeFile('result.txt', str, (err) => {
+    fs.writeFile('/home/vagrant/result.txt', str, (err) => {
         
         if (err) throw err;
     
