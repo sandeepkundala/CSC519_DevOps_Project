@@ -7,16 +7,7 @@
   become: yes
   vars_files:
    - ./vars/vars.yml
-  tasks:
-  - name: "Copy ansible-srv:/bakerx/Fuzzer to jenkins-srv:/home/vagrant/Fuzzer"
-    copy:
-      src: /bakerx/Fuzzer
-      dest: /home/vagrant
-
-  - name: install node packages in /home/vagrant/Fuzzer
-    npm:
-      path: /home/vagrant/Fuzzer
-  
+  tasks:  
   - name: Run iTrust test {{check}} time(s)
     shell: node /home/vagrant/Fuzzer/FS.js {{check}}
 
