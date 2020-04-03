@@ -37,7 +37,7 @@ function main(directoryPath) {
 
     var listOfFiles = read(dirPath);
 
-    var sampleList = randomizer.sample(listOfFiles, randomizer.integer(0, 0.10*listOfFiles.length));
+    var sampleList = randomizer.sample(listOfFiles, parseInt(0.10*listOfFiles.length, 10));
     sampleList.forEach(function(ele) {
         createRandomChangesInAFile(ele);
     });
