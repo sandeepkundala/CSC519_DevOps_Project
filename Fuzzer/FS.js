@@ -183,7 +183,7 @@ async function calculatePriority(numberOfIterations)
     var str = '';
 
     for (i in result){
-        str += `${result[i].pass}/${result[i].total} ${result[i].name}` + '\n';
+        str += `${result[i].fail}/${result[i].total} ${result[i].name}` + '\n';
     }
     
     let data = JSON.stringify(map);
