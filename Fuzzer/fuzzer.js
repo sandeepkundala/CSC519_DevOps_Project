@@ -85,6 +85,8 @@ function createRandomChangesInAFile(filePath) {
                 }
                 
             }
+
+            line = words.join(" ");
                     
             if (line.match(/[0]/)){
                 line = line.replace(/[0]/g, "1");
