@@ -50,7 +50,7 @@ function createRandomChangesInAFile(filePath) {
     
     lines.forEach(function(line) {
 
-        if (randomizer.bool(0.2)) {
+        if (randomizer.bool(0.1)) {
             if (line.match(">") && !line.match("->")) {
                 line = line.replace(/>/g, "<");
             }
@@ -60,7 +60,7 @@ function createRandomChangesInAFile(filePath) {
             }
         }
 
-        if (randomizer.bool()){
+        if (randomizer.bool(0.1)){
             if (line.match("!=")){
                 line=line.replace(/!=/g,'==');
             }
@@ -69,7 +69,7 @@ function createRandomChangesInAFile(filePath) {
             }
         }
 
-        if (randomizer.bool(0.2)){
+        if (randomizer.bool(0.1)){
             if (line.match(/[0]/)){
                 line = line.replace(/[0]/g, "1");
             }
@@ -78,7 +78,7 @@ function createRandomChangesInAFile(filePath) {
             }
         }
 
-        if (randomizer.bool(0.2)){
+        if (randomizer.bool(0.1)){
             if (line.match(/"[\w\d\s]*"/g)){
                 var stringVar = line.match(/"[\w\d\s]*"/g);
                 stringVar.forEach(function(string){
@@ -86,6 +86,15 @@ function createRandomChangesInAFile(filePath) {
                 })                    
             }
         }
+        
+        if(randomizer.bool(0.1)){
+          if(line.match('true')){
+                  line = line.replace('true', 'false');
+                }
+            else if(line.match('false')){
+                  line = line.replace('false', 'true');
+           }
+         }
 
 
         if(line != '\r'){
