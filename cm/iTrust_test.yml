@@ -19,6 +19,6 @@
   - name: Print results
     debug: var=item
     with_file:
-      - "/bakerx/results/192.168.33.20/home/vagrant/Fuzzer/result.txt"
+      - "/bakerx/results/192.168.33.20/home/vagrant/result.txt"
   
       
