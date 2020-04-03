@@ -36,10 +36,11 @@ function main(directoryPath) {
         throw new Error("not valid directory");
 
     var listOfFiles = read(dirPath);
-
-    var sampleList = randomizer.sample(listOfFiles, randomizer.integer(0, 0.10*listOfFiles.length));
-    sampleList.forEach(function(ele) {
-        createRandomChangesInAFile(ele);
+    
+    listOfFiles.forEach(function(ele) {
+        if (randomizer.bool(0.1)){
+            createRandomChangesInAFile(ele);
+        }
     });
 }
 
