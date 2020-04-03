@@ -13,7 +13,7 @@
 
   - name: fetch
     fetch:
-      src: /home/vagrant/Fuzzer/result.txt
+      src: /home/vagrant/result.txt
       dest: /bakerx/results
 
   - name: Print results
