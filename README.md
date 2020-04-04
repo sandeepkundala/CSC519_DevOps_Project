@@ -6,22 +6,22 @@
 |2| Jaydip Gabani| jgabani |
 |3| Sandeep Kundala | skundal |
 
-## Milestone 1 - Pipleline > Build
+## Milestone 2 - Pipleline > Test+Analysis
 
 ### Tasks
-- Automatically configure jenkins server
-- Automatically configure a build environment
-- Create build job
+- Automatically configure a build environment and build job for a Java application (iTrust).
+- Implement a test suite analysis for detecting useful tests.
+- Implement a static analysis for detecting code smells.
 
 
 ### Discussion points
 | Date | Notes |
 | :---: | :---: |
-| 02-14-2020 | **Division of task:** All the Milestone 1a tasks are divided among team members to start parallely. |
-| 02-19-2020 | **Discussed task completion and checkpoint 1 submission:** Discussed the completion of our tasks, submitted work till today and discussed the further steps |
-| 02-26-2020 | **Discussed progress and future work:** Discussed the progress of project and tasks to be completed for the final submission of Milestone 1 |
-| 03-01-2020 | **Discussed completion ofMilestone 1:** Disscussed the completion of the milestone and blockers such as implementation of pm2 |
-| 03-02-2020 | **Discussed regarding refactoring:** Discussed the places where refactoring has to be done such has better task names, converting shell commands to appropriate ansible-modules (if any) |
+| 03-05-2020 | **Division of task:** All the Milestone 2a tasks are divided among team members to start parallely. |
+| 03-12-2020 | **Discussed task progress:** Discussed the progress of our tasks, blockers and future steps |
+| 03-17-2020 | **Discussed completion of Checkpoint and future work:** Completed 60% of the project including nodejs wrapper, itrust environment configuratin, itrust build configuration and static analysis of checkbox.io |
+| 03-23-2020 | **Discussed task progress:** Discussed the progress of fuzzing, blockers and future steps |
+| 04-04-2020 | **Discussed completion of Milestone 2:** Performed end to end manual testing of the project and completed screencast |
 
 
 ### Report
@@ -29,24 +29,24 @@
 ![](https://github.ncsu.edu/cscdevops-spring2020/DEVOPS-06/blob/master/resources/checkbox_io.png)
 
 #### Technologies Used
-- NodeJS: As a wrapper to execute custom commands like pipeline setup and pipeline build.
+- NodeJS: As a wrapper to execute custom commands like pipeline setup, pipeline build and fuzzing.
 - Bash: As a wrapper for to execute playbooks and running shell scripts.
 - Virtual Box: Provisioning of VMs with required configuration.
-- Ansible: Configuration of Jenkins-srv to install necessary packages for Jenkins, build environment and build job.
+- Ansible: Configuration of Jenkins-srv to install necessary packages for Jenkins, build environment, build job and running maven tests.
 - Jenkins: Perform build job using the set configuration.
 
 #### Challenges Faced:
-- Faced issues while provisioning VMs since the IP address for jenkins-srv doesn't get the desired IP
-- Execution of groovy script to configure Jenkins
-- Build-jobs failing due to mongodb port mismatch
-- Build-jobs failing due to quotes(") in the environment variables
-- Getting logs from the jenkins regarding the latest executed build
+- The build job for jenkins was affected due to less memory allocated for Jenkins-srv.
+- Fuzzing the files (generics were getting impacted).
+- Each maven test was taking 15-30 min.
 
 #### Contribution:
-- Setting NodeJS and Bash wrapper to execute commands: SANDEEP KUNDALA
-- Configuring Jenkins: RAJSHREE JAIN
-- Configuring build environment: JAYDIP GABANI
-- Build job configuration: RAJSHREE JAIN, JAYDIP GABANI, SANDEEP KUNDALA
+- Setting NodeJS wrapper to execute useful-test command: SANDEEP KUNDALA
+- Configuring build environment for iTrust: SANDEEP KUNDALA, RAJSHREE JAIN
+- Configuring jenkins build job for iTrust: RAJSHREE JAIN
+- Performing static analysis on checkbox.io: JAYDIP GABANI
+- Creating fuzzer: RAJSHREE JAIN, JAYDIP GABANI, SANDEEP KUNDALA
+- Performing test prioratization analysis: JAYDIP GABANI, RAJSHREE JAIN
 
 #### Setup
 ``` 
@@ -58,9 +58,15 @@ npm install
 npm link
 
 # to provision server and configure build environment:
-pipeline setup
+pipeline setup --gh-user <NCSU GITHUB USERNAME> --gh-pass <NCSU GITHUB PASSWORD>
 
-# to trigger build job:
+# to trigger build job for iTrust:
+pipeline build iTrust
+
+# Initiate analysis of test suite for iTrust to run `-c` numbers of times.
+pipeline useful-tests -c <number>
+
+# to trigger build job for checkbox.io:
 pipeline build checkbox.io
 ```
 *Note:*
@@ -71,17 +77,16 @@ The link of the screencast is [here](https://drive.google.com/open?id=1YQkI-mi75
 
 ### Issues
 
-All issues pertaining to Milestone 1 is [here](https://github.ncsu.edu/cscdevops-spring2020/DEVOPS-06/issues?q=is%3Aopen+is%3Aissue+project%3Acscdevops-spring2020%2FDEVOPS-06%2F1)
+All issues pertaining to Milestone 2 is [here](https://github.ncsu.edu/cscdevops-spring2020/DEVOPS-06/issues?utf8=%E2%9C%93&q=is%3Aissue+project%3Acscdevops-spring2020%2FDEVOPS-06%2F2+)
 
 ### Kanban board
 
-The kanban project board is [here](https://github.ncsu.edu/cscdevops-spring2020/DEVOPS-06/projects/1)
+The kanban project board is [here](https://github.ncsu.edu/cscdevops-spring2020/DEVOPS-06/projects/2)
+
 
 ### Checkpoint reports
-Read [CHECKPOINT.md](https://github.ncsu.edu/cscdevops-spring2020/DEVOPS-06/blob/master/CHECKPOINT.md)
-
-## Milestone 2 - Test + Analysis
-
-### Checkpoint reports
+#### Milestone 2 - Test + Analysis
 Read [CHECKPOINT.md](https://github.ncsu.edu/cscdevops-spring2020/DEVOPS-06/blob/master/CHECKPOINT_MILESTONE2.md)
 
+#### Milestone 1 - Build
+Read [CHECKPOINT.md](https://github.ncsu.edu/cscdevops-spring2020/DEVOPS-06/blob/master/CHECKPOINT.md)
