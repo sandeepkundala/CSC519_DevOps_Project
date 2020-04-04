@@ -63,8 +63,8 @@ function readResults(result)
 
 async function calculatePriority(numberOfIterations)
 {
-    console.log("here");
-
+    
+	child.execSync(`cd /home/vagrant/iTrust2-v6/iTrust2 && sudo mvn -f pom-data.xml process-test-classes && mysql -u root -e 'DROP DATABASE IF EXISTS iTrust2'`);	
     for( var i = 0; i < numberOfIterations; i++ ){
         
         var maxRetries = 50;
@@ -73,11 +73,13 @@ async function calculatePriority(numberOfIterations)
             var flag = 0;
             console.log(`trying ${maxRetries}`);
             try{
+                
                 fuzzer.main(LOCALPATH +'/'+ ITRUST_RELATIVE_PATH);
-                child.execSync('cd /home/vagrant/iTrust2-v6/iTrust2 && sudo mvn -f pom-data.xml process-test-classes && sudo mvn clean test verify');
+                child.execSync('cd /home/vagrant/iTrust2-v6/iTrust2 && sudo mvn clean test verify');
                 
             }
             catch(e){
+                     console.log("exception occured")
                 var error1=new Buffer(e.stdout).toString("ascii");
                 if (error1.includes("Compilation")==true){
                     console.log("failed");
@@ -149,7 +151,7 @@ async function calculatePriority(numberOfIterations)
     var str = '';
 
     for (i in result){
-        str += `${result[i].fail}/${result[i].total} ${result[i].name}` + '\n';
+        str += `${result[i].fail}/${numberOfIterations} ${result[i].name}` + '\n';
     }
     
     let data = JSON.stringify(map);
