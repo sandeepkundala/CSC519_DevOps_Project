@@ -26,7 +26,7 @@
 
 ### Report
 #### Architecture
-![](https://github.ncsu.edu/cscdevops-spring2020/DEVOPS-06/blob/master/resources/checkbox_io.png)
+![](https://github.ncsu.edu/cscdevops-spring2020/DEVOPS-06/blob/master/resources/m2.png)
 
 #### Technologies Used
 - NodeJS: As a wrapper to execute custom commands like pipeline setup, pipeline build and fuzzing.
