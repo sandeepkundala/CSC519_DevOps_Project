@@ -8,12 +8,6 @@
 
 ## Milestone 2 - Pipleline > Test+Analysis
 
-### Tasks
-- Automatically configure a build environment and build job for a Java application (iTrust).
-- Implement a test suite analysis for detecting useful tests.
-- Implement a static analysis for detecting code smells.
-
-
 ### Discussion points
 | Date | Notes |
 | :---: | :---: |
@@ -28,6 +22,26 @@
 #### Architecture
 ![](https://github.ncsu.edu/cscdevops-spring2020/DEVOPS-06/blob/master/resources/m2.png)
 
+#### Tasks
+- Automatically configure a build environment and build job for a Java application (iTrust).
+  - [Build envirorment for iTrust](https://github.ncsu.edu/cscdevops-spring2020/DEVOPS-06/blob/master/cm/roles/iTrust_envi/tasks/main.yml)
+  - [Build job for iTrust](https://github.ncsu.edu/cscdevops-spring2020/DEVOPS-06/blob/master/cm/roles/create_jobs/templates/iTrust_jenkins_jobs.yml)
+
+- Implement a test suite analysis for detecting useful tests.
+  - Implemented [fuzzer](https://github.ncsu.edu/cscdevops-spring2020/DEVOPS-06/blob/master/Fuzzer/fuzzer.js) to 
+    - swap "<" with ">"
+    - swap "==" with "!="
+    - swap 0 with 1
+    - swap "true" with "false"
+  - Performed analysis to detect [useful tests](https://github.ncsu.edu/cscdevops-spring2020/DEVOPS-06/blob/master/Fuzzer/FS.js).
+  - The result for one such run is [here](https://github.ncsu.edu/cscdevops-spring2020/DEVOPS-06/blob/master/results/192.168.33.20/home/vagrant/Fuzzer/final_result_100.txt)
+
+- Implement a static analysis for detecting code smells.
+  - Implemented [static analysis](https://github.ncsu.edu/cscdevops-spring2020/DEVOPS-06/blob/master/Complexity/analysis.js) on checkbox.io which checks for the below conditions and fail the build if any of the below conditions are satisfied.
+    - Long method: Detect long methods (>100 LOC).
+    - Message Chains: Detect message chains (for .) (>10 chains)
+    - MaxNestingDepth: Count the max number of if statements in a function (>5)
+    
 #### Technologies Used
 - NodeJS: As a wrapper to execute custom commands like pipeline setup, pipeline build and fuzzing.
 - Bash: As a wrapper for to execute playbooks and running shell scripts.
@@ -72,6 +86,8 @@ pipeline build checkbox.io
 *Note:*
 - *In slower machines,  there has been issues where IP address of Jenkins-srv is not assigned during provisioning of VMs (pipeline setup). In such cases, it is advised to run the command (pipeline setup) again* 
 - *It is also observed that, while provisioning VM, in ansible-srv or jenkins-srv, there is dpkg-lock error. In such cases, shut down the VM and run bakerx run \<vm-name\> bionic --ip \<ip_addr\>*
+
+
 ### Screencast
 The link of the screencast is [here](https://drive.google.com/open?id=1O39hjqkJGnAzt_sn3DD1DS3RbWT5DzHn)
 
