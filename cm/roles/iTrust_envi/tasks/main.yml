@@ -66,6 +66,11 @@
   timezone:
     name: America/New_York
     
+- name: Copy iTrustBuild.sh to jenkins-srv:/home/vagrant
+  copy:
+    src: /bakerx/cm/roles/create_jobs/templates/iTrustBuild.sh
+    dest: /home/vagrant/
+
 - name: Copying the new email.properties with updated credentials
   template:
     src: "{{ project_directory }}/roles/itrust_setup/templates/email.properties.j2"
