@@ -56,11 +56,11 @@
 - name: Downloading the Google Chrome package for Ubuntu
   get_url:
     url: https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
-    dest: /home/vagrant/
+    dest: "{{ jenkins_homeuser_path }}"
 
 - name: Install google chrome on the Jenkins server using .deb
   apt:
-    deb: /home/vagrant/google-chrome-stable_current_amd64.deb
+    deb: "{{ jenkins_homeuser_path }}/google-chrome-stable_current_amd64.deb"
 
 - name: Configure timezone
   timezone:
@@ -69,25 +69,25 @@
 - name: Copy iTrustBuild.Unix.sh to jenkins-srv:/home/vagrant
   copy:
     src: /bakerx/cm/roles/create_jobs/templates/iTrustBuild.Unix.sh
-    dest: /home/vagrant/
+    dest: "{{ jenkins_homeuser_path }}"
 
 - name: Copying the new email.properties with updated credentials
   template:
     src: "{{ project_directory }}/roles/itrust_setup/templates/email.properties.j2"
-    dest: /home/vagrant
+    dest: "{{ jenkins_homeuser_path }}"
     force: yes
 
 - name: Copying the new db.properties with updated credentials
   template:
     src: "{{ project_directory }}/roles/itrust_setup/templates/db.properties.j2"
-    dest: /home/vagrant
+    dest: "{{ jenkins_homeuser_path }}"
     force: yes
 
 - name: "Copy ansible-srv:/bakerx/Fuzzer to jenkins-srv:/home/vagrant/Fuzzer"
   copy:
     src: /bakerx/Fuzzer
-    dest: /home/vagrant
+    dest: "{{ jenkins_homeuser_path }}"
 
 - name: install node packages in /home/vagrant/Fuzzer
   npm:
-    path: /home/vagrant/Fuzzer
+    path: "{{ jenkins_homeuser_path }}/Fuzzer"
