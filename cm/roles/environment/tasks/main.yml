@@ -149,5 +149,12 @@
     regexp: '^GH_PASS=' 
     state: present
 
+- name: set environment variables - jenkins homeuser path
+  lineinfile:
+    dest: /etc/environment
+    line: JENKINS_HOME_PATH={{ jenkins_homeuser_path }}
+    regexp: '^JENKINS_HOME_PATH'
+    state: present
+
 - name: Source environment variables
   shell: . /etc/environment
