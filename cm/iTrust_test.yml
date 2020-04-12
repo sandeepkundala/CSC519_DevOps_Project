@@ -11,23 +11,24 @@
   - name: "Copy ansible-srv:/bakerx/Fuzzer to jenkins-srv:/home/vagrant/Fuzzer"
     copy:
       src: /bakerx/Fuzzer
-      dest: /home/vagrant
+      dest: "{{ jenkins_homeuser_path }}"
+
 
   - name: install node packages in /home/vagrant/Fuzzer
     npm:
-      path: /home/vagrant/Fuzzer 
+      path: "{{ jenkins_homeuser_path }}Fuzzer"
       
   - name: Run iTrust test {{check}} time(s)
-    shell: node /home/vagrant/Fuzzer/FS.js {{check}}
+    shell: node {{ jenkins_homeuser_path }}/Fuzzer/FS.js {{check}}
 
   - name: fetch
     fetch:
-      src: /home/vagrant/result.txt
+      src: "{{ jenkins_homeuser_path }}/result.txt"
       dest: /bakerx/results
 
   - name: Print results
     debug: var=item
     with_file:
-      - "/bakerx/results/192.168.33.20/home/vagrant/result.txt"
+      - "/bakerx/results/192.168.33.20{{ jenkins_homeuser_path }}/result.txt"
   
       
