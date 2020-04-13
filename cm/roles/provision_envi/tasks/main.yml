@@ -1,0 +1,51 @@
+---
+
+- name: Install the boto3 python package
+  pip: 
+    name: boto3
+    state: present
+
+- name: Install the aws-cli
+  pip:
+    name: awscli
+    state: present
+
+- name: Make provision directory
+  file:
+      path: /home/vagrant/provision
+      state: directory
+
+- name: Make .aws directory
+  file:
+      path: ~/.aws
+      state: directory
+      owner: vagrant
+      group: vagrant
+
+- name: Copy vm creation python program
+  copy:
+    src: /bakerx/cm/roles/provision_envi/templates/create_aws_vm.py
+    dest: /home/vagrant/provision
+
+- name: Copy aws_config
+  template:
+    src: /bakerx/cm/roles/provision_envi/templates/aws_config.j2
+    dest: ~/.aws/config
+
+- name: Copy aws_credentials
+  template:
+    src: /bakerx/cm/roles/provision_envi/templates/aws_credentials.j2
+    dest: ~/.aws/credentials
+
+- name: Create a new EC2 key
+  ec2_key:
+    name: ec2-KP-devops06
+    region: "{{ AWS_REGION }}"
+  register: ec2_key_result
+
+- name: Save private key
+  copy: 
+    content: "{{ ec2_key_result.key.private_key }}" 
+    dest: "./ec2-KP-devops06.pem" 
+    mode: '0600'
+  when: ec2_key_result.changed
