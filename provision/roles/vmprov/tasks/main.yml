@@ -1,0 +1,10 @@
+---
+
+- name: provision VM(s)
+  shell: sudo python /home/vagrant/provision/create_aws_vm.py
+  # ec2: 
+  #   key_name: ec2-KP-devops06
+  #   instance_type: t2.micro
+  #   image: ami-04b9e92b5572fa0d1
+  #   wait: yes
+    
