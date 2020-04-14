@@ -9,7 +9,12 @@
     src: "{{ jenkins_homeuser_path }}/deploy.ini"
     dest: /bakerx/results
 
+- name: Copy deploy.ini to /bakerx folder
+  copy:
+    src: /bakerx/results/192.168.33.20/home/vagrant/deploy.ini
+    dest: /bakerx/inventory.ini
+
 - name: Get jenkins-srv:/home/vagrant/ec2-KP-devops06.pem
   fetch:
     src: "{{ jenkins_homeuser_path }}/ec2-KP-devops06.pem"
-    dest: /home/vagrant    
+    dest: /home/vagrant

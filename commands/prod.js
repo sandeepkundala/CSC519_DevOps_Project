@@ -9,7 +9,7 @@ const cpPlaybook = '/bakerx/provision/change_kp_settings.yml';
 const mcPlaybook = '/bakerx/provision/monitor.yml'
 const cbcPlaybook = '/bakerx/provision/checkbox.yml'
 const itcPlaybook = '/bakerx/provision/iTrust.yml'
-const awsInventory = '/bakerx/results/192.168.33.20/home/vagrant/deploy.ini'
+const awsInventory = '/bakerx/inventory.ini'
 
 exports.command = 'prod <command>';
 exports.desc = 'Provision cloud instances and control plane';
