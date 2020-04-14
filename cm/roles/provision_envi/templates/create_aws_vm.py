@@ -29,10 +29,25 @@ def create_instance(inst):
     resp.wait_until_running()
     resp.load()
     rsrc_id = str(resp.instance_id)
-    rsrc_ip = resp.public_ip_address
-    print(resp.public_ip_address)
+    #rsrc_ip = resp.public_ip_address
+    #print(resp.public_ip_address)
+
+    allocation = ec2_client.allocate_address(Domain='vpc')
+    response = ec2_client.associate_address(AllocationId=allocation['AllocationId'], InstanceId=resp.instance_id)
+    
+
     resp = ec2_client.monitor_instances(InstanceIds = [rsrc_id])
     resp = ec2.create_tags(Resources = [rsrc_id], Tags = [{'Key':'Name', 'Value':inst}])
+    #print (resp)
+
+    ans = ec2_client.describe_instances(
+    InstanceIds=[rsrc_id]
+    )
+    tags = ec2.Instance(rsrc_id).tags
+    for t in tags:
+        if(t['Key']=='Name'):
+            print(t['Value'])
+    print(ans['Reservations'][0]['Instances'][0]['PublicIpAddress'])
 
 
 if __name__== "__main__" :
@@ -43,3 +58,16 @@ if __name__== "__main__" :
             continue
         create_instance(i)
 
+
+# import boto3
+# from botocore.exceptions import ClientError
+
+# ec2 = boto3.client('ec2')
+
+# try:
+#     allocation = ec2.allocate_address(Domain='vpc')
+#     response = ec2.associate_address(AllocationId=allocation['AllocationId'],
+#                                      InstanceId='INSTANCE_ID')
+#     print(response)
+# except ClientError as e:
+#     print(e)
