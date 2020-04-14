@@ -36,7 +36,7 @@ def create_instance(inst):
     response = ec2_client.associate_address(AllocationId=allocation['AllocationId'], InstanceId=resp.instance_id)
     
 
-    resp = ec2_client.monitor_instances(InstanceIds = [rsrc_id])
+    #resp = ec2_client.monitor_instances(InstanceIds = [rsrc_id])
     resp = ec2.create_tags(Resources = [rsrc_id], Tags = [{'Key':'Name', 'Value':inst}])
     #print (resp)
 
@@ -46,11 +46,18 @@ def create_instance(inst):
     tags = ec2.Instance(rsrc_id).tags
     for t in tags:
         if(t['Key']=='Name'):
+            iname=t['Value']
             print(t['Value'])
+
+    iip=ans['Reservations'][0]['Instances'][0]['PublicIpAddress']
     print(ans['Reservations'][0]['Instances'][0]['PublicIpAddress'])
 
+    with open('deploy.ini', 'a') as outfile:
+        outfile.write("[{}]\n".format(iname))
+        outfile.write("{} ansible_ssh_private_key_file={} ansible_user={}\n".format(iip, "~/.ssh/jenkins_rsa ", "ubuntu"))
+        outfile.write("[{}]\n".format(iname+":"+"vars"))
+        outfile.write("ansible_ssh_common_args={}\n".format('-o StrictHostKeyChecking=no'))
 
-    
 
 
 if __name__== "__main__" :
@@ -65,7 +72,7 @@ if __name__== "__main__" :
         IpPermissions=[
             {'IpProtocol': 'tcp',
              'FromPort': 0,
-             'ToPort': 65536,
+             'ToPort': 65535,
              'IpRanges': [{'CidrIp': '0.0.0.0/0'}]}
         ])
 
