@@ -4,10 +4,10 @@ const path = require('path');
 const os = require('os');
 const sshSync = require('../lib/ssh');
 const inventoryPath = '/bakerx/cm/inventory.ini';
-const playbook = '/bakerx/provision/provision.yml'
+const playbook = '/bakerx/provision/provision.yml';
 
-exports.command = 'prod up'
-exports.desc = 'Provision cloud instances and control plane'
+exports.command = 'prod up';
+exports.desc = 'Provision cloud instances and control plane';
 exports.builder = yargs => {
 };
 

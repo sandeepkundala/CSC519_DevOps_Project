@@ -36,15 +36,20 @@
     src: /bakerx/cm/roles/provision_envi/templates/aws_credentials.j2
     dest: /home/vagrant/.aws/credentials
 
-- name: Create a new EC2 key
-  ec2_key:
-    name: ec2-KP-devops06
-    region: "{{ AWS_REGION }}"
-  register: ec2_key_result
+# - name: Create a new EC2 key
+#   ec2_key:
+#     name: ec2-KP-devops06
+#     region: "{{ AWS_REGION }}"
+#   register: ec2_key_result
 
-- name: Save private key
+# - name: Save private key
+#   copy:
+#     content: "{{ ec2_key_result.key.private_key }}"
+#     dest: "./ec2-KP-devops06.pem"
+#     mode: "0600"
+#   when: ec2_key_result.changed
+
+- name: Copy key to jenkins-srv
   copy:
-    content: "{{ ec2_key_result.key.private_key }}"
-    dest: "./ec2-KP-devops06.pem"
-    mode: "0600"
-  when: ec2_key_result.changed
+    src: /bakerx/cm/roles/provision_envi/templates/ec2-KP-devops06.pem
+    dest: /home/vagrant/ec2-KP-devops06.pem
