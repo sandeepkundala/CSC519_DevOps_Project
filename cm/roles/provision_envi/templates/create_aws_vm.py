@@ -7,10 +7,11 @@ ec2_client = boto3.client('ec2')
 
 
 def write_ini(inst):
+    keypair = "/home/vagrant/.ssh/ec2-KP-devops06"
     with open('deploy.ini', 'w+') as outfile:
         for iname, iip in inst.items():
             outfile.write("[{}]\n".format(iname))
-            outfile.write("{} ansible_ssh_private_key_file={} ansible_user={}\n".format(iip, "/home/vagrant/ec2-KP-devops06.pem", "ubuntu"))
+            outfile.write("{} ansible_ssh_private_key_file={} ansible_user={}\n".format(iip, keypair, "ubuntu"))
             outfile.write("[{}]\n".format(iname+":"+"vars"))
             outfile.write("ansible_ssh_common_args={}\n".format('-o StrictHostKeyChecking=no'))
 
