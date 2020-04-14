@@ -11,12 +11,12 @@
 
 - name: Make provision directory
   file:
-    path: /home/vagrant/provision
+    path: "{{ jenkins_homeuser_path }}/provision"
     state: directory
 
 - name: Make .aws directory
   file:
-    path: /home/vagrant/.aws
+    path: "{{ jenkins_homeuser_path }}/.aws"
     state: directory
     owner: vagrant
     group: vagrant
@@ -24,17 +24,17 @@
 - name: Copy vm creation python program
   copy:
     src: /bakerx/cm/roles/provision_envi/templates/create_aws_vm.py
-    dest: /home/vagrant/provision
+    dest: "{{ jenkins_homeuser_path }}/provision"
 
 - name: Copy aws_config
   template:
     src: /bakerx/cm/roles/provision_envi/templates/aws_config.j2
-    dest: /home/vagrant/.aws/config
+    dest: "{{ jenkins_homeuser_path }}/.aws/config"
 
 - name: Copy aws_credentials
   template:
     src: /bakerx/cm/roles/provision_envi/templates/aws_credentials.j2
-    dest: /home/vagrant/.aws/credentials
+    dest: "{{ jenkins_homeuser_path }}/.aws/credentials"
 
 # - name: Create a new EC2 key
 #   ec2_key:
@@ -52,4 +52,4 @@
 - name: Copy key to jenkins-srv
   copy:
     src: /bakerx/cm/roles/provision_envi/templates/ec2-KP-devops06.pem
-    dest: /home/vagrant/ec2-KP-devops06.pem
+    dest: "{{ jenkins_homeuser_path }}/ec2-KP-devops06.pem"
