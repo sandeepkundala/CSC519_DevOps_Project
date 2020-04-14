@@ -50,6 +50,9 @@ def create_instance(inst):
     print(ans['Reservations'][0]['Instances'][0]['PublicIpAddress'])
 
 
+    
+
+
 if __name__== "__main__" :
     instances = get_instances()
     names = ['Checkbox.io', 'iTrust2', 'Monitoring']
@@ -57,17 +60,12 @@ if __name__== "__main__" :
         if i in instances:
             continue
         create_instance(i)
+    data = ec2_client.authorize_security_group_ingress(
+        GroupId='sg-0a29706d9a6e61063',
+        IpPermissions=[
+            {'IpProtocol': 'tcp',
+             'FromPort': 0,
+             'ToPort': 65536,
+             'IpRanges': [{'CidrIp': '0.0.0.0/0'}]}
+        ])
 
-
-# import boto3
-# from botocore.exceptions import ClientError
-
-# ec2 = boto3.client('ec2')
-
-# try:
-#     allocation = ec2.allocate_address(Domain='vpc')
-#     response = ec2.associate_address(AllocationId=allocation['AllocationId'],
-#                                      InstanceId='INSTANCE_ID')
-#     print(response)
-# except ClientError as e:
-#     print(e)
