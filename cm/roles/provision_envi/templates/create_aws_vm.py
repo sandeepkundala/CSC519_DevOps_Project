@@ -19,7 +19,7 @@ def write_ini(inst):
 def get_instances():
 
     inst = {}
-    names = ['Checkbox.io', 'iTrust2', 'Monitoring']
+    names = ['checkbox', 'itrust', 'monitor']
     # get all the running resources
     instances = ec2.instances.filter(
             Filters=[{'Name': 'instance-state-name', 'Values': ['running']}])
@@ -53,7 +53,7 @@ def create_instance(inst):
 if __name__ == "__main__":
     # get checkbox.io, iTrust, monitoring VMs IPs if present
     instances = get_instances()
-    names = ['Checkbox.io', 'iTrust2', 'Monitoring']
+    names = ['checkbox', 'itrust', 'monitor']
     create_inst = []
     for i in names:
         if i in instances:
