@@ -10,9 +10,7 @@
           cd Complexity
           sudo npm install
           x=$(find /var/lib/jenkins/workspace/checkbox_job/checkbox.io/server-side/ -name '*.js') 
-          for i in $x; do 
-            node analysis.js $i; 
-          done
+          node analysis.js $x; 
           cd /var/lib/jenkins/workspace/checkbox_job/checkbox.io
           sudo npm install
           cd server-side/site

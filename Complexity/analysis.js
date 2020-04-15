@@ -10,15 +10,26 @@ function main()
 	{
 		args = ["analysis.js"];
 	}
-	var filePath = args[0];
+	var flag = false;
+	for (var filePath in args){
 	
-	complexity(filePath);
+	complexity(args[filePath]);
 
 	// Report
+	
 	for( var node in builders )
 	{
 		var builder = builders[node];
 		builder.report();
+		if(builder.LongMethod)
+		{
+			flag = true;
+		}
+	}
+	}
+	if(flag)
+	{
+		process.exit(1);
 	}
 
 }
@@ -42,6 +53,8 @@ function FunctionBuilder()
 	
 	this.report = function()
 	{
+		if(this.LongMethod)
+		{
 		console.log(
 		   (
 		   	"{0}():\n" +
@@ -54,6 +67,7 @@ function FunctionBuilder()
 					this.MaxNestingDepth,
 			        this.MaxMessageChains)
 		);
+		}
 	}
 };
 
@@ -68,12 +82,7 @@ function FileBuilder()
 
 	this.report = function()
 	{
-		console.log (
-			( "{0}\n" +
-			  "~~~~~~~~~~~~\n"+
-			  "ImportCount {1}\t" +
-			  "Strings {2}\n"
-			).format( this.FileName, this.ImportCount, this.Strings ));
+		
 	}
 }
 
@@ -122,7 +131,7 @@ function complexity(filePath)
 			if(builder.StartLine > 100)
 			{
 				builder.LongMethod = true;
-				process.exit(1);
+				//process.exit(1);
 			}
 			maxNestedIf(node, 0, builder);
 			builders[builder.FunctionName] = builder;
@@ -146,7 +155,7 @@ function complexity(filePath)
 
 			if(builder.MaxMessageChains > 10 || builder.MaxNestingDepth > 5)
 			{
-				process.ecit(1);
+				builder.LongMethod = true;
 			}
 
 		}
