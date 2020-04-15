@@ -27,7 +27,7 @@ async function run(blueBranch, greenBranch) {
   console.log(blueBranch);
   console.log(greenBranch);
 
-  console.log(chalk.blueBright("Provisioning one server..."));
+  console.log(chalk.blueBright("Provisioning master server..."));
   let result = child.spawnSync(
     `bakerx`,
     `run master bionic --ip 192.168.33.30 --sync --memory 3072`.split(" "),
@@ -38,7 +38,7 @@ async function run(blueBranch, greenBranch) {
     process.exit(result.status);
   }
 
-  console.log(chalk.blueBright("Provisioning two server..."));
+  console.log(chalk.blueBright("Provisioning broken server..."));
   result = child.spawnSync(
     `bakerx`,
     `run broken bionic --ip 192.168.33.40 --memory 3072`.split(" "),
@@ -49,7 +49,7 @@ async function run(blueBranch, greenBranch) {
     process.exit(result.status);
   }
 
-  console.log(chalk.blueBright("Provisioning three server..."));
+  console.log(chalk.blueBright("Provisioning monitor server..."));
   result = child.spawnSync(
     `bakerx`,
     `run monitor bionic --ip 192.168.33.50 --memory 3072`.split(" "),
