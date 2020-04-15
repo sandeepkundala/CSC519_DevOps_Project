@@ -1,0 +1,9 @@
+---
+
+- name: Copy the key
+  copy:
+    src: /home/vagrant/192.168.33.20/home/vagrant/ec2-KP-devops06.pem
+    dest: /home/ubuntu/.ssh/ec2-KP-devops06
+    owner: ubuntu
+    group: ubuntu
+    mode: u=r--,g=---,o=---

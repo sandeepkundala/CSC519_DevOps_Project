@@ -42,7 +42,6 @@ exports.handler = async argv => {
 
 async function run(privateKey, ghUser, ghPass) {
 
-    
 
     if (!ghUser || !ghPass){
         console.log('GITHUB credentials MISSING!!!');
@@ -79,7 +78,7 @@ async function run(privateKey, ghUser, ghPass) {
     if( result.error ) { console.log(result.error); process.exit( result.status ); }
     result = sshSync('/bakerx/cm/server-init.sh', 'vagrant@192.168.33.10');
     if( result.error ) { console.log(result.error); process.exit( result.status ); }
-    
+
 
     console.log(chalk.blueBright('Running ansible script...'));
 
@@ -88,7 +87,7 @@ async function run(privateKey, ghUser, ghPass) {
 
     result = sshSync(`ansible-playbook ${filePath} -i ${inventoryPath} --vault-password-file /bakerx/cm/vars/pass.txt -e "GH_USER=${ghUser}" -e "GH_PASS=${ghPass}"`,'vagrant@192.168.33.10');
     if( result.error ) { process.exit( result.status ); }
-    
+
 }
 
 async function sleep(ms) {

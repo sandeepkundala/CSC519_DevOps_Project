@@ -18,7 +18,7 @@ exports.builder = yargs => {
 };
 
 exports.handler = async argv => {
-    const { check } = argv;
+    var { check } = argv;
     if (check == null){
         check = 1;
     }
