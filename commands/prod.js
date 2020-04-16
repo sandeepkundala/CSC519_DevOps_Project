@@ -62,7 +62,11 @@ async function run(){
     result = sshSync(`cat ${monitor_ip_path}`, 'vagrant@192.168.33.10');
     if( result.error ) { process.exit( result.status ); }
 
-    console.log(result);
+    var monitor_ip = (""+result).split('[')[0];
+
+    monitor_ip = monitor_ip.toString();
+
+    console.log(chalk.greenBright("Open browser and go to http://" + monitor_ip +":8080"));
     
 
 }
