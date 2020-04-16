@@ -36,18 +36,26 @@
     src: /bakerx/cm/roles/provision_envi/templates/aws_credentials.j2
     dest: "{{ jenkins_homeuser_path }}/.aws/credentials"
 
-# - name: Create a new EC2 key
-#   ec2_key:
-#     name: ec2-KP-devops06
-#     region: "{{ AWS_REGION }}"
-#   register: ec2_key_result
+- name: Save REGION as environment variable
+  lineinfile:
+    dest: /etc/environment
+    line: AWS_REGION={{ AWS_REGION }}
+    regexp: '^AWS_REGION'
+    state: present
 
-# - name: Save private key
-#   copy:
-#     content: "{{ ec2_key_result.key.private_key }}"
-#     dest: "./ec2-KP-devops06.pem"
-#     mode: "0600"
-#   when: ec2_key_result.changed
+- name: Save AWS SECRET ACCESS KEY as environment variable
+  lineinfile:
+    dest: /etc/environment
+    line: AWS_SECRET_ACCESS_KEY={{ AWS_SECRET_ACCESS_KEY }}
+    regexp: '^AWS_SECRET_ACCESS_KEY'
+    state: present
+
+- name: Save ACCESS KEY ID as environment variable
+  lineinfile:
+    dest: /etc/environment
+    line: AWS_ACCESS_KEY_ID={{ AWS_ACCESS_KEY_ID }}
+    regexp: '^AWS_ACCESS_KEY_ID'
+    state: present
 
 - name: Copy key to jenkins-srv
   copy:

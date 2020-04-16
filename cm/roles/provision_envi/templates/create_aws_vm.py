@@ -1,9 +1,15 @@
 import boto3
 import sys
 import logging
+import os
 
-ec2 = boto3.resource('ec2')
-ec2_client = boto3.client('ec2')
+
+def get_session(region, access_id, secret_key):
+    return boto3.session.Session(region_name=region, aws_access_key_id=access_id, aws_secret_access_key=secret_key)
+
+session = get_session(os.getenv('AWS_REGION'), os.getenv('AWS_ACCESS_KEY_ID'), os.getenv('AWS_SECRET_ACCESS_KEY'))
+ec2 = session.resource('ec2')
+ec2_client = session.client('ec2')
 
 
 def write_ini(inst):
