@@ -8,14 +8,14 @@
     group: ubuntu
     mode: u=r--,g=---,o=---
 
-- name: Copy the IP
+- name: Copy the Monitor IP
   copy:
-    src: /bakerx/results/192.168.33.20/home/vagrant/ip.txt
+    src: /bakerx/results/192.168.33.20/home/vagrant/monitor_ip.txt
     dest: /home/ubuntu/
 
 - name: Load data
   slurp:
-    src: /home/ubuntu/ip.txt
+    src: /home/ubuntu/monitor_ip.txt
   register: slurped_user_data
 
 - name: debug

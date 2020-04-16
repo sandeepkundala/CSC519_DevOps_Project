@@ -5,6 +5,8 @@
 - hosts: checkbox
   gather_facts: false
   become: yes
+  vars:
+    vmname: checkbox
   vars_files:
    - /bakerx/cm/vars/vars.yml
   roles:

@@ -5,6 +5,8 @@
 - hosts: itrust
   gather_facts: false
   become: yes
+  vars:
+    vmname: itrust
   vars_files:
    - /bakerx/cm/vars/vars.yml
   roles:

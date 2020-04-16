@@ -72,8 +72,16 @@ if __name__ == "__main__":
         instances[i] = create_instance(i)
 
     # write IP of monitor vm in ip.txt
-    with open ('/home/vagrant/ip.txt', 'w+') as ipfile:
+    with open ('/home/vagrant/monitor_ip.txt', 'w+') as ipfile:
         ipfile.write(instances['monitor'])
+
+    # write IP of checkbox vm in ip.txt
+    with open ('/home/vagrant/checkbox_ip.txt', 'w+') as ipfile:
+        ipfile.write(instances['checkbox'])
+    
+    # write IP of itrust vm in ip.txt
+    with open ('/home/vagrant/itrust_ip.txt', 'w+') as ipfile:
+        ipfile.write(instances['itrust'])
 
     # security group
     try:

@@ -3,6 +3,13 @@
     src: /bakerx/provision/roles/webserver_setup/templates/agent
     dest: /home/ubuntu/
 
+- name: Set environment variable - VMNAME
+  lineinfile:
+    dest: /etc/environment
+    line: VMNAME={{ vmname }}
+    regexp: '^VMNAME'
+    state: present
+
 - name: Install npm packages
   npm:
     path: /home/ubuntu/agent
@@ -12,3 +19,12 @@
     name: forever
     global: true
     state: latest
+
+- name: Source environment variables
+  shell: . /etc/environment
+
+- name: run agent/index.js forever
+  shell: |
+    cd /home/ubuntu/agent
+    forever stopall
+    forever start index.js

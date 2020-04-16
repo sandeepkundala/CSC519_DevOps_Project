@@ -25,8 +25,8 @@
     src: /bakerx/provision/roles/monitor_setup/templates/dashboard
     dest: /home/ubuntu/
 
-- name: copy ip.txt
-  shell: cp /home/ubuntu/ip.txt /home/ubuntu/dashboard/metrics/
+- name: copy monitor_ip.txt
+  shell: cp /home/ubuntu/monitor_ip.txt /home/ubuntu/dashboard/metrics/ip.txt
 
 - name: Install npm packages
   npm:
@@ -37,4 +37,55 @@
     name: forever
     global: true
     state: latest
+
+- name: Copy the iTrust IP
+  copy:
+    src: /bakerx/results/192.168.33.20/home/vagrant/itrust_ip.txt
+    dest: /home/ubuntu/
+
+- name: Load data
+  slurp:
+    src: /home/ubuntu/itrust_ip.txt
+  register: slurped_user_data
+
+- name: debug
+  debug:
+    msg: "{{ slurped_user_data['content'] | b64decode }}"
+
+- name: set environment variables - ITRUST_IP
+  lineinfile:
+    dest: /etc/environment
+    line: ITRUST_IP={{ slurped_user_data['content'] | b64decode }}
+    regexp: '^ITRUST_IP'
+    state: present
+
+- name: Copy the Checkbox IP
+  copy:
+    src: /bakerx/results/192.168.33.20/home/vagrant/checkbox_ip.txt
+    dest: /home/ubuntu/
+
+- name: Load data
+  slurp:
+    src: /home/ubuntu/checkbox_ip.txt
+  register: slurped_user_data
+
+- name: debug
+  debug:
+    msg: "{{ slurped_user_data['content'] | b64decode }}"
+
+- name: set environment variables - CHECKBOX_IP
+  lineinfile:
+    dest: /etc/environment
+    line: CHECKBOX_IP={{ slurped_user_data['content'] | b64decode }}
+    regexp: '^CHECKBOX_IP'
+    state: present
+
+- name: Source environment variables
+  shell: . /etc/environment
+
+- name: Run bin/www forever
+  shell: |
+    cd /home/ubuntu/dashboard
+    forever stopall
+    forever start bin/www
 

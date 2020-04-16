@@ -8,9 +8,19 @@
     src: "{{ jenkins_homeuser_path }}/deploy.ini"
     dest: /bakerx/results
 
-- name: get jenkins-srv:/home/vagrant/ip.txt
+- name: get jenkins-srv:/home/vagrant/monitor_ip.txt
   fetch:
-    src: "{{ jenkins_homeuser_path }}/ip.txt"
+    src: "{{ jenkins_homeuser_path }}/monitor_ip.txt"
+    dest: /bakerx/results
+
+- name: get jenkins-srv:/home/vagrant/checkbox_ip.txt
+  fetch:
+    src: "{{ jenkins_homeuser_path }}/checkbox_ip.txt"
+    dest: /bakerx/results
+
+- name: get jenkins-srv:/home/vagrant/itrust_ip.txt
+  fetch:
+    src: "{{ jenkins_homeuser_path }}/itrust_ip.txt"
     dest: /bakerx/results
 
 - name: Get jenkins-srv:/home/vagrant/ec2-KP-devops06.pem

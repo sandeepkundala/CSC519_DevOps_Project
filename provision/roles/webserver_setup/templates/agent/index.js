@@ -25,18 +25,18 @@ class Agent
 
 (async () => 
 {
-    // Get agent name from command line.
-    let args = process.argv.slice(2);
-    main(args[0]);
+    main();
 
 })();
 
 
-async function main(name)
+async function main()
 {
     let agent = new Agent();
+    let monitor_ip = process.env.MONITOR_IP;
+    let name = process.env.VMNAME;
 
-    let connection = redis.createClient(6379, '192.168.44.92', {})
+    let connection = redis.createClient(6379, monitor_ip, {})
     connection.on('error', function(e)
     {
         console.log(e);
@@ -46,26 +46,18 @@ async function main(name)
     client.publish = util.promisify(connection.publish).bind(connection);
 
     // Push update ever 1 second
-    // setInterval(async function()
-    // {
-    //     let payload = {
-    //         memoryLoad: agent.memoryLoad(),
-    //         cpu: await agent.cpu(),
-    //         cpuspeed: await agent.cpuspeed()
-    //     };
-    //     let msg = JSON.stringify(payload);
-    //     await client.publish(name, msg);
-    //     console.log(`${name} ${msg}`);
-    // }, 1000);
+    setInterval(async function()
+    {
+        let payload = {
+            memoryLoad: agent.memoryLoad(),
+            cpu: await agent.cpu(),
+            cpuspeed: await agent.cpuspeed()
+        };
+        let msg = JSON.stringify(payload);
+        await client.publish(name, msg);
+        console.log(`${name} ${msg}`);
+    }, 1000);
 
-    let payload = {
-        memoryLoad: agent.memoryLoad(),
-        cpu: await agent.cpu(),
-        cpuspeed: await agent.cpuspeed()
-    };
-    let msg = JSON.stringify(payload);
-    await client.publish(name, msg);
-    console.log(`${name} ${msg}`);
 
 }
 
