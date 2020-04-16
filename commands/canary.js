@@ -1,11 +1,16 @@
 const fs = require("fs");
-const path = require("path");
-const chalk = require("chalk");
-const sshSync = require("../lib/ssh");
 const child = require("child_process");
+const chalk = require("chalk");
+const path = require("path");
+const os = require("os");
+const scpSync = require("../lib/scp");
+const sshSync = require("../lib/ssh");
 
 exports.command = "canary <blueBranch> <greenBranch>";
 exports.desc = "Spin up 3 local machines";
+
+const inventoryPath = "/bakerx/cm/inventory.ini";
+const filePath = "/bakerx/canary/canary.yml";
 
 exports.builder = (yargs) => {
   yargs.options({});
@@ -55,8 +60,65 @@ async function run(blueBranch, greenBranch) {
     `run monitor bionic --ip 192.168.33.50 --memory 3072`.split(" "),
     { shell: true, stdio: "inherit" }
   );
+
   if (result.error) {
     console.log(result.error);
     process.exit(result.status);
   }
+
+  console.log("Wait for 30s");
+  await sleep(30000);
+
+  //   console.log(
+  //     chalk.blueBright("Installing privateKey on configuration server")
+  //   );
+  //   let identifyFile = path.join(os.homedir(), ".bakerx", "insecure_private_key");
+  //   result = scpSync(
+  //     identifyFile,
+  //     "vagrant@192.168.33.10:/home/vagrant/.ssh/jenkins_rsa"
+  //   );
+  //   if (result.error) {
+  //     console.log(result.error);
+  //     process.exit(result.status);
+  //   }
+
+  // wait for 30 sec
+  //   console.log("Wait for 30s");
+  //   await sleep(30000);
+  //   console.log(chalk.blueBright("Running init script..."));
+  //   result = sshSync(
+  //     "chmod +x /bakerx/cm/server-init.sh",
+  //     "vagrant@192.168.33.10"
+  //   );
+  //   if (result.error) {
+  //     console.log(result.error);
+  //     process.exit(result.status);
+  //   }
+  //   result = sshSync("/bakerx/cm/server-init.sh", "vagrant@192.168.33.10");
+  //   if (result.error) {
+  //     console.log(result.error);
+  //     process.exit(result.status);
+  //   }
+
+  console.log(chalk.blueBright("Running ansible script..."));
+
+  //   result = sshSync(
+  //     "chmod +x /bakerx/cm/run-ansible.sh",
+  //     "vagrant@192.168.33.10"
+  //   );
+  //   if (result.error) {
+  //     console.log(result.error);
+  //     process.exit(result.status);
+  //   }
+
+  result = sshSync(
+    `ansible-playbook ${filePath} -i ${inventoryPath} --vault-password-file /bakerx/cm/vars/pass.txt`,
+    "vagrant@192.168.33.10"
+  );
+  if (result.error) {
+    process.exit(result.status);
+  }
+}
+async function sleep(ms) {
+  return new Promise((resolve) => setTimeout(resolve, ms));
 }

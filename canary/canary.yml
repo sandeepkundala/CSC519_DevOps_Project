@@ -1,0 +1,19 @@
+---
+# see the best practices in ansible docs for how to get started with creating roles etc.:
+# https://docs.ansible.com/ansible/latest/user_guide/playbooks_best_practices.html
+
+- hosts: master
+  gather_facts: false
+  become: yes
+  vars_files:
+    - /bakerx/cm/vars/vars.yml
+  roles:
+    - ping
+
+- hosts: broken
+  gather_facts: false
+  become: yes
+  vars_files:
+    - /bakerx/cm/vars/vars.yml
+  roles:
+    - ping
