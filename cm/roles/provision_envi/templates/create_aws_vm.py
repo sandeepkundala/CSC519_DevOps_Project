@@ -71,6 +71,10 @@ if __name__ == "__main__":
     for i in create_inst:
         instances[i] = create_instance(i)
 
+    # write IP of monitor vm in ip.txt
+    with open ('/home/vagrant/ip.txt', 'w+') as ipfile:
+        ipfile.write(instances['monitor'])
+
     # security group
     try:
         ec2_client.authorize_security_group_ingress(

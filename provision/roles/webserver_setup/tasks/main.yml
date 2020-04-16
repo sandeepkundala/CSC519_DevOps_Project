@@ -1,0 +1,14 @@
+- name: Copy folder
+  copy:
+    src: /bakerx/provision/roles/webserver_setup/templates/agent
+    dest: /home/ubuntu/
+
+- name: Install npm packages
+  npm:
+    path: /home/ubuntu/agent
+
+- name: Install forever
+  npm:
+    name: forever
+    global: true
+    state: latest

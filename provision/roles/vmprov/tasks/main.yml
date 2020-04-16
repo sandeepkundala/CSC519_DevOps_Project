@@ -8,6 +8,11 @@
     src: "{{ jenkins_homeuser_path }}/deploy.ini"
     dest: /bakerx/results
 
+- name: get jenkins-srv:/home/vagrant/ip.txt
+  fetch:
+    src: "{{ jenkins_homeuser_path }}/ip.txt"
+    dest: /bakerx/results
+
 - name: Get jenkins-srv:/home/vagrant/ec2-KP-devops06.pem
   fetch:
     src: "{{ jenkins_homeuser_path }}/ec2-KP-devops06.pem"
