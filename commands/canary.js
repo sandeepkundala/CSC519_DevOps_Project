@@ -69,47 +69,16 @@ async function run(blueBranch, greenBranch) {
   console.log("Wait for 30s");
   await sleep(30000);
 
-  //   console.log(
-  //     chalk.blueBright("Installing privateKey on configuration server")
-  //   );
-  //   let identifyFile = path.join(os.homedir(), ".bakerx", "insecure_private_key");
-  //   result = scpSync(
-  //     identifyFile,
-  //     "vagrant@192.168.33.10:/home/vagrant/.ssh/jenkins_rsa"
-  //   );
-  //   if (result.error) {
-  //     console.log(result.error);
-  //     process.exit(result.status);
-  //   }
-
-  // wait for 30 sec
-  //   console.log("Wait for 30s");
-  //   await sleep(30000);
-  //   console.log(chalk.blueBright("Running init script..."));
-  //   result = sshSync(
-  //     "chmod +x /bakerx/cm/server-init.sh",
-  //     "vagrant@192.168.33.10"
-  //   );
-  //   if (result.error) {
-  //     console.log(result.error);
-  //     process.exit(result.status);
-  //   }
-  //   result = sshSync("/bakerx/cm/server-init.sh", "vagrant@192.168.33.10");
-  //   if (result.error) {
-  //     console.log(result.error);
-  //     process.exit(result.status);
-  //   }
-
   console.log(chalk.blueBright("Running ansible script..."));
 
-  //   result = sshSync(
-  //     "chmod +x /bakerx/cm/run-ansible.sh",
-  //     "vagrant@192.168.33.10"
-  //   );
-  //   if (result.error) {
-  //     console.log(result.error);
-  //     process.exit(result.status);
-  //   }
+  result = sshSync(
+    "chmod +x /bakerx/cm/run-ansible.sh",
+    "vagrant@192.168.33.10"
+  );
+  if (result.error) {
+    console.log(result.error);
+    process.exit(result.status);
+  }
 
   result = sshSync(
     `ansible-playbook ${filePath} -i ${inventoryPath} --vault-password-file /bakerx/cm/vars/pass.txt`,
