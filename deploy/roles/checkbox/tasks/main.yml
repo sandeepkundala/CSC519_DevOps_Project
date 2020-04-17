@@ -8,9 +8,9 @@
     update_cache: yes
     cache_valid_time: 3600
 
-- name: add apt key for nodesource
-  apt_key: 
-    url: https://deb.nodesource.com/gpgkey/nodesource.gpg.key
+# - name: add apt key for nodesource
+#   apt_key: 
+#     url: https://deb.nodesource.com/gpgkey/nodesource.gpg.key
 
 - name: add ppa for installing nodejs
   apt_repository:
@@ -135,19 +135,57 @@
     regexp: '^BUILD_ID=' 
     state: present
 
-- name: set environment variables - GH User
-  lineinfile:
-    dest: /etc/environment
-    line: GH_USER={{GH_USER}}
-    regexp: '^GH_USER='
+- name: clone checkbox.io
+  git: 
+    repo: 'https://github.com/chrisparnin/checkbox.io.git'
+    dest: '{{home_path}}'
+    clone: no
+    update: no
+
+# - name: set environment variables - GH User
+#   lineinfile:
+#     dest: /etc/environment
+#     line: GH_USER={{GH_USER}}
+#     regexp: '^GH_USER='
+#     state: present
+
+# - name: set environment variables - GH Password
+#   lineinfile:
+#     dest: /etc/environment
+#     line: GH_PASS={{GH_PASS}}
+#     regexp: '^GH_PASS=' 
+#     state: present
+
+- name: Installing express
+  become: true
+  apt:
+    name: ['node-express-generator']
     state: present
 
-- name: set environment variables - GH Password
-  lineinfile:
-    dest: /etc/environment
-    line: GH_PASS={{GH_PASS}}
-    regexp: '^GH_PASS=' 
-    state: present
+- name: nginx config template to /etc/nginx/sites-available/checkbox
+  template:  
+    src: default.conf.j2
+    dest: '{{nginx_avbl_sites_path}}{{home_path}}'
+  
+
+- name: remove nginx default site
+  file:
+    path: '{{nginx_sites_path}}/default'
+    state: absent
+
+- name: remove matterost if exist
+  file:
+    path: '{{nginx_sites_path}}{{home_path}}'
+    state: absent
+
+- name: Enable the mattermost configuration
+  command: ln -s {{nginx_avbl_sites_path}}{{home_path}} {{nginx_sites_path}}{{home_path}}
+  
+- name: Restart NGINX
+  service:
+    state: restarted
+    enabled: true
+    name: nginx
 
 - name: set environment variables - jenkins homeuser path
   lineinfile:
@@ -158,3 +196,14 @@
 
 - name: Source environment variables
   shell: . /etc/environment
+
+- name: install npm modules
+  npm:
+    path: /checkbox
+    state: latest
+
+- name: install npm modules
+  npm:
+    path: /checkbox/server-side/site
+    state: latest
+
