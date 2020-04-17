@@ -17,3 +17,11 @@
     - /bakerx/cm/vars/vars.yml
   roles:
     - ping
+
+- hosts: monitor
+  gather_facts: false
+  become: yes
+  vars_files:
+    - /bakerx/cm/vars/vars.yml
+  roles:
+    - ping
