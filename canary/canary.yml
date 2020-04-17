@@ -8,7 +8,7 @@
   vars_files:
     - /bakerx/cm/vars/vars.yml
   roles:
-    - ping
+    - setup
 
 - hosts: broken
   gather_facts: false
@@ -16,7 +16,7 @@
   vars_files:
     - /bakerx/cm/vars/vars.yml
   roles:
-    - ping
+    - setup
 
 - hosts: monitor
   gather_facts: false
@@ -24,4 +24,4 @@
   vars_files:
     - /bakerx/cm/vars/vars.yml
   roles:
-    - ping
+    - proxy
