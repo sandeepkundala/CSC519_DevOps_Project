@@ -17,10 +17,13 @@ catch(e)
 }
 
 /// Servers data being monitored.
+let checkbox_ip = process.env.CHECKBOX_IP;
+let itrust_ip = process.env.ITRUST_IP;
+
 var servers = 
 [
-	{name: "checkbox", status: "#cccccc", scoreTrend : [0]},
-	{name: "itrust", status: "#cccccc",  scoreTrend : [0]}
+	{name: "checkbox", url: `http://${checkbox_ip}:3002`, status: "#cccccc", scoreTrend : [0]},
+	{name: "itrust", url: `http://${itrust_ip}:8080`, status: "#cccccc",  scoreTrend : [0]}
 ];
 
 
