@@ -9,6 +9,8 @@
     - /bakerx/cm/vars/vars.yml
   roles:
     - setup
+  vars:
+    ansible_python_interpreter: python
 
 - hosts: broken
   gather_facts: false
@@ -17,11 +19,17 @@
     - /bakerx/cm/vars/vars.yml
   roles:
     - setup
+  vars:
+    ansible_python_interpreter: python
 
 - hosts: monitor
+  vars:
+    ansible_python_interpreter: python
   gather_facts: false
   become: yes
   vars_files:
     - /bakerx/cm/vars/vars.yml
   roles:
     - proxy
+  vars:
+      ansible_python_interpreter: python
