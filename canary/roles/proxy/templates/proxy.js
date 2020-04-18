@@ -20,7 +20,10 @@ console.log(canary_url);
 http
   .createServer(function (req, res) {
     console.log("Canary server serving request!");
-    proxy.web(req, res, { target: prod_url });
+    console.log(req.url);
+    //proxy.web(req, res, { target: "http://192.168.33.30:3000/" });
+    proxy.web(req, res, { target: "http://192.168.33.40:3000/" });
+    console.log(res.statusCode);
     console.log(res);
   })
   .listen(3000);
