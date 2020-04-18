@@ -61,3 +61,4 @@
 - name: Do npm install
   npm:
     path: /home/vagrant/proxy
+  become: true
