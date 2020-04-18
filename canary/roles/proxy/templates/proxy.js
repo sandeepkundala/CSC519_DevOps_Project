@@ -12,37 +12,39 @@ var proxy = httpProxy.createProxyServer({});
 prod_url = fs.readFileSync("stableServer").toString();
 canary_url = fs.readFileSync("canaryServer").toString();
 
+console.log(prod_url);
+console.log(canary_url);
+
 /** The server running at 3000 port acts as a loadbalancer which sends 
 75% of traffic to Stable server and 25% of traffice to canary server*/
 http
   .createServer(function (req, res) {
-    if (Math.random() > 0.75 && !alert) {
-      console.log("Canary server serving request!");
-      proxy.web(req, res, { target: canary_url });
-    } else {
-      console.log("Stable server serving request!");
-      proxy.web(req, res, { target: prod_url });
-    }
+    console.log("Canary server serving request!");
+    console.log(req.url);
+    //proxy.web(req, res, { target: "http://192.168.33.30:3000/" });
+    proxy.web(req, res, { target: "http://192.168.33.40:3000/" });
+    console.log(res.statusCode);
+    console.log(res);
   })
   .listen(3000);
 
 /* Checks health of the canary server every 500ms and raises 'Alert' message
 when it cannot reach canary server atleast 4 times */
-var heartbeatTimer = setInterval(function () {
-  var options = {
-    url: canary_url,
-  };
+// var heartbeatTimer = setInterval(function () {
+//   var options = {
+//     url: canary_url,
+//   };
 
-  request(options, function (error, res, body) {
-    if (!error && res.statusCode == 200) {
-      count = 0;
-      alert = false;
-    } else {
-      if (count != Number.MAX_VALUE) count++;
-    }
-    if (count >= 4) {
-      console.log("Alert!!! Canary server is not reachable!");
-      alert = true;
-    }
-  });
-}, 500);
+//   request(options, function (error, res, body) {
+//     if (!error && res.statusCode == 200) {
+//       count = 0;
+//       alert = false;
+//     } else {
+//       if (count != Number.MAX_VALUE) count++;
+//     }
+//     if (count >= 4) {
+//       console.log("Alert!!! Canary server is not reachable!");
+//       alert = true;
+//     }
+//   });
+// }, 500);

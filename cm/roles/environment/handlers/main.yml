@@ -1,6 +1,6 @@
 #MongoDB
 
 - name: start mongodb
-  systemd: 
-    name: mongod 
+  systemd:
+    name: mongod
     state: started

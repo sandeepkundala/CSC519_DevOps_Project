@@ -32,10 +32,10 @@ async function run(blueBranch, greenBranch) {
   console.log(blueBranch);
   console.log(greenBranch);
 
-  console.log(chalk.blueBright("Provisioning master server..."));
+  console.log(chalk.blueBright("Provisioning blue server..."));
   let result = child.spawnSync(
     `bakerx`,
-    `run master bionic --ip 192.168.33.30 --sync --memory 1024`.split(" "),
+    `run blue bionic --ip 192.168.33.30 --sync --memory 1024`.split(" "),
     { shell: true, stdio: "inherit" }
   );
   if (result.error) {
@@ -43,10 +43,10 @@ async function run(blueBranch, greenBranch) {
     process.exit(result.status);
   }
 
-  console.log(chalk.blueBright("Provisioning broken server..."));
+  console.log(chalk.blueBright("Provisioning green server..."));
   result = child.spawnSync(
     `bakerx`,
-    `run broken bionic --ip 192.168.33.40 --memory 1024`.split(" "),
+    `run green bionic --ip 192.168.33.40 --memory 1024`.split(" "),
     { shell: true, stdio: "inherit" }
   );
   if (result.error) {
@@ -54,10 +54,10 @@ async function run(blueBranch, greenBranch) {
     process.exit(result.status);
   }
 
-  console.log(chalk.blueBright("Provisioning monitor server..."));
+  console.log(chalk.blueBright("Provisioning monitor vm..."));
   result = child.spawnSync(
     `bakerx`,
-    `run monitor bionic --ip 192.168.33.50 --memory 1024`.split(" "),
+    `run monitor-vm bionic --ip 192.168.33.50 --memory 1024`.split(" "),
     { shell: true, stdio: "inherit" }
   );
 
@@ -67,7 +67,7 @@ async function run(blueBranch, greenBranch) {
   }
 
   console.log("Wait for 30s");
-  await sleep(30000);
+  // await sleep(30000);
 
   console.log(chalk.blueBright("Running ansible script..."));
 
@@ -81,9 +81,13 @@ async function run(blueBranch, greenBranch) {
   }
 
   result = sshSync(
-    `ansible-playbook ${filePath} -i ${inventoryPath} --vault-password-file /bakerx/cm/vars/pass.txt`,
+    `ansible-playbook ${filePath} -i ${inventoryPath} --vault-password-file /bakerx/cm/vars/pass.txt -e "blue=${blueBranch}" -e "green=${greenBranch}"`,
     "vagrant@192.168.33.10"
   );
+  // result = sshSync(
+  //   `ansible-playbook ${filePath} -i ${inventoryPath} --ask-vault-pass -e "blue=${blueBranch}" -e "green=${greenBranch}"`,
+  //   "vagrant@192.168.33.10"
+  // );
   if (result.error) {
     process.exit(result.status);
   }
