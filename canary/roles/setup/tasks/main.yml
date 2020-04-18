@@ -30,6 +30,12 @@
   apt:
     name: git
 
+- name: Install forever
+  npm:
+    name: forever
+    global: true
+    state: latest
+
 - name: Clone the repository
   git:
     repo: "https://github.com/chrisparnin/checkbox.io-micro-preview.git"
@@ -37,6 +43,8 @@
   become: true
 
 - name: Do npm install
-  shell: npm install
-  args:
-    chdir: /home/vagrant/checkbox
+  npm:
+    path: /home/vagrant/checkbox
+
+- name: run forever
+  shell: "cd /home/vagrant/checkbox && forever stopall && git checkout {{branch}} && forever start index.js"

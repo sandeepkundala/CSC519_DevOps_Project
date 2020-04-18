@@ -2,23 +2,27 @@
 # see the best practices in ansible docs for how to get started with creating roles etc.:
 # https://docs.ansible.com/ansible/latest/user_guide/playbooks_best_practices.html
 
-- hosts: master
+- hosts: blue
   gather_facts: false
   become: yes
+  vars:
+    branch: "{{ blue }}"
   vars_files:
     - /bakerx/cm/vars/vars.yml
   roles:
     - setup
 
-- hosts: broken
+- hosts: green
   gather_facts: false
   become: yes
+  vars:
+    branch: "{{ green }}"
   vars_files:
     - /bakerx/cm/vars/vars.yml
   roles:
     - setup
 
-- hosts: monitor
+- hosts: monitor-vm
   gather_facts: false
   become: yes
   vars_files:
