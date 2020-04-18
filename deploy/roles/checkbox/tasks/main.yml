@@ -8,9 +8,9 @@
     update_cache: yes
     cache_valid_time: 3600
 
-# - name: add apt key for nodesource
-#   apt_key: 
-#     url: https://deb.nodesource.com/gpgkey/nodesource.gpg.key
+- name: add apt key for nodesource
+  apt_key: 
+    url: https://deb.nodesource.com/gpgkey/nodesource.gpg.key
 
 - name: add ppa for installing nodejs
   apt_repository:
@@ -139,7 +139,6 @@
   git: 
     repo: 'https://github.com/chrisparnin/checkbox.io.git'
     dest: '{{home_path}}'
-    clone: no
     update: no
 
 # - name: set environment variables - GH User
@@ -173,7 +172,7 @@
     path: '{{nginx_sites_path}}/default'
     state: absent
 
-- name: remove matterost if exist
+- name: remove checkbox if exist
   file:
     path: '{{nginx_sites_path}}{{home_path}}'
     state: absent

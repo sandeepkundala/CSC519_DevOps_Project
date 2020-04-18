@@ -61,11 +61,6 @@
   apt:
     name: git
 
-- name: Install Nginx
-  apt:
-    name: nginx
-    state: present
-
 - name: install gnupg
   apt:
     name: gnupg
