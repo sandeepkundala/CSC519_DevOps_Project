@@ -81,7 +81,7 @@ async function run(blueBranch, greenBranch) {
   }
 
   result = sshSync(
-    `ansible-playbook ${filePath} -i ${inventoryPath} --vault-password-file /bakerx/cm/vars/pass.txt`,
+    `ansible-playbook ${filePath} -i ${inventoryPath} --vault-password-file /bakerx/cm/vars/pass.txt -e "blue=${blueBranch}" -e "green=${greenBranch}"`,
     "vagrant@192.168.33.10"
   );
   if (result.error) {
