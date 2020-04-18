@@ -67,7 +67,7 @@ async function run(blueBranch, greenBranch) {
   }
 
   console.log("Wait for 30s");
-  await sleep(30000);
+  // await sleep(30000);
 
   console.log(chalk.blueBright("Running ansible script..."));
 

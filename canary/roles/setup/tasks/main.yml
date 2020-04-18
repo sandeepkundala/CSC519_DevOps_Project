@@ -1,4 +1,7 @@
 ---
+- name: Install Python
+  raw: apt-get -y install python
+
 - name: Update
   apt:
     upgrade: yes

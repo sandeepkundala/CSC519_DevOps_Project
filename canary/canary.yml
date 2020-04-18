@@ -7,6 +7,7 @@
   become: yes
   vars:
     branch: "{{ blue }}"
+    ansible_python_interpreter: python
   vars_files:
     - /bakerx/cm/vars/vars.yml
   roles:
@@ -17,6 +18,7 @@
   become: yes
   vars:
     branch: "{{ green }}"
+    ansible_python_interpreter: python
   vars_files:
     - /bakerx/cm/vars/vars.yml
   roles:
@@ -29,3 +31,5 @@
     - /bakerx/cm/vars/vars.yml
   roles:
     - proxy
+  vars:
+    ansible_python_interpreter: python

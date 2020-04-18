@@ -1,4 +1,7 @@
 ---
+- name: Install Python
+  raw: apt-get -y install python
+
 - name: Update
   apt:
     upgrade: yes
@@ -56,6 +59,5 @@
     dest: "{{ jenkins_homeuser_path }}/proxy"
 
 - name: Do npm install
-  shell: npm install
-  args:
-    chdir: /home/vagrant/proxy
+  npm:
+    path: /home/vagrant/proxy
