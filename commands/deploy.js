@@ -38,6 +38,7 @@ exports.handler = async argv => {
 async function run(app, inventoryPath){
     let filePath = '/bakerx/deploy/'+app+'.yml';
     console.log(chalk.blueBright(`Running deployment of ${app}`));
-    // let result = sshSync(`ansible-playbook ${filePath} ${inventory}`, 'vagrant@192.168.33.10');
-    // if( result.error ) { process.exit( result.status ); }
+    console.log(inventoryPath);
+    let result = sshSync(`ansible-playbook ${filePath} -i ${inventoryPath} --vault-password-file /bakerx/deploy/vars/pass.txt`, 'vagrant@192.168.33.10');
+    if( result.error ) { process.exit( result.status ); }
 }
