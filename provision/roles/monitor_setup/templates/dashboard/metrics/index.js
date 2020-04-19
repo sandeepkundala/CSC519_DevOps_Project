@@ -23,7 +23,7 @@ let itrust_ip = process.env.ITRUST_IP;
 var servers = 
 [
 	{name: "checkbox", url: `http://${checkbox_ip}:3002`, status: "#cccccc", scoreTrend : [0]},
-	{name: "itrust", url: `http://${itrust_ip}:8080`, status: "#cccccc",  scoreTrend : [0]}
+	{name: "itrust", url: `http://${itrust_ip}:8080/iTrust2/login`, status: "#cccccc",  scoreTrend : [0]}
 ];
 
 
