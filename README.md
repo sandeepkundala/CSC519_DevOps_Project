@@ -101,6 +101,9 @@ The kanban project board is [here](https://github.ncsu.edu/cscdevops-spring2020/
 
 
 ### Checkpoint reports
+#### Milestone 3 - 
+Read [CHECKPOINT.md](https://github.ncsu.edu/cscdevops-spring2020/DEVOPS-06/blob/master/CHECKPOINT_M3.md)
+
 #### Milestone 2 - Test + Analysis
 Read [CHECKPOINT.md](https://github.ncsu.edu/cscdevops-spring2020/DEVOPS-06/blob/master/CHECKPOINT_MILESTONE2.md)
 
