@@ -8,6 +8,8 @@
 
 **Deploy:**
 - Created wrapper to execute command `pipeline deploy <app> -i inventory.ini`
+- Created checkbox ansible role to deploy checkbox.io application on AWS instance
+- Created iTrust ansible role to deploy Itrust application on AWS instance
 
 **Canary:**
 - Created wrapper to execute command `pipeline canary <blue> <green>`
