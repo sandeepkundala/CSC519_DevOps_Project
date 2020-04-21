@@ -61,29 +61,28 @@
 - name: Copy survey.json
   template:
     src: /bakerx/canary/roles/proxy/templates/survey.json
-    dest: "{{ jenkins_homeuser_path }}/respurces"
+    dest: "{{ jenkins_homeuser_path }}/resources"
 
 - name: Ensure Redis is present
-  apt: 
+  apt:
     name: redis-server
     state: latest
 
 - name: Ensure Redis is started
-  service: 
+  service:
     name: redis-server
     state: started
     enabled: yes
 
 - name: Ensure Redis Configuration
-  template: 
-    src: redis.conf.j2 
-    dest: /etc/redis/redis.conf 
-    owner: root 
-    group: root 
+  template:
+    src: /bakerx/canary/roles/proxy/templates/redis.conf.j2
+    dest: /etc/redis/redis.conf
+    owner: root
+    group: root
     mode: 0644
   notify: Redis Restart
-
-- name: Run proxy.js
-  shell: |
-    cd /home/vagrant/proxy
-    node proxy.js
+# - name: Run proxy.js
+#   shell: |
+#     cd /home/vagrant/proxy
+#     node proxy.js
