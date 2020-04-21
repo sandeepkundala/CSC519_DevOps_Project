@@ -1,12 +1,13 @@
 var http = require("http");
 var httpProxy = require("http-proxy");
 var request = require("request");
-var exec = require("child_process").exec;
 var fs = require("fs");
+const child = require("child_process");
+const test = require("./test");
 
 let count = 0;
-let alert = false;
-
+let time = 0;
+let now = Date.now();
 var proxy = httpProxy.createProxyServer({});
 
 prod_url = fs.readFileSync("stableServer").toString();
@@ -15,36 +16,53 @@ canary_url = fs.readFileSync("canaryServer").toString();
 console.log(prod_url);
 console.log(canary_url);
 
-/** The server running at 3000 port acts as a loadbalancer which sends 
-75% of traffic to Stable server and 25% of traffice to canary server*/
+function fileread(filename) {
+  var contents = fs.readFileSync(filename).toString();
+  return contents;
+}
+
+const options = {
+  hostname: "localhost",
+  port: 4962,
+  path: "/preview",
+  method: "POST",
+  headers: {
+    "Content-Type": "application/json",
+  },
+};
+
+function main() {
+  var data = fileread("./resources/survey.json");
+  var post_req = http.request(options, function (res) {
+    res.setEncoding("utf8");
+    console.log("Response from backend is " + res.statusCode);
+    res.on("data", function (chunk) {});
+  });
+
+  post_req.write(data);
+  post_req.end();
+}
+
 http
   .createServer(function (req, res) {
-    console.log("Canary server serving request!");
-    console.log(req.url);
-    //proxy.web(req, res, { target: "http://192.168.33.30:3000/" });
-    proxy.web(req, res, { target: "http://192.168.33.40:3000/" });
-    console.log(res.statusCode);
-    console.log(res);
+    //console.log(req.url);
+    //console.log(typeof time);
+    console.log("time is" + time);
+    if (time < 5000) {
+      proxy.web(req, res, { target: "http://192.168.33.30:3000/" });
+      //console.log("hello master");
+    } else if (time >= 5000 && time <= 10000) {
+      proxy.web(req, res, { target: "http://192.168.33.40:3000/" });
+      //console.log("hello canary");
+    } else {
+      process.exit(1);
+      console.log("Finish");
+    }
+    //console.log(res.statusCode);
   })
-  .listen(3000);
+  .listen(4962);
 
-/* Checks health of the canary server every 500ms and raises 'Alert' message
-when it cannot reach canary server atleast 4 times */
-// var heartbeatTimer = setInterval(function () {
-//   var options = {
-//     url: canary_url,
-//   };
-
-//   request(options, function (error, res, body) {
-//     if (!error && res.statusCode == 200) {
-//       count = 0;
-//       alert = false;
-//     } else {
-//       if (count != Number.MAX_VALUE) count++;
-//     }
-//     if (count >= 4) {
-//       console.log("Alert!!! Canary server is not reachable!");
-//       alert = true;
-//     }
-//   });
-// }, 500);
+var heartbeatTimer = setInterval(function () {
+  main();
+  time = Date.now() - now;
+}, 500);
