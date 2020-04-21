@@ -43,16 +43,6 @@
     src: /bakerx/canary/roles/proxy/templates/proxy.js
     dest: "{{ jenkins_homeuser_path }}/proxy"
 
-- name: Copy stableServer IP file
-  template:
-    src: /bakerx/canary/roles/proxy/templates/stableServer
-    dest: "{{ jenkins_homeuser_path }}/proxy"
-
-- name: Copy canaryServer IP file
-  template:
-    src: /bakerx/canary/roles/proxy/templates/canaryServer
-    dest: "{{ jenkins_homeuser_path }}/proxy"
-
 - name: Copy package.json file
   template:
     src: /bakerx/canary/roles/proxy/templates/package.json
@@ -62,3 +52,28 @@
   npm:
     path: /home/vagrant/proxy
   become: true
+
+- name: Ensure Redis is present
+  apt: 
+    name: redis-server
+    state: latest
+
+- name: Ensure Redis is started
+  service: 
+    name: redis-server
+    state: started
+    enabled: yes
+
+- name: Ensure Redis Configuration
+  template: 
+    src: redis.conf.j2 
+    dest: /etc/redis/redis.conf 
+    owner: root 
+    group: root 
+    mode: 0644
+  notify: Redis Restart
+
+- name: Run proxy.js
+  shell: |
+    cd /home/vagrant/proxy
+    node proxy.js

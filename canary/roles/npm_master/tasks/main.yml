@@ -1,3 +1,0 @@
----
-- name: checkout
-  shell: cd checkbox && sudo git checkout {{blue}} && npm install
