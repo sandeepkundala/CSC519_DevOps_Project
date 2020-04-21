@@ -50,4 +50,8 @@
     path: /home/vagrant/checkbox
 
 - name: run forever
-  shell: "cd /home/vagrant/checkbox && forever stopall && git checkout {{branch}} && forever start index.js"
+  shell: |
+    cd /home/vagrant/checkbox
+    forever stopall
+    git checkout {{branch}}
+    forever start index.js

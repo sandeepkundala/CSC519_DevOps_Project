@@ -10,11 +10,11 @@ let time = 0;
 let now = Date.now();
 var proxy = httpProxy.createProxyServer({});
 
-prod_url = fs.readFileSync("stableServer").toString();
-canary_url = fs.readFileSync("canaryServer").toString();
+let blue_ip = "192.168.33.30";
+let green_ip = "192.168.33.40";
 
-console.log(prod_url);
-console.log(canary_url);
+console.log(blue_ip);
+console.log(green_ip);
 
 function fileread(filename) {
   var contents = fs.readFileSync(filename).toString();
@@ -45,14 +45,12 @@ function main() {
 
 http
   .createServer(function (req, res) {
-    //console.log(req.url);
-    //console.log(typeof time);
     console.log("time is" + time);
     if (time < 5000) {
-      proxy.web(req, res, { target: "http://192.168.33.30:3000/" });
+      proxy.web(req, res, { target: `http://${blue_ip}:3000/` });
       //console.log("hello master");
     } else if (time >= 5000 && time <= 10000) {
-      proxy.web(req, res, { target: "http://192.168.33.40:3000/" });
+      proxy.web(req, res, { target: `http://${green_ip}:3000/` });
       //console.log("hello canary");
     } else {
       process.exit(1);
