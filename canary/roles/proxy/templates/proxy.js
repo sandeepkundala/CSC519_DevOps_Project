@@ -3,7 +3,6 @@ var httpProxy = require("http-proxy");
 var request = require("request");
 var fs = require("fs");
 const child = require("child_process");
-const test = require("./test");
 const redis = require('redis');
 
 let count = 0;
@@ -29,7 +28,7 @@ function fileread(filename) {
 }
 
 const options = {
-  hostname: "localhost",
+  hostname: "192.168.33.50",
   port: 3000,
   path: "/preview",
   method: "POST",
