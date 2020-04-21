@@ -21,7 +21,7 @@ function fileread(filename) {
 }
 
 const options = {
-  hostname: "localhost",
+  hostname: "192.168.33.50",
   port: 3000,
   path: "/preview",
   method: "POST",
