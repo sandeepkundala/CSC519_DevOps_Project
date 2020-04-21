@@ -53,6 +53,16 @@
     path: /home/vagrant/proxy
   become: true
 
+- name: Make resources directory
+  file:
+    path: "{{ jenkins_homeuser_path }}/resources"
+    state: directory
+
+- name: Copy survey.json
+  template:
+    src: /bakerx/canary/roles/proxy/templates/survey.json
+    dest: "{{ jenkins_homeuser_path }}/respurces"
+
 - name: Ensure Redis is present
   apt: 
     name: redis-server

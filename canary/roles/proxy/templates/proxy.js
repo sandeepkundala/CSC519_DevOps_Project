@@ -52,7 +52,7 @@ function updateHealth(server)
 
 function main() {
 
-  var data = fileread("./resources/survey.json");
+  var data = fileread("/home/vagrant/resources/survey.json");
   var post_req = http.request(options, function (res) {
     res.setEncoding("utf8");
     console.log("Response from backend is " + res.statusCode);
