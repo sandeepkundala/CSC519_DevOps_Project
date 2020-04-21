@@ -16,11 +16,6 @@ class Agent
        let load = await si.currentLoad();
        return load.currentload.toFixed(2);
     }
-    async cpuspeed()
-    {
-        let cps = await si.cpuCurrentspeed();
-        return cps.avg.toFixed(2);
-    }
 }
 
 (async () => 
@@ -50,8 +45,7 @@ async function main()
     {
         let payload = {
             memoryLoad: agent.memoryLoad(),
-            cpu: await agent.cpu(),
-            cpuspeed: await agent.cpuspeed()
+            cpu: await agent.cpu()
         };
         let msg = JSON.stringify(payload);
         await client.publish(name, msg);

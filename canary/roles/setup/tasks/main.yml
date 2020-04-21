@@ -45,9 +45,18 @@
     dest: /home/vagrant/checkbox
   become: true
 
-- name: Do npm install
+- name: Do npm install /home/vagrant/checkbox
   npm:
     path: /home/vagrant/checkbox
+
+- name: Copy Agent
+  copy:
+    src: /bakerx/canary/roles/setup/templates/agent
+    dest: /home/vagrant
+
+- name: Do npm install /home/vagrant/agent
+  npm:
+    path: /home/vagrant/agent
 
 - name: Set environment variable:VMNAME
   lineinfile:
@@ -59,9 +68,13 @@
 - name: Source environment variables
   shell: . /etc/environment
 
-- name: run forever - CHECKBOX APP
+- name: run forever - AGENT and CHECKBOX APP
   shell: |
-    cd /home/vagrant/checkbox
+    cd /home/vagrant/agent
     forever stopall
+    forever start index.js
+    cd /home/vagrant/checkbox
     git checkout {{branch}}
     forever start index.js
+
+
