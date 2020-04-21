@@ -3,7 +3,6 @@ var httpProxy = require("http-proxy");
 var request = require("request");
 var fs = require("fs");
 const child = require("child_process");
-const test = require("./test");
 
 let count = 0;
 let time = 0;
