@@ -4,9 +4,9 @@
 
 - name: Update
   apt:
-    upgrade: yes
+    upgrade: "yes"
     update_cache: yes
-    cache_valid_time: 3600
+    cache_valid_time: "3600"
 
 - name: add apt key for nodesource
   apt_key:
@@ -45,9 +45,36 @@
     dest: /home/vagrant/checkbox
   become: true
 
-- name: Do npm install
+- name: Do npm install /home/vagrant/checkbox
   npm:
     path: /home/vagrant/checkbox
 
-- name: run forever
-  shell: "cd /home/vagrant/checkbox && forever stopall && git checkout {{branch}} && forever start index.js"
+- name: Copy Agent
+  copy:
+    src: /bakerx/canary/roles/setup/templates/agent
+    dest: /home/vagrant
+
+- name: Do npm install /home/vagrant/agent
+  npm:
+    path: /home/vagrant/agent
+
+- name: Set environment variable:VMNAME
+  lineinfile:
+    dest: /etc/environment
+    line: VMNAME={{ branch }}
+    regexp: '^VMNAME'
+    state: present
+
+- name: Source environment variables
+  shell: . /etc/environment
+
+- name: run forever - AGENT and CHECKBOX APP
+  shell: |
+    cd /home/vagrant/agent
+    forever stopall
+    forever start index.js
+    cd /home/vagrant/checkbox
+    git checkout {{branch}}
+    forever start index.js
+
+
