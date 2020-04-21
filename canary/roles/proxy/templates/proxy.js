@@ -23,7 +23,7 @@ function fileread(filename) {
 
 const options = {
   hostname: "localhost",
-  port: 4962,
+  port: 3000,
   path: "/preview",
   method: "POST",
   headers: {
@@ -60,7 +60,7 @@ http
     }
     //console.log(res.statusCode);
   })
-  .listen(4962);
+  .listen(3000);
 
 var heartbeatTimer = setInterval(function () {
   main();
