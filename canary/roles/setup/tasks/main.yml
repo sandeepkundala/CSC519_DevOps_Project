@@ -49,7 +49,17 @@
   npm:
     path: /home/vagrant/checkbox
 
-- name: run forever
+- name: Set environment variable:VMNAME
+  lineinfile:
+    dest: /etc/environment
+    line: VMNAME={{ branch }}
+    regexp: '^VMNAME'
+    state: present
+
+- name: Source environment variables
+  shell: . /etc/environment
+
+- name: run forever - CHECKBOX APP
   shell: |
     cd /home/vagrant/checkbox
     forever stopall

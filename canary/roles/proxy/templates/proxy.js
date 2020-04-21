@@ -49,11 +49,11 @@ http
     if (time < 5000) {
       proxy.web(req, res, { target: `http://${blue_ip}:3000/` });
       //console.log("hello master");
-    } else if (time >= 5000 && time <= 10000) {
+    } else if (time >= 5000 && time < 10000) {
       proxy.web(req, res, { target: `http://${green_ip}:3000/` });
       //console.log("hello canary");
     } else {
-      process.exit(1);
+      process.exit(0);
       console.log("Finish");
     }
     //console.log(res.statusCode);

@@ -72,3 +72,8 @@
     group: root 
     mode: 0644
   notify: Redis Restart
+
+- name: Run proxy.js
+  shell: |
+    cd /home/vagrant/proxy
+    node proxy.js
