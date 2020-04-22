@@ -13,6 +13,7 @@
     "http-proxy": "latest",
     "request": "latest",
     "child_process": "latest",
-    "fs": "latest"
+    "fs": "latest",
+    "redis": "^3.0.2"
   }
 }

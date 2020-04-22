@@ -82,6 +82,29 @@ async function run(blueBranch, greenBranch) {
   }
 
   result = sshSync(
+    `sudo apt update`,
+    "vagrant@192.168.33.50"
+  );
+  if (result.error) {
+    process.exit(result.status);
+  }
+
+  result = sshSync(
+    `sudo apt update`,
+    "vagrant@192.168.33.40"
+  );
+  if (result.error) {
+    process.exit(result.status);
+  }
+
+  result = sshSync(
+    `sudo apt update`,
+    "vagrant@192.168.33.30"
+  );
+  if (result.error) {
+    process.exit(result.status);
+  }
+  result = sshSync(
     `ansible-playbook ${filePath} -i ${inventoryPath} --vault-password-file /bakerx/cm/vars/pass.txt -e "blue=${blueBranch}" -e "green=${greenBranch}"`,
     "vagrant@192.168.33.10"
   );
