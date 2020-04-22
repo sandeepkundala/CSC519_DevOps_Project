@@ -11,6 +11,7 @@ exports.desc = "Spin up 3 local machines";
 
 const inventoryPath = "/bakerx/cm/inventory.ini";
 const filePath = "/bakerx/canary/canary.yml";
+const filePath2 = "/bakerx/canary/runProxy.yml";
 
 exports.builder = (yargs) => {
   yargs.options({});
@@ -91,6 +92,19 @@ async function run(blueBranch, greenBranch) {
   if (result.error) {
     process.exit(result.status);
   }
+
+  result = sshSync(
+    `ansible-playbook ${filePath2} -i ${inventoryPath} --vault-password-file /bakerx/cm/vars/pass.txt`,
+    "vagrant@192.168.33.10"
+  );
+  // result = sshSync(
+  //   `ansible-playbook ${filePath2} -i ${inventoryPath} --ask-vault-pass -vvv"`,
+  //   "vagrant@192.168.33.10"
+  // );
+  if (result.error) {
+    process.exit(result.status);
+  }
+
 }
 async function sleep(ms) {
   return new Promise((resolve) => setTimeout(resolve, ms));

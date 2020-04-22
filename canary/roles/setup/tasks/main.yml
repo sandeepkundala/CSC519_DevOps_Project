@@ -61,7 +61,7 @@
 - name: Set environment variable:VMNAME
   lineinfile:
     dest: /etc/environment
-    line: VMNAME={{ branch }}
+    line: VMNAME={{ vmname }}
     regexp: '^VMNAME'
     state: present
 

@@ -17,8 +17,8 @@ console.log(blue_ip);
 console.log(green_ip);
 
 var servers = [
-  { name: "blue", url: `http://${blue_ip}:3000`, status: 0, scoreTrend: [] },
-  { name: "green", url: `http://${green_ip}:3000`, status: 0, scoreTrend: [] },
+  { name: "blue", url: `http://${blue_ip}:3000`, status: 0, scoreTrend: [], latency: 5000 },
+  { name: "green", url: `http://${green_ip}:3000`, status: 0, scoreTrend: [], latency: 5000 },
 ];
 
 function fileread(filename) {
@@ -45,6 +45,7 @@ function updateHealth(server) {
   score += server.status === 200 ? 1 : 0;
 
   server.scoreTrend.push(score);
+
   console.log(server.memoryLoad);
   console.log(server.cpu);
   console.log(server.latency);
@@ -52,13 +53,16 @@ function updateHealth(server) {
 }
 
 function main() {
+  let latency_now = Date.now();
   var data = fileread("/home/vagrant/resources/survey.json");
   var post_req = http.request(options, function (res) {
     res.setEncoding("utf8");
     console.log("Response from backend is " + res.statusCode);
     if (time < 5000) {
+      servers[0].latency = Date.now() - latency_now;
       servers[0].status = res.statusCode;
     } else {
+      servers[1].latency = Date.now() - latency_now;
       servers[1].status = res.statusCode;
     }
     res.on("data", function (chunk) {});
@@ -92,19 +96,16 @@ http
     console.log("time is" + time);
     if (time < 5000) {
       proxy.web(req, res, { target: `http://${blue_ip}:3000/` });
-      //console.log("hello master");
     } else if (time >= 5000 && time < 10000) {
       proxy.web(req, res, { target: `http://${green_ip}:3000/` });
-      //console.log("hello canary");
     } else {
-      process.exit(0);
       console.log("Finish");
+      process.exit(0);
     }
-    //console.log(res.statusCode);
   })
   .listen(3000);
 
 var heartbeatTimer = setInterval(function () {
   main();
   time = Date.now() - now;
-}, 500);
+}, 1000);
