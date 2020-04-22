@@ -67,6 +67,21 @@ async function run(blueBranch, greenBranch) {
     process.exit(result.status);
   }
 
+  result = sshSync(`sudo apt update`, "vagrant@192.168.33.30");
+  if (result.error) {
+    process.exit(result.status);
+  }
+
+  result = sshSync(`sudo apt update`, "vagrant@192.168.33.40");
+  if (result.error) {
+    process.exit(result.status);
+  }
+
+  result = sshSync(`sudo apt update`, "vagrant@192.168.33.50");
+  if (result.error) {
+    process.exit(result.status);
+  }
+
   console.log("Wait for 30s");
   // await sleep(30000);
 
@@ -104,7 +119,6 @@ async function run(blueBranch, greenBranch) {
   if (result.error) {
     process.exit(result.status);
   }
-
 }
 async function sleep(ms) {
   return new Promise((resolve) => setTimeout(resolve, ms));

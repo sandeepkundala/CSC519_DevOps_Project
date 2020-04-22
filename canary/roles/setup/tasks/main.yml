@@ -62,7 +62,7 @@
   lineinfile:
     dest: /etc/environment
     line: VMNAME={{ vmname }}
-    regexp: '^VMNAME'
+    regexp: "^VMNAME"
     state: present
 
 - name: Source environment variables
@@ -76,5 +76,3 @@
     cd /home/vagrant/checkbox
     git checkout {{branch}}
     forever start index.js
-
-
