@@ -58,7 +58,7 @@ function main() {
   var post_req = http.request(options, function (res) {
     res.setEncoding("utf8");
     console.log("Response from backend is " + res.statusCode);
-    if (time < 5000) {
+    if (time < 300000) {
       servers[0].latency = Date.now() - latency_now;
       servers[0].status = res.statusCode;
     } else {
@@ -94,9 +94,9 @@ function main() {
 http
   .createServer(function (req, res) {
     console.log("time is" + time);
-    if (time < 5000) {
+    if (time < 300000) {
       proxy.web(req, res, { target: `http://${blue_ip}:3000/` });
-    } else if (time >= 5000 && time < 10000) {
+    } else if (time >= 300000 && time < 600000) {
       proxy.web(req, res, { target: `http://${green_ip}:3000/` });
     } else {
       console.log("Finish");
