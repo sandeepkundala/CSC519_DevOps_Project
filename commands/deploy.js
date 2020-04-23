@@ -1,8 +1,11 @@
 const fs = require('fs');
+const os = require("os");
 const path = require('path');
 const chalk = require('chalk');
 const sshSync = require('../lib/ssh');
+const scpSync = require("../lib/scp");
 var inventoryPath = '';
+let filePathUpdate = "/bakerx/deploy/update.yml"
 
 exports.command = 'deploy <app>';
 exports.desc = 'Deploy the application in cloud servers';
@@ -36,9 +39,33 @@ exports.handler = async argv => {
 };
 
 async function run(app, inventoryPath){
+
     let filePath = '/bakerx/deploy/'+app+'.yml';
+
+    console.log("Make .bakerx folder in ansible srv");
+    let result = sshSync("mkdir /home/vagrant/.bakerx", "vagrant@192.168.33.10");
+
+    console.log(chalk.blueBright("Installing privateKey on configuration server"));
+    let identifyFile = path.join(os.homedir(), ".bakerx", "insecure_private_key");
+    result = scpSync(
+        identifyFile,
+        "vagrant@192.168.33.10:/home/vagrant/.bakerx/insecure_private_key"
+    );
+
+    console.log("Make .bakerx folder in ansible srv");
+    result = sshSync("chmod 700 /home/vagrant/.bakerx/insecure_private_key", "vagrant@192.168.33.10");
+
     console.log(chalk.blueBright(`Running deployment of ${app}`));
     console.log(inventoryPath);
-    let result = sshSync(`ansible-playbook ${filePath} -i ${inventoryPath} --vault-password-file /bakerx/deploy/vars/pass.txt`, 'vagrant@192.168.33.10');
+
+    result = sshSync(`ansible-playbook ${filePathUpdate} -i ${inventoryPath} --vault-password-file /bakerx/deploy/vars/pass.txt`, 'vagrant@192.168.33.10');
     if( result.error ) { process.exit( result.status ); }
+
+    // result = sshSync(`ansible-playbook ${filePathUpdate} -i ${inventoryPath} --ask-vault-pass`, 'vagrant@192.168.33.10');
+    // if( result.error ) { process.exit( result.status ); }
+
+    result = sshSync(`ansible-playbook ${filePath} -i ${inventoryPath} --vault-password-file /bakerx/deploy/vars/pass.txt`, 'vagrant@192.168.33.10');
+    if( result.error ) { process.exit( result.status ); }
+    // result = sshSync(`ansible-playbook ${filePath} -i ${inventoryPath} --ask-vault-pass`, 'vagrant@192.168.33.10');
+    // if( result.error ) { process.exit( result.status ); }
 }

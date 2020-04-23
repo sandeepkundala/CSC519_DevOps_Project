@@ -1,0 +1,42 @@
+---
+- hosts: monitor
+  gather_facts: false
+  become: yes
+  vars_files:
+    - ./vars/vars.yml
+  tasks:
+    - name: update
+      apt:
+        upgrade: "yes"
+        update_cache: yes
+        cache_valid_time: "3600"
+
+- hosts: itrust
+  gather_facts: false
+  become: yes
+  vars_files:
+    - ./vars/vars.yml
+  tasks:
+    - name: update
+      apt:
+        upgrade: "yes"
+        update_cache: yes
+        cache_valid_time: "3600"
+
+    - name: Install Python
+      raw: apt-get -y install python
+
+- hosts: checkbox
+  gather_facts: false
+  become: yes
+  vars_files:
+    - ./vars/vars.yml
+  tasks:
+    - name: update
+      apt:
+        upgrade: "yes"
+        update_cache: yes
+        cache_valid_time: "3600"
+
+    - name: Install Python
+      raw: apt-get -y install python
