@@ -1,9 +1,9 @@
 ---
-- hosts: monitor
+- hosts: monitor-vm
   gather_facts: false
   become: yes
   vars_files:
-    - ./vars/vars.yml
+    - /bakerx/cm/vars/vars.yml
   tasks:
     - name: update
       apt:
@@ -14,11 +14,11 @@
     - name: Install Python
       raw: apt-get -y install python
 
-- hosts: itrust
+- hosts: blue
   gather_facts: false
   become: yes
   vars_files:
-    - ./vars/vars.yml
+    - /bakerx/cm/vars/vars.yml
   tasks:
     - name: update
       apt:
@@ -29,11 +29,11 @@
     - name: Install Python
       raw: apt-get -y install python
 
-- hosts: checkbox
+- hosts: green
   gather_facts: false
   become: yes
   vars_files:
-    - ./vars/vars.yml
+    - /bakerx/cm/vars/vars.yml
   tasks:
     - name: update
       apt:
