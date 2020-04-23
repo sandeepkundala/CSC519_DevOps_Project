@@ -8,6 +8,9 @@
   vars_files:
     - /bakerx/cm/vars/vars.yml
   tasks:
+    - name: npm install
+      shell: cd /home/vagrant/proxy/ && npm install
+
     - name: Run proxy.js
       shell: |
         cd /home/vagrant/proxy/ && node proxy.js
