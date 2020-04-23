@@ -12,7 +12,6 @@
     - iTrust_envi
     - java8
     - jenkins
-    - provision_envi
     - analysis
     - create_jobs
   vars:
