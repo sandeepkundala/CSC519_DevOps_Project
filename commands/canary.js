@@ -12,6 +12,7 @@ exports.desc = "Spin up 3 local machines";
 const inventoryPath = "/bakerx/cm/inventory.ini";
 const filePath = "/bakerx/canary/canary.yml";
 const filePath2 = "/bakerx/canary/runProxy.yml";
+const filePathUpdate = "/bakerx/canary/update.yml"
 
 exports.builder = (yargs) => {
   yargs.options({});
@@ -67,23 +68,8 @@ async function run(blueBranch, greenBranch) {
     process.exit(result.status);
   }
 
-  result = sshSync(`sudo apt update`, "vagrant@192.168.33.30");
-  if (result.error) {
-    process.exit(result.status);
-  }
-
-  result = sshSync(`sudo apt update`, "vagrant@192.168.33.40");
-  if (result.error) {
-    process.exit(result.status);
-  }
-
-  result = sshSync(`sudo apt update`, "vagrant@192.168.33.50");
-  if (result.error) {
-    process.exit(result.status);
-  }
-
   console.log("Wait for 30s");
-  // await sleep(30000);
+  await sleep(30000);
 
   console.log(chalk.blueBright("Running ansible script..."));
 
@@ -97,28 +83,17 @@ async function run(blueBranch, greenBranch) {
   }
 
   result = sshSync(
-    `sudo apt update`,
-    "vagrant@192.168.33.50"
+    `ansible-playbook ${filePathUpdate} -i ${inventoryPath} --vault-password-file /bakerx/cm/vars/pass.txt`,
+    "vagrant@192.168.33.10"
   );
+  // result = sshSync(
+  //   `ansible-playbook ${filePathUpdate} -i ${inventoryPath} --ask-vault-pass`,
+  //   "vagrant@192.168.33.10"
+  // );
   if (result.error) {
     process.exit(result.status);
   }
 
-  result = sshSync(
-    `sudo apt update`,
-    "vagrant@192.168.33.40"
-  );
-  if (result.error) {
-    process.exit(result.status);
-  }
-
-  result = sshSync(
-    `sudo apt update`,
-    "vagrant@192.168.33.30"
-  );
-  if (result.error) {
-    process.exit(result.status);
-  }
   result = sshSync(
     `ansible-playbook ${filePath} -i ${inventoryPath} --vault-password-file /bakerx/cm/vars/pass.txt -e "blue=${blueBranch}" -e "green=${greenBranch}"`,
     "vagrant@192.168.33.10"
@@ -142,6 +117,31 @@ async function run(blueBranch, greenBranch) {
   if (result.error) {
     process.exit(result.status);
   }
+
+  // delete VMs
+
+  console.log(chalk.blueBright("Deleting green vm..."));
+  result = child.spawnSync(
+    `bakerx`,
+    `delete vm green`.split(" "),
+    { shell: true, stdio: "inherit" }
+  );
+
+  console.log(chalk.blueBright("Deleting blue vm..."));
+  result = child.spawnSync(
+    `bakerx`,
+    `delete vm blue`.split(" "),
+    { shell: true, stdio: "inherit" }
+  );
+
+  console.log(chalk.blueBright("Deleting monitor vm..."));
+  result = child.spawnSync(
+    `bakerx`,
+    `delete vm monitor-vm`.split(" "),
+    { shell: true, stdio: "inherit" }
+  );
+
+
 }
 async function sleep(ms) {
   return new Promise((resolve) => setTimeout(resolve, ms));

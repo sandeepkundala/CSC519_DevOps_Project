@@ -143,7 +143,7 @@
     dest: /opt/tomcat9/conf/tomcat-users.xml
     mode: 0500
 
-- name: Copy tomcat config file
+- name: Copy tomcat war file
   copy:
     src: "/bakerx/deploy/roles/iTrust/templates/iTrust2.war"
     dest: /opt/tomcat9/webapps/
