@@ -40,21 +40,21 @@
   lineinfile:
     dest: /etc/environment
     line: AWS_REGION={{ AWS_REGION }}
-    regexp: '^AWS_REGION'
+    regexp: "^AWS_REGION"
     state: present
 
 - name: Save AWS SECRET ACCESS KEY as environment variable
   lineinfile:
     dest: /etc/environment
     line: AWS_SECRET_ACCESS_KEY={{ AWS_SECRET_ACCESS_KEY }}
-    regexp: '^AWS_SECRET_ACCESS_KEY'
+    regexp: "^AWS_SECRET_ACCESS_KEY"
     state: present
 
 - name: Save ACCESS KEY ID as environment variable
   lineinfile:
     dest: /etc/environment
     line: AWS_ACCESS_KEY_ID={{ AWS_ACCESS_KEY_ID }}
-    regexp: '^AWS_ACCESS_KEY_ID'
+    regexp: "^AWS_ACCESS_KEY_ID"
     state: present
 
 - name: Copy key to jenkins-srv
