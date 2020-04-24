@@ -13,12 +13,11 @@ var proxy = httpProxy.createProxyServer({});
 let blue_ip = "192.168.33.30";
 let green_ip = "192.168.33.40";
 
-console.log(blue_ip);
-console.log(green_ip);
+var t = 5000;
 
 var servers = [
-  { name: "blue", url: `http://${blue_ip}:3000`, status: 0, scoreTrend: [], latency: 5000 },
-  { name: "green", url: `http://${green_ip}:3000`, status: 0, scoreTrend: [], latency: 5000 },
+  { name: "blue", url: `http://${blue_ip}:3000`, status: 0, scoreTrend: [], latency: 5000, pass: 0, fail: 0, cpuPass: 0, cpuFail: 0, memPass: 0, memFail: 0, statusPass: 0, statusFail: 0, latencyPass: 0, latencyFail: 0},
+  { name: "green", url: `http://${green_ip}:3000`, status: 0, scoreTrend: [], latency: 5000, pass: 0, fail: 0, cpuPass: 0, cpuFail: 0, memPass: 0, memFail: 0, statusPass: 0, statusFail: 0, latencyPass: 0, latencyFail: 0}
 ];
 
 function fileread(filename) {
@@ -38,18 +37,44 @@ const options = {
 
 function updateHealth(server) {
   let score = 0;
+  if (server.memoryLoad < 25.0){
+    score += 1;
+    server.memPass += 1;
+  }
+  else {
+    server.memFail += 1;
+  }
 
-  score += server.memoryLoad < 25.0 ? 1 : 0;
-  score += server.cpu < 25.0 ? 1 : 0;
-  score += server.latency < 100 ? 1 : 0;
-  score += server.status === 200 ? 1 : 0;
+  if (server.cpu < 25.0){
+    score += 1;
+    server.cpuPass += 1;
+  }
+  else {
+    server.cpuFail += 1;
+  }
 
-  server.scoreTrend.push(score);
+  if (server.latency < 100){
+    score += 1;
+    server.latencyPass += 1;
+  }
+  else {
+    server.latencyFail += 1;
+  }
 
-  console.log(server.memoryLoad);
-  console.log(server.cpu);
-  console.log(server.latency);
-  console.log(server.status);
+  if (server.status === 200){
+    score += 3;
+    server.statusPass += 1;
+  }
+  else {
+    server.statusFail += 1;
+  }
+
+  if (score>3){
+    server.pass += 1;
+  }
+  else{
+    server.fail += 1;
+  }
 }
 
 function main() {
@@ -58,7 +83,7 @@ function main() {
   var post_req = http.request(options, function (res) {
     res.setEncoding("utf8");
     console.log("Response from backend is " + res.statusCode);
-    if (time < 300000) {
+    if (time < t) {
       servers[0].latency = Date.now() - latency_now;
       servers[0].status = res.statusCode;
     } else {
@@ -78,14 +103,17 @@ function main() {
   }
   // When an agent has published information to a channel, we will receive notification here.
   client.on("message", function (channel, message) {
-    console.log(`Received message from agent: ${channel}`);
     for (var server of servers) {
       // Update our current snapshot for a server's metrics.
       if (server.name == channel) {
-        let payload = JSON.parse(message);
-        server.memoryLoad = payload.memoryLoad;
-        server.cpu = payload.cpu;
-        updateHealth(server);
+        if ((server.name == 'blue' && time < t) ||
+            (server.name == 'green' && t <= time  && time < 2*t)){
+          let payload = JSON.parse(message);
+          server.memoryLoad = payload.memoryLoad;
+          server.cpu = payload.cpu;
+          updateHealth(server);
+        }
+
       }
     }
   });
@@ -94,12 +122,50 @@ function main() {
 http
   .createServer(function (req, res) {
     console.log("time is" + time);
-    if (time < 300000) {
+    if (time < t) {
       proxy.web(req, res, { target: `http://${blue_ip}:3000/` });
-    } else if (time >= 300000 && time < 600000) {
+    } else if (time >= t && time < 2*t) {
       proxy.web(req, res, { target: `http://${green_ip}:3000/` });
     } else {
       console.log("Finish");
+      let blueServerPP = servers[0].pass/(servers[0].pass + servers[0].fail);
+      let greenServerPP = servers[1].pass/(servers[1].pass + servers[1].fail);
+
+      if ( blueServerPP > 0.8 && greenServerPP > 0.8){
+        var content = "Canary Passed";
+        fs.writeFile("/home/vagrant/canaryAnalysis.txt", content, { flag: 'w+' }, err => {
+          if (err){
+            console.log(err);
+          }
+        });
+        console.log(content);
+      }
+      else {
+        let blueServerCPU = servers[0].cpuPass * 100 / (servers[0].cpuFail + servers[0].cpuPass);
+        let greenServerCPU = servers[1].cpuPass * 100 / (servers[1].cpuFail + servers[1].cpuPass);
+        let blueServerMem = servers[0].memPass * 100 / (servers[0].memFail + servers[0].memPass);
+        let greenServerMem = servers[1].memPass * 100 / (servers[1].memFail + servers[1].memPass);
+        let blueServerStat = servers[0].statusPass * 100 / (servers[0].statusFail + servers[0].statusPass);
+        let greenServerStat = servers[1].statusPass * 100 / (servers[1].statusFail + servers[1].statusPass);
+        let blueServerLat = servers[0].latencyPass * 100 / (servers[0].latencyFail + servers[0].latencyPass);
+        let greenServerLat = servers[1].latencyPass * 100 / (servers[1].latencyFail + servers[1].latencyPass);
+        var content = "============= CANARY REPORT ============\n";
+        content += "-------- Statistical Difference --------\n";
+        content += `\nCPU Utilization < 25% (expressed in percentage)\n\tBLUE SERVER: ${blueServerCPU} \tGREEN SERVER: ${greenServerCPU}`;
+        content += `\nMemory Utilization < 25% (expressed in percentage)\n\tBLUE SERVER: ${blueServerMem} \tGREEN SERVER: ${greenServerMem}`;
+        content += `\nLatency < 100ms (expressed in percentage)\n\tBLUE SERVER: ${blueServerLat} \tGREEN SERVER: ${greenServerLat}`;
+        content += `\nStatus == 200 (expressed in percentage)\n\tBLUE SERVER: ${blueServerStat} \tGREEN SERVER: ${greenServerStat}`;
+        content += `\nCanary Pass %\n\tBLUE SERVER: ${blueServerPP} \tGREEN SERVER: ${greenServerPP}`;
+        content += `\n\n!!!!!!!CANARY FAIL!!!!!!!\n`;
+
+        fs.writeFile("/home/vagrant/canaryAnalysis.txt", content, { flag: 'w+' }, err => {
+          if (err){
+            console.log(err);
+          }
+        });
+        console.log(content);
+
+      }
       process.exit(0);
     }
   })

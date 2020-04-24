@@ -12,7 +12,16 @@
       shell: cd /home/vagrant/proxy/ && npm install
 
     - name: Run proxy.js
-      shell: |
-        cd /home/vagrant/proxy/ && node proxy.js
+      shell: cd /home/vagrant/proxy/ && node proxy.js
+
+    - name: Read Canary report
+      slurp:
+        src: /home/vagrant/canaryAnalysis.txt
+      register: canary_report
+
+    - name: Display the report
+      debug:
+        msg: "{{ canary_report['content'] | b64decode }}"
+
   vars:
     ansible_python_interpreter: python
