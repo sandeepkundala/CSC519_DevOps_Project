@@ -8,5 +8,5 @@
     - iTrust
     
   vars:
-    ansible_python_interpreter: python
+    ansible_python_interpreter: python3
 
