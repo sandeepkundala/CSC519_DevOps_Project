@@ -5,7 +5,6 @@ var fs = require("fs");
 const child = require("child_process");
 const redis = require("redis");
 
-let count = 0;
 let time = 0;
 let now = Date.now();
 var proxy = httpProxy.createProxyServer({});
@@ -13,7 +12,7 @@ var proxy = httpProxy.createProxyServer({});
 let blue_ip = "192.168.33.30";
 let green_ip = "192.168.33.40";
 
-var t = 5000;
+var t = 300000;
 
 var servers = [
   { name: "blue", url: `http://${blue_ip}:3000`, status: 0, scoreTrend: [], latency: 5000, pass: 0, fail: 0, cpuPass: 0, cpuFail: 0, memPass: 0, memFail: 0, statusPass: 0, statusFail: 0, latencyPass: 0, latencyFail: 0},
@@ -82,7 +81,6 @@ function main() {
   var data = fileread("/home/vagrant/resources/survey.json");
   var post_req = http.request(options, function (res) {
     res.setEncoding("utf8");
-    console.log("Response from backend is " + res.statusCode);
     if (time < t) {
       servers[0].latency = Date.now() - latency_now;
       servers[0].status = res.statusCode;
@@ -121,7 +119,6 @@ function main() {
 
 http
   .createServer(function (req, res) {
-    console.log("time is" + time);
     if (time < t) {
       proxy.web(req, res, { target: `http://${blue_ip}:3000/` });
     } else if (time >= t && time < 2*t) {
@@ -133,11 +130,7 @@ http
 
       if ( blueServerPP > 0.8 && greenServerPP > 0.8){
         var content = "Canary Passed";
-        fs.writeFile("/home/vagrant/canaryAnalysis.txt", content, { flag: 'w+' }, err => {
-          if (err){
-            console.log(err);
-          }
-        });
+        fs.writeFileSync("/home/vagrant/canaryAnalysis.txt", content);
         console.log(content);
       }
       else {
@@ -149,6 +142,8 @@ http
         let greenServerStat = servers[1].statusPass * 100 / (servers[1].statusFail + servers[1].statusPass);
         let blueServerLat = servers[0].latencyPass * 100 / (servers[0].latencyFail + servers[0].latencyPass);
         let greenServerLat = servers[1].latencyPass * 100 / (servers[1].latencyFail + servers[1].latencyPass);
+        blueServerPP *= 100;
+        greenServerPP *= 100;
         var content = "============= CANARY REPORT ============\n";
         content += "-------- Statistical Difference --------\n";
         content += `\nCPU Utilization < 25% (expressed in percentage)\n\tBLUE SERVER: ${blueServerCPU} \tGREEN SERVER: ${greenServerCPU}`;
@@ -156,13 +151,10 @@ http
         content += `\nLatency < 100ms (expressed in percentage)\n\tBLUE SERVER: ${blueServerLat} \tGREEN SERVER: ${greenServerLat}`;
         content += `\nStatus == 200 (expressed in percentage)\n\tBLUE SERVER: ${blueServerStat} \tGREEN SERVER: ${greenServerStat}`;
         content += `\nCanary Pass %\n\tBLUE SERVER: ${blueServerPP} \tGREEN SERVER: ${greenServerPP}`;
+        content += "\n\n-------------------------------------\n";
         content += `\n\n!!!!!!!CANARY FAIL!!!!!!!\n`;
 
-        fs.writeFile("/home/vagrant/canaryAnalysis.txt", content, { flag: 'w+' }, err => {
-          if (err){
-            console.log(err);
-          }
-        });
+        fs.writeFileSync("/home/vagrant/canaryAnalysis.txt", content);
         console.log(content);
 
       }
