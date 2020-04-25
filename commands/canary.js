@@ -12,7 +12,7 @@ exports.desc = "Spin up 3 local machines";
 const inventoryPath = "/bakerx/cm/inventory.ini";
 const filePath = "/bakerx/canary/canary.yml";
 const filePath2 = "/bakerx/canary/runProxy.yml";
-const filePathUpdate = "/bakerx/canary/update.yml"
+const filePathUpdate = "/bakerx/canary/update.yml";
 
 exports.builder = (yargs) => {
   yargs.options({});
@@ -31,7 +31,6 @@ exports.handler = async (argv) => {
 };
 
 async function run(blueBranch, greenBranch) {
-
   console.log(chalk.blueBright("Provisioning blue server..."));
   let result = child.spawnSync(
     `bakerx`,
@@ -115,38 +114,36 @@ async function run(blueBranch, greenBranch) {
   if (result.error) {
     process.exit(result.status);
   }
-fs.readFile("results/192.168.33.50/home/vagrant/canaryAnalysis.txt", "utf8", function(err, data){
-  console.log(data);
-  if(err){
-    console.log(err);
-  }
-});
-
+  fs.readFile(
+    "results/192.168.33.50/home/vagrant/canaryAnalysis.txt",
+    "utf8",
+    function (err, data) {
+      console.log(data);
+      if (err) {
+        console.log(err);
+      }
+    }
+  );
 
   // delete VMs
 
   console.log(chalk.blueBright("Deleting green vm..."));
-  result = child.spawnSync(
-    `bakerx`,
-    `delete vm green`.split(" "),
-    { shell: true, stdio: "inherit" }
-  );
+  result = child.spawnSync(`bakerx`, `delete vm green`.split(" "), {
+    shell: true,
+    stdio: "inherit",
+  });
 
   console.log(chalk.blueBright("Deleting blue vm..."));
-  result = child.spawnSync(
-    `bakerx`,
-    `delete vm blue`.split(" "),
-    { shell: true, stdio: "inherit" }
-  );
+  result = child.spawnSync(`bakerx`, `delete vm blue`.split(" "), {
+    shell: true,
+    stdio: "inherit",
+  });
 
   console.log(chalk.blueBright("Deleting monitor vm..."));
-  result = child.spawnSync(
-    `bakerx`,
-    `delete vm monitor-vm`.split(" "),
-    { shell: true, stdio: "inherit" }
-  );
-
-
+  result = child.spawnSync(`bakerx`, `delete vm monitor-vm`.split(" "), {
+    shell: true,
+    stdio: "inherit",
+  });
 }
 async function sleep(ms) {
   return new Promise((resolve) => setTimeout(resolve, ms));
