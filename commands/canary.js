@@ -31,8 +31,6 @@ exports.handler = async (argv) => {
 };
 
 async function run(blueBranch, greenBranch) {
-  console.log(blueBranch);
-  console.log(greenBranch);
 
   console.log(chalk.blueBright("Provisioning blue server..."));
   let result = child.spawnSync(
@@ -111,12 +109,19 @@ async function run(blueBranch, greenBranch) {
     "vagrant@192.168.33.10"
   );
   // result = sshSync(
-  //   `ansible-playbook ${filePath2} -i ${inventoryPath} --ask-vault-pass -vvv"`,
+  //   `ansible-playbook ${filePath2} -i ${inventoryPath} --ask-vault-pass"`,
   //   "vagrant@192.168.33.10"
   // );
   if (result.error) {
     process.exit(result.status);
   }
+fs.readFile("results/192.168.33.50/home/vagrant/canaryAnalysis.txt", "utf8", function(err, data){
+  console.log(data);
+  if(err){
+    console.log(err);
+  }
+});
+
 
   // delete VMs
 
