@@ -10,7 +10,7 @@
   roles:
     - proxy
   vars:
-    ansible_python_interpreter: python
+    ansible_python_interpreter: python3
 
 - hosts: blue
   gather_facts: false
@@ -18,7 +18,7 @@
   vars:
     branch: "{{ blue }}"
     vmname: blue
-    ansible_python_interpreter: python
+    ansible_python_interpreter: python3
   vars_files:
     - /bakerx/cm/vars/vars.yml
   roles:
@@ -30,7 +30,7 @@
   vars:
     branch: "{{ green }}"
     vmname: green
-    ansible_python_interpreter: python
+    ansible_python_interpreter: python3
   vars_files:
     - /bakerx/cm/vars/vars.yml
   roles:

@@ -79,10 +79,10 @@ async function run(blueBranch, greenBranch) {
     process.exit(result.status);
   }
 
-  result = sshSync(
-    `ansible-playbook ${filePathUpdate} -i ${inventoryPath} --vault-password-file /bakerx/cm/vars/pass.txt`,
-    "vagrant@192.168.33.10"
-  );
+  // result = sshSync(
+  //   `ansible-playbook ${filePathUpdate} -i ${inventoryPath} --vault-password-file /bakerx/cm/vars/pass.txt`,
+  //   "vagrant@192.168.33.10"
+  // );
   // result = sshSync(
   //   `ansible-playbook ${filePathUpdate} -i ${inventoryPath} --ask-vault-pass`,
   //   "vagrant@192.168.33.10"
