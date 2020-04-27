@@ -4,6 +4,7 @@ var request = require("request");
 var fs = require("fs");
 const child = require("child_process");
 const redis = require("redis");
+var mwu = require('mann-whitney-utest');
 
 let time = 0;
 let now = Date.now();
@@ -20,34 +21,22 @@ var servers = [
     url: `http://${blue_ip}:3000`,
     status: 0,
     scoreTrend: [],
-    latency: 5000,
-    pass: 0,
-    fail: 0,
-    cpuPass: 0,
-    cpuFail: 0,
-    memPass: 0,
-    memFail: 0,
-    statusPass: 0,
-    statusFail: 0,
-    latencyPass: 0,
-    latencyFail: 0,
+    cpuTrend: [],
+    memoryTrend: [],
+    latencyTrend: [],
+    statusTrend: [],
+    latency: 5000
   },
   {
     name: "green",
     url: `http://${green_ip}:3000`,
     status: 0,
     scoreTrend: [],
-    latency: 5000,
-    pass: 0,
-    fail: 0,
-    cpuPass: 0,
-    cpuFail: 0,
-    memPass: 0,
-    memFail: 0,
-    statusPass: 0,
-    statusFail: 0,
-    latencyPass: 0,
-    latencyFail: 0,
+    cpuTrend: [],
+    memoryTrend: [],
+    latencyTrend: [],
+    statusTrend: [],
+    latency: 5000
   },
 ];
 
@@ -67,40 +56,10 @@ const options = {
 };
 
 function updateHealth(server) {
-  let score = 0;
-  if (server.memoryLoad < 25.0) {
-    score += 1;
-    server.memPass += 1;
-  } else {
-    server.memFail += 1;
-  }
-
-  if (server.cpu < 25.0) {
-    score += 1;
-    server.cpuPass += 1;
-  } else {
-    server.cpuFail += 1;
-  }
-
-  if (server.latency < 100) {
-    score += 1;
-    server.latencyPass += 1;
-  } else {
-    server.latencyFail += 1;
-  }
-
-  if (server.status === 200) {
-    score += 3;
-    server.statusPass += 1;
-  } else {
-    server.statusFail += 1;
-  }
-
-  if (score > 3) {
-    server.pass += 1;
-  } else {
-    server.fail += 1;
-  }
+  server.cpuTrend.push(server.cpu);
+  server.memoryTrend.push(server.memoryLoad);
+  server.latencyTrend.push(server.latency);
+  server.statusTrend.push(server.status);
 }
 
 function main() {
@@ -145,6 +104,15 @@ function main() {
   });
 }
 
+function calculatMWU(samples){
+  var u = mwu.test(samples);
+  if (mwu.significant(u, samples)) {
+    return 0;
+  } else {
+    return 1;
+  }
+}
+
 http
   .createServer(function (req, res) {
     if (time < t) {
@@ -152,48 +120,36 @@ http
     } else if (time >= t && time < 2 * t) {
       proxy.web(req, res, { target: `http://${green_ip}:3000/` });
     } else {
-      console.log("Finish");
-      let blueServerPP = servers[0].pass / (servers[0].pass + servers[0].fail);
-      let greenServerPP = servers[1].pass / (servers[1].pass + servers[1].fail);
+      var score = 0
 
-      if (blueServerPP > 0.8 && greenServerPP > 0.8) {
+      var cpuTest = calculatMWU([servers[0].cpuTrend, servers[1].cpuTrend]);
+      var memTest = calculatMWU([servers[0].memoryTrend, servers[1].memoryTrend]);
+      var latTest = calculatMWU([servers[0].latencyTrend, servers[1].latencyTrend]);
+      var statTest = calculatMWU([servers[0].statusTrend, servers[1].statusTrend]);
+
+      score += cpuTest;
+      score += memTest;
+      score += latTest;
+      score += 3 * statTest;
+
+      let cpuFlag = cpuTest == 1 ? "Pass" : "Fail";
+      let memFlag = memTest == 1 ? "Pass" : "Fail";
+      let latFlag = latTest == 1 ? "Pass" : "Fail";
+      let statFlag = statTest == 1 ? "Pass" : "Fail";
+
+      if (score > 3){
         var content = "Canary Passed";
         fs.writeFileSync("/home/vagrant/canaryAnalysis.txt", content);
         console.log(content);
-      } else {
-        let blueServerCPU =
-          (servers[0].cpuPass * 100) /
-          (servers[0].cpuFail + servers[0].cpuPass);
-        let greenServerCPU =
-          (servers[1].cpuPass * 100) /
-          (servers[1].cpuFail + servers[1].cpuPass);
-        let blueServerMem =
-          (servers[0].memPass * 100) /
-          (servers[0].memFail + servers[0].memPass);
-        let greenServerMem =
-          (servers[1].memPass * 100) /
-          (servers[1].memFail + servers[1].memPass);
-        let blueServerStat =
-          (servers[0].statusPass * 100) /
-          (servers[0].statusFail + servers[0].statusPass);
-        let greenServerStat =
-          (servers[1].statusPass * 100) /
-          (servers[1].statusFail + servers[1].statusPass);
-        let blueServerLat =
-          (servers[0].latencyPass * 100) /
-          (servers[0].latencyFail + servers[0].latencyPass);
-        let greenServerLat =
-          (servers[1].latencyPass * 100) /
-          (servers[1].latencyFail + servers[1].latencyPass);
-        blueServerPP *= 100;
-        greenServerPP *= 100;
+      }
+
+      else {
         var content = "============= CANARY REPORT ============\n";
         content += "-------- Statistical Difference --------\n";
-        content += `\nCPU Utilization < 25% (expressed in percentage)\n\tBLUE SERVER: ${blueServerCPU} \tGREEN SERVER: ${greenServerCPU}`;
-        content += `\nMemory Utilization < 25% (expressed in percentage)\n\tBLUE SERVER: ${blueServerMem} \tGREEN SERVER: ${greenServerMem}`;
-        content += `\nLatency < 100ms (expressed in percentage)\n\tBLUE SERVER: ${blueServerLat} \tGREEN SERVER: ${greenServerLat}`;
-        content += `\nStatus == 200 (expressed in percentage)\n\tBLUE SERVER: ${blueServerStat} \tGREEN SERVER: ${greenServerStat}`;
-        content += `\nCanary Pass %\n\tBLUE SERVER: ${blueServerPP} \tGREEN SERVER: ${greenServerPP}`;
+        content += `\nCPU Utilization:\n\tStatus: ${cpuFlag}`;
+        content += `\nMemory Utilization:\n\tStatus: ${memFlag}`;
+        content += `\nLatency:\n\tStatus : ${latFlag}`;
+        content += `\nApp Status:\n\tStatus: ${statFlag}`;
         content += "\n\n-------------------------------------\n";
         content += `\n\n!!!!!!!CANARY FAIL!!!!!!!\n`;
 
