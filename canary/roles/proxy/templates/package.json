@@ -10,7 +10,7 @@
   "license": "ISC",
   "dependencies": {
     "http": "latest",
-    "http-proxy": "latest",
+    "http-proxy": "^1.18.0",
     "request": "latest",
     "child_process": "latest",
     "fs": "latest",

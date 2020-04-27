@@ -4,7 +4,7 @@ var request = require("request");
 var fs = require("fs");
 const child = require("child_process");
 const redis = require("redis");
-var mwu = require('mann-whitney-utest');
+var mwu = require("mann-whitney-utest");
 
 let time = 0;
 let now = Date.now();
@@ -25,7 +25,7 @@ var servers = [
     memoryTrend: [],
     latencyTrend: [],
     statusTrend: [],
-    latency: 5000
+    latency: 5000,
   },
   {
     name: "green",
@@ -36,7 +36,7 @@ var servers = [
     memoryTrend: [],
     latencyTrend: [],
     statusTrend: [],
-    latency: 5000
+    latency: 5000,
   },
 ];
 
@@ -104,7 +104,7 @@ function main() {
   });
 }
 
-function calculatMWU(samples){
+function calculatetMWU(samples) {
   var u = mwu.test(samples);
   if (mwu.significant(u, samples)) {
     return 0;
@@ -120,12 +120,40 @@ http
     } else if (time >= t && time < 2 * t) {
       proxy.web(req, res, { target: `http://${green_ip}:3000/` });
     } else {
-      var score = 0
+      var score = 0;
+      var cpulen = Math.min(
+        servers[0].cpuTrend.length,
+        servers[1].cpuTrend.length
+      );
+      var memlen = Math.min(
+        servers[0].memoryTrend.length,
+        servers[1].memoryTrend.length
+      );
+      var latencylen = Math.min(
+        servers[0].latencyTrend.length,
+        servers[0].latencyTrend.length
+      );
+      var statuslen = Math.min(
+        servers[0].statusTrend.length,
+        servers[1].statusTrend.length
+      );
 
-      var cpuTest = calculatMWU([servers[0].cpuTrend, servers[1].cpuTrend]);
-      var memTest = calculatMWU([servers[0].memoryTrend, servers[1].memoryTrend]);
-      var latTest = calculatMWU([servers[0].latencyTrend, servers[1].latencyTrend]);
-      var statTest = calculatMWU([servers[0].statusTrend, servers[1].statusTrend]);
+      var cpuTest = calculatetMWU([
+        servers[0].cpuTrend.slice(0, cpulen),
+        servers[1].cpuTrend.slice(0, cpulen),
+      ]);
+      var memTest = calculatetMWU([
+        servers[0].memoryTrend.slice(0, memlen),
+        servers[1].memoryTrend.slice(0, memlen),
+      ]);
+      var latTest = calculatetMWU([
+        servers[0].latencyTrend.slice(0, latencylen),
+        servers[1].latencyTrend.slice(0, latencylen),
+      ]);
+      var statTest = calculatetMWU([
+        servers[0].statusTrend.slice(0, statuslen),
+        servers[1].statusTrend.slice(0, statuslen),
+      ]);
 
       score += cpuTest;
       score += memTest;
@@ -137,13 +165,15 @@ http
       let latFlag = latTest == 1 ? "Pass" : "Fail";
       let statFlag = statTest == 1 ? "Pass" : "Fail";
 
-      if (score > 3){
+      if (score > 3) {
         var content = "Canary Passed";
+        // console.log("for zero!!!");
+        // console.log(servers[0].statusTrend.slice(0, statuslen));
+        // console.log("for one!!!");
+        // console.log(servers[0].statusTrend.slice(0, statuslen));
         fs.writeFileSync("/home/vagrant/canaryAnalysis.txt", content);
         console.log(content);
-      }
-
-      else {
+      } else {
         var content = "============= CANARY REPORT ============\n";
         content += "-------- Statistical Difference --------\n";
         content += `\nCPU Utilization:\n\tStatus: ${cpuFlag}`;
@@ -154,6 +184,10 @@ http
         content += `\n\n!!!!!!!CANARY FAIL!!!!!!!\n`;
 
         fs.writeFileSync("/home/vagrant/canaryAnalysis.txt", content);
+        // console.log("for zero!!!");
+        // console.log(servers[0].statusTrend.slice(0, statuslen));
+        // console.log("for one!!!");
+        // console.log(servers[0].statusTrend.slice(0, statuslen));
         console.log(content);
       }
       process.exit(0);

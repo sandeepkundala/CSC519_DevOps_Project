@@ -1,18 +1,1 @@
-============= CANARY REPORT ============
--------- Statistical Difference --------
-
-CPU Utilization < 25% (expressed in percentage)
-	BLUE SERVER: 100 	GREEN SERVER: 100
-Memory Utilization < 25% (expressed in percentage)
-	BLUE SERVER: 0 	GREEN SERVER: 0
-Latency < 100ms (expressed in percentage)
-	BLUE SERVER: 100 	GREEN SERVER: 100
-Status == 200 (expressed in percentage)
-	BLUE SERVER: 100 	GREEN SERVER: 0
-Canary Pass %
-	BLUE SERVER: 100 	GREEN SERVER: 0
-
--------------------------------------
-
-
-!!!!!!!CANARY FAIL!!!!!!!
+Canary Passed
