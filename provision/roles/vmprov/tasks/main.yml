@@ -3,6 +3,9 @@
   shell: python {{ jenkins_homeuser_path }}/provision/create_aws_vm.py
   become: true
 
+- pause:
+    minutes: 1
+
 - name: get jenkins-srv:/home/vagrant/deploy.ini
   fetch:
     src: "{{ jenkins_homeuser_path }}/deploy.ini"
