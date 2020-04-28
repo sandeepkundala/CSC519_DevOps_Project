@@ -43,24 +43,30 @@
   - Implemented [proxy and canary analysis](https://github.ncsu.edu/cscdevops-spring2020/DEVOPS-06/blob/master/canary/roles/proxy/templates/proxy.js) on the blue green server.
     
 #### Technologies Used
-- NodeJS: As a wrapper to execute custom commands like pipeline setup, pipeline build and fuzzing.
+- NodeJS: 
+  - As a wrapper to execute custom commands like pipeline setup, pipeline prod up, pipeline deploy, and pipeline canary.
+  - For proxy controller.
+  - For canary analysis
 - Bash: As a wrapper for to execute playbooks and running shell scripts.
+- Python: Create EC2 instances in AWS
 - Virtual Box: Provisioning of VMs with required configuration.
 - Ansible: Configuration of Jenkins-srv to install necessary packages for Jenkins, build environment, build job and running maven tests.
 - Jenkins: Perform build job using the set configuration.
+- Redis: To store the monitoring metrics.
 
 #### Challenges Faced:
-- The build job for jenkins was affected due to less memory allocated for Jenkins-srv.
-- Fuzzing the files (generics were getting impacted).
-- Each maven test was taking 15-30 min.
+- Writing logic for performing monitoring accurately.
+- 
+- Getting metrics from backend servers to proxy servers.
 
 #### Contribution:
-- Setting NodeJS wrapper to execute useful-test command: SANDEEP KUNDALA
-- Configuring build environment for iTrust: SANDEEP KUNDALA, RAJSHREE JAIN
-- Configuring jenkins build job for iTrust: RAJSHREE JAIN
-- Performing static analysis on checkbox.io: JAYDIP GABANI
-- Creating fuzzer: RAJSHREE JAIN, JAYDIP GABANI, SANDEEP KUNDALA
-- Performing test prioratization analysis: JAYDIP GABANI, RAJSHREE JAIN
+- Setting NodeJS wrapper to execute prod up, deploy and canary command: SANDEEP KUNDALA, RAJSHREE JAIN
+- Provision VMs in AWS environment: SANDEEP KUNDALA, RAJSHREE JAIN
+- Perform monitoring of itrust VM and checkbox VM via monitor vm using dashboard: SANDEEP KUNDALA
+- Configure and deploy iTrust application in AWS ec2 instance: JAYDIP GABANI
+- Configure and deploy checkbox application in AWS ec2 instance: JAYDIP GABANI
+- Configure environment for canary analysis by provisioning VMs and configuring proxy to the 2 backend servers: RAJSHREE JAIN
+- Perform Canary Analysis: RAJSHREE JAIN, SANDEEP KUNDALA
 
 #### Setup
 ``` 
@@ -82,6 +88,15 @@ pipeline useful-tests -c <number>
 
 # to trigger build job for checkbox.io:
 pipeline build checkbox.io
+
+# to provision VM in AWS:
+pipeline prod up
+
+# to deploy applications into the AWS VM:
+pipeline deploy <app> -i <inventory.ini>
+
+# to perform canary analysis:
+pipeline canary <blueServer> <greenServer>
 ```
 *Note:*
 - *In slower machines,  there has been issues where IP address of Jenkins-srv is not assigned during provisioning of VMs (pipeline setup). In such cases, it is advised to run the command (pipeline setup) again* 
@@ -93,11 +108,11 @@ The link of the screencast is [here](https://drive.google.com/open?id=1O39hjqkJG
 
 ### Issues
 
-All issues pertaining to Milestone 2 is [here](https://github.ncsu.edu/cscdevops-spring2020/DEVOPS-06/issues?utf8=%E2%9C%93&q=is%3Aissue+project%3Acscdevops-spring2020%2FDEVOPS-06%2F2+)
+All issues pertaining to Milestone 3 is [here](https://github.ncsu.edu/cscdevops-spring2020/DEVOPS-06/issues?utf8=%E2%9C%93&q=is%3Aissue+label%3A%22Milestone+3%22+)
 
 ### Kanban board
 
-The kanban project board is [here](https://github.ncsu.edu/cscdevops-spring2020/DEVOPS-06/projects/2)
+The kanban project board is [here](https://github.ncsu.edu/cscdevops-spring2020/DEVOPS-06/projects/3)
 
 
 ### Checkpoint reports
