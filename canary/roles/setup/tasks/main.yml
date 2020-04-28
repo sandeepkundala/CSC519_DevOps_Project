@@ -1,6 +1,6 @@
 ---
-# - name: Install Python
-#   raw: apt-get -y install python
+- name: Install Python
+  raw: apt-get -y install python3
 
 - name: Update
   apt:

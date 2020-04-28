@@ -1,1 +1,16 @@
-Canary Passed
+============= CANARY REPORT ============
+-------- Statistical Difference --------
+
+CPU Utilization:
+	Status: Fail
+Memory Utilization:
+	Status: Fail
+Latency:
+	Status : Pass
+App Status:
+	Status: Fail
+
+-------------------------------------
+
+
+!!!!!!!CANARY FAIL!!!!!!!
