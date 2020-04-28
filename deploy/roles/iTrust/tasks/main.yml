@@ -65,7 +65,7 @@
   timezone:
     name: America/New_York
 
-- name: Copy iTrust repo configurations 
+- name: Copy iTrust repo configurations
   template:
     src: iTrustBuild.Unix.sh
     dest: /
@@ -87,14 +87,14 @@
   lineinfile:
     dest: /etc/environment
     line: GH_USER={{GH_USER}}
-    regexp: '^GH_USER='
+    regexp: "^GH_USER="
     state: present
 
 - name: set environment variables - GH Password
   lineinfile:
     dest: /etc/environment
     line: GH_PASS={{GH_PASS}}
-    regexp: '^GH_PASS=' 
+    regexp: "^GH_PASS="
     state: present
 
 - name: Source environment variables
@@ -151,3 +151,6 @@
 
 - name: Start Tomcat
   shell: nohup sh /opt/tomcat9/bin/startup.sh
+
+- name: download test cases
+  shell: cd /iTrust2-v6/iTrust2/ && sudo mvn -f pom-data.xml process-test-classes
