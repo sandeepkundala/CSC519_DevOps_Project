@@ -13,7 +13,7 @@ var proxy = httpProxy.createProxyServer({});
 let blue_ip = "192.168.33.30";
 let green_ip = "192.168.33.40";
 
-var t = 300000;
+var t = 5000;
 
 var servers = [
   {

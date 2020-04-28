@@ -2,7 +2,7 @@
 -------- Statistical Difference --------
 
 CPU Utilization:
-	Status: Fail
+	Status: Pass
 Memory Utilization:
 	Status: Fail
 Latency:
