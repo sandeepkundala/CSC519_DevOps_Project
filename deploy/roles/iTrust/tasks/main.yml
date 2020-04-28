@@ -119,9 +119,14 @@
     dest: /iTrust2-v6/iTrust2/src/main/java/db.properties
     force: yes
 
+- name: Copy database
+  template:
+    src: /bakerx/deploy/roles/iTrust/templates/db.sql
+    dest: /iTrust2-v6/iTrust2/db.sql
+    force: yes
 
-# - name: Configure iTrust
-  # shell: bash /iTrustBuild.Unix.sh
+# # - name: Configure iTrust
+#   # shell: bash /iTrustBuild.Unix.sh
 
 - name: stat for /opt/tomcat9
   stat:
@@ -172,16 +177,14 @@
 - name: Start Tomcat
   shell: nohup sh /opt/tomcat9/bin/startup.sh
 
-# - name: download test cases
-#   shell: cd /iTrust2-v6/iTrust2/ && sudo mvn -f pom-data.xml process-test-classes
-
-- name: tables delete 
-  shell: mysql -u root -e 'DROP DATABASE IF EXISTS iTrust2'
-  args: 
-    chdir: /iTrust2-v6/iTrust2/
-
-- name: download test cases
-  shell: mvn -f pom-data.xml process-test-classes
+- name: create db
+  shell: mysql -u root -e 'CREATE DATABASE IF NOT EXISTS iTrust2'
   args:
     chdir: /iTrust2-v6/iTrust2/
+- name: import db
+  shell: mysql -u root -password={{mysql_password}} iTrust2 < db.sql
+  args:
+    chdir: /iTrust2-v6/iTrust2/
+
+
 
