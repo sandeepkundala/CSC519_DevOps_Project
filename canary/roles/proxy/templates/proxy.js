@@ -104,7 +104,7 @@ function main() {
   });
 }
 
-function calculatetMWU(samples) {
+function calculateMWU(samples) {
   var u = mwu.test(samples);
   if (mwu.significant(u, samples)) {
     return 0;
@@ -138,19 +138,19 @@ http
         servers[1].statusTrend.length
       );
 
-      var cpuTest = calculatetMWU([
+      var cpuTest = calculateMWU([
         servers[0].cpuTrend.slice(0, cpulen),
         servers[1].cpuTrend.slice(0, cpulen),
       ]);
-      var memTest = calculatetMWU([
+      var memTest = calculateMWU([
         servers[0].memoryTrend.slice(0, memlen),
         servers[1].memoryTrend.slice(0, memlen),
       ]);
-      var latTest = calculatetMWU([
+      var latTest = calculateMWU([
         servers[0].latencyTrend.slice(0, latencylen),
         servers[1].latencyTrend.slice(0, latencylen),
       ]);
-      var statTest = calculatetMWU([
+      var statTest = calculateMWU([
         servers[0].statusTrend.slice(0, statuslen),
         servers[1].statusTrend.slice(0, statuslen),
       ]);
@@ -167,10 +167,6 @@ http
 
       if (score > 3) {
         var content = "Canary Passed";
-        // console.log("for zero!!!");
-        // console.log(servers[0].statusTrend.slice(0, statuslen));
-        // console.log("for one!!!");
-        // console.log(servers[0].statusTrend.slice(0, statuslen));
         fs.writeFileSync("/home/vagrant/canaryAnalysis.txt", content);
         console.log(content);
       } else {
@@ -184,10 +180,6 @@ http
         content += `\n\n!!!!!!!CANARY FAIL!!!!!!!\n`;
 
         fs.writeFileSync("/home/vagrant/canaryAnalysis.txt", content);
-        // console.log("for zero!!!");
-        // console.log(servers[0].statusTrend.slice(0, statuslen));
-        // console.log("for one!!!");
-        // console.log(servers[0].statusTrend.slice(0, statuslen));
         console.log(content);
       }
       process.exit(0);
