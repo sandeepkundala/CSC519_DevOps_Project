@@ -175,6 +175,11 @@
 # - name: download test cases
 #   shell: cd /iTrust2-v6/iTrust2/ && sudo mvn -f pom-data.xml process-test-classes
 
+- name: tables delete 
+  shell: mysql -u root -e 'DROP DATABASE IF EXISTS iTrust2'
+  args: 
+    chdir: /iTrust2-v6/iTrust2/
+
 - name: download test cases
   shell: mvn -f pom-data.xml process-test-classes
   args:
