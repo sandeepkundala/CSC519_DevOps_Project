@@ -65,23 +65,11 @@
   timezone:
     name: America/New_York
 
-- name: Copy iTrust repo configurations
-  template:
-    src: iTrustBuild.Unix.sh
-    dest: /
-    force: yes
-
-- name: Copying the new email.properties with updated credentials
-  template:
-    src: "{{ project_directory }}/roles/iTrust_envi/templates/email.properties.j2"
-    dest: /
-    force: yes
-
-- name: Copying the new db.properties with updated credentials
-  template:
-    src: "{{ project_directory }}/roles/iTrust_envi/templates/db.properties.j2"
-    dest: /
-    force: yes
+# - name: Copy iTrust repo configurations
+#   template:
+#     src: iTrustBuild.Unix.sh
+#     dest: /
+    # force: yes
 
 - name: set environment variables - GH User
   lineinfile:
@@ -100,8 +88,40 @@
 - name: Source environment variables
   shell: . /etc/environment
 
-- name: Configure iTrust
-  shell: bash /iTrustBuild.Unix.sh
+- name: remove Itrust
+  file:
+    path: '{{iTrust_home}}'
+    state: absent
+
+- name: clone iTrust
+  git: 
+    repo: 'https://{{GH_USER}}:{{GH_PASS}}@github.ncsu.edu/engr-csc326-staff/iTrust2-v6.git'
+    dest: '{{iTrust_home}}'
+    update: no
+- name: remove configes
+  file:
+    path: /iTrust2-v6/iTrust2/src/main/java/db.properties.template
+    state: absent
+- name: remove configes
+  file:
+    path: /iTrust2-v6/iTrust2/src/main/java/email.properties.template
+    state: absent
+
+- name: Copying the new email.properties with updated credentials
+  template:
+    src: "{{ project_directory }}/roles/iTrust_envi/templates/email.properties.j2"
+    dest: /iTrust2-v6/iTrust2/src/main/java/email.properties
+    force: yes
+
+- name: Copying the new db.properties with updated credentials
+  template:
+    src: "{{ project_directory }}/roles/iTrust_envi/templates/db.properties.j2"
+    dest: /iTrust2-v6/iTrust2/src/main/java/db.properties
+    force: yes
+
+
+# - name: Configure iTrust
+  # shell: bash /iTrustBuild.Unix.sh
 
 - name: stat for /opt/tomcat9
   stat:
@@ -152,5 +172,11 @@
 - name: Start Tomcat
   shell: nohup sh /opt/tomcat9/bin/startup.sh
 
+# - name: download test cases
+#   shell: cd /iTrust2-v6/iTrust2/ && sudo mvn -f pom-data.xml process-test-classes
+
 - name: download test cases
-  shell: cd /iTrust2-v6/iTrust2/ && sudo mvn -f pom-data.xml process-test-classes
+  shell: mvn -f pom-data.xml process-test-classes
+  args:
+    chdir: /iTrust2-v6/iTrust2/
+
