@@ -6,41 +6,41 @@
 |2| Jaydip Gabani| jgabani |
 |3| Sandeep Kundala | skundal |
 
-## Milestone 2 - Pipleline > Test+Analysis
+## Milestone 3 - Pipleline > Deploy
 
 ### Discussion points
 | Date | Notes |
 | :---: | :---: |
-| 03-05-2020 | **Division of task:** All the Milestone 2a tasks are divided among team members to start parallely. |
-| 03-12-2020 | **Discussed task progress:** Discussed the progress of our tasks, blockers and future steps |
-| 03-17-2020 | **Discussed completion of Checkpoint and future work:** Completed 60% of the project including nodejs wrapper, itrust environment configuratin, itrust build configuration and static analysis of checkbox.io |
-| 03-23-2020 | **Discussed task progress:** Discussed the progress of fuzzing, blockers and future steps |
-| 04-04-2020 | **Discussed completion of Milestone 2:** Performed end to end manual testing of the project and completed screencast |
-
+| 04-10-2020 | **Division of task:** All the Milestone 3 tasks are divided among team members to focus. |
+| 04-15-2020 | **Discussed task progress:** Discussed the progress. Completed enhancements of M2, nodejs command wrappers, provisioning and monitoring of ec2 instances in AWS. |
+| 04-21-2020 | **Discussed completion of Checkpoint and future work:** Completed deployment of applications in AWS ec2 instances. |
+| 04-24-2020 | **Discussed task progress:** Fixed checkpoint errors. Provisioned VMs for canary task |
+| 04-28-2020 | **Discussed completion of Milestone 3:** Completed canary analysis using Mann-Whitney U Test. Performed end to end manual testing of the project and completed screencast |
 
 ### Report
 #### Architecture
-![](https://github.ncsu.edu/cscdevops-spring2020/DEVOPS-06/blob/master/resources/m2.png)
+![](https://github.ncsu.edu/cscdevops-spring2020/DEVOPS-06/blob/master/resources/m3.png)
 
 #### Tasks
-- Automatically configure a build environment and build job for a Java application (iTrust).
-  - [Build envirorment for iTrust](https://github.ncsu.edu/cscdevops-spring2020/DEVOPS-06/blob/master/cm/roles/iTrust_envi/tasks/main.yml)
-  - [Build job for iTrust](https://github.ncsu.edu/cscdevops-spring2020/DEVOPS-06/blob/master/cm/roles/create_jobs/templates/iTrust_jenkins_jobs.yml)
-
-- Implement a test suite analysis for detecting useful tests.
-  - Implemented [fuzzer](https://github.ncsu.edu/cscdevops-spring2020/DEVOPS-06/blob/master/Fuzzer/fuzzer.js) to 
-    - swap "<" with ">"
-    - swap "==" with "!="
-    - swap 0 with 1
-    - swap "true" with "false"
-  - Performed analysis to detect [useful tests](https://github.ncsu.edu/cscdevops-spring2020/DEVOPS-06/blob/master/Fuzzer/FS.js).
-  - The result for one such run is [here](https://github.ncsu.edu/cscdevops-spring2020/DEVOPS-06/blob/master/results/192.168.33.20/home/vagrant/Fuzzer/final_result_100.txt)
-
-- Implement a static analysis for detecting code smells.
-  - Implemented [static analysis](https://github.ncsu.edu/cscdevops-spring2020/DEVOPS-06/blob/master/Complexity/analysis.js) on checkbox.io which checks for the below conditions and fail the build if any of the below conditions are satisfied.
-    - Long method: Detect long methods (>100 LOC).
-    - Message Chains: Detect message chains (for .) (>10 chains)
-    - MaxNestingDepth: Count the max number of if statements in a function (>5)
+- Provision cloud instances and monitoring control plane.
+  - Get AWS credentials: Follow the instruction to create IAM User and configuring AWS in the local machine: https://blog.ipswitch.com/how-to-create-an-ec2-instance-with-python
+  - Edit AWS Configuration:
+    - [Decrypt and edit vars file to input AWS Configurations](https://github.ncsu.edu/cscdevops-spring2020/DEVOPS-06/blob/master/cm/vars/vars.yml)
+    - [Replace the key here](https://github.ncsu.edu/cscdevops-spring2020/DEVOPS-06/blob/master/provision/roles/provision_envi/templates/ec2-KP-devops06.pem) with your personal AWS private key.(here the key is encrypted)
+  - [setup jenkins server for AWS EC2 provisioning environment](https://github.ncsu.edu/cscdevops-spring2020/DEVOPS-06/blob/master/provision/provision.yml)
+  - [Provision ec2 instances in AWS](https://github.ncsu.edu/cscdevops-spring2020/DEVOPS-06/blob/master/provision/roles/provision_envi/templates/create_aws_vm.py)
+  - [Setup Monitor VM in AWS](https://github.ncsu.edu/cscdevops-spring2020/DEVOPS-06/blob/master/provision/monitor.yml)
+  - [Setup iTrust VM in AWS](https://github.ncsu.edu/cscdevops-spring2020/DEVOPS-06/blob/master/provision/iTrust.yml)
+  - [Setup checkbox.io VM in AWS](https://github.ncsu.edu/cscdevops-spring2020/DEVOPS-06/blob/master/provision/checkbox.yml)
+  - [Monitoring VM with dashboard](https://github.ncsu.edu/cscdevops-spring2020/DEVOPS-06/tree/master/provision/roles/monitor_setup/templates/dashboard)
+  - [iTrust monitoring and checkbox monitoring](https://github.ncsu.edu/cscdevops-spring2020/DEVOPS-06/tree/master/provision/roles/webserver_setup/templates/agent)
+  
+- Deploy checkbox.io and iTrust.
+  
+  
+- Canary Analysis.
+  - [Completed canary analysis task](https://github.ncsu.edu/cscdevops-spring2020/DEVOPS-06/blob/master/commands/canary.js) by provisioning VMs, running proxy, performing canary analysis and deleting the VMs)
+  - Implemented [proxy and canary analysis](https://github.ncsu.edu/cscdevops-spring2020/DEVOPS-06/blob/master/canary/roles/proxy/templates/proxy.js) on the blue green server.
     
 #### Technologies Used
 - NodeJS: As a wrapper to execute custom commands like pipeline setup, pipeline build and fuzzing.
