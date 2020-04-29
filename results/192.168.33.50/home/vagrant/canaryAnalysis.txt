@@ -8,11 +8,11 @@ Memory Utilization:
 Latency:
 	Status : Pass
 App Status:
-	Status: Fail
+	Status: Pass
 Total Score out of 6:
-	Score: 2
+	Score: 5
 
 -------------------------------------
 
 
-!!!!!!!CANARY FAIL!!!!!!!
+!!!!!!!CANARY PASS!!!!!!!
