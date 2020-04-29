@@ -6,7 +6,6 @@
   roles:
     - java8
     - iTrust
-    
+
   vars:
     ansible_python_interpreter: python3
-

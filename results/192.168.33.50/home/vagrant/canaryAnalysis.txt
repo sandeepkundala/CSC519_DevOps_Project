@@ -2,15 +2,17 @@
 -------- Statistical Difference --------
 
 CPU Utilization:
-	Status: Fail
+	Status: Pass
 Memory Utilization:
 	Status: Fail
 Latency:
 	Status : Pass
 App Status:
-	Status: Fail
+	Status: Pass
+Total Score out of 6:
+	Score: 5
 
 -------------------------------------
 
 
-!!!!!!!CANARY FAIL!!!!!!!
+!!!!!!!CANARY PASS!!!!!!!
