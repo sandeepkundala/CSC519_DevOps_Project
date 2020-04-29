@@ -1,6 +1,6 @@
 ---
 - name: provision VM(s)
-  shell: python {{ jenkins_homeuser_path }}/provision/create_aws_vm.py
+  shell: python3 {{ jenkins_homeuser_path }}/provision/create_aws_vm.py
   become: true
 
 - pause:

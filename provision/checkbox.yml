@@ -1,5 +1,5 @@
 ---
-# see the best practices in ansible docs for how to get started with creating roles etc.: 
+# see the best practices in ansible docs for how to get started with creating roles etc.:
 # https://docs.ansible.com/ansible/latest/user_guide/playbooks_best_practices.html
 
 - hosts: checkbox
@@ -7,8 +7,9 @@
   become: yes
   vars:
     vmname: checkbox
+    ansible_python_interpreter: python3
   vars_files:
-   - /bakerx/cm/vars/vars.yml
+    - /bakerx/cm/vars/vars.yml
   roles:
     - ping
     - init_setup

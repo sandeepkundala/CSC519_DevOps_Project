@@ -1,18 +1,1 @@
-============= CANARY REPORT ============
--------- Statistical Difference --------
-
-CPU Utilization:
-	Status: Pass
-Memory Utilization:
-	Status: Fail
-Latency:
-	Status : Pass
-App Status:
-	Status: Pass
-Total Score out of 6:
-	Score: 5
-
--------------------------------------
-
-
-!!!!!!!CANARY PASS!!!!!!!
+Canary Passed

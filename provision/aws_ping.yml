@@ -1,11 +1,13 @@
 ---
-# see the best practices in ansible docs for how to get started with creating roles etc.: 
+# see the best practices in ansible docs for how to get started with creating roles etc.:
 # https://docs.ansible.com/ansible/latest/user_guide/playbooks_best_practices.html
 
 - hosts: iTrust2
   gather_facts: false
   become: yes
   vars_files:
-   - /bakerx/cm/vars/vars.yml
+    - /bakerx/cm/vars/vars.yml
   roles:
     - ping
+  vars:
+    ansible_python_interpreter: python3
