@@ -33,6 +33,10 @@
   apt:
     name: git
 
+- name: install dos2unix
+  apt:
+    name: dos2unix
+
 - name: Install Nginx
   apt:
     name: nginx

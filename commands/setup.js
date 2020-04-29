@@ -128,6 +128,10 @@ async function run(privateKey, ghUser, ghPass) {
     `ansible-playbook ${filePath} -i ${inventoryPath} --vault-password-file /bakerx/cm/vars/pass.txt -e "GH_USER=${ghUser}" -e "GH_PASS=${ghPass}"`,
     "vagrant@192.168.33.10"
   );
+  // result = sshSync(
+  //   `ansible-playbook ${filePath} -i ${inventoryPath} --ask-vault-pass -e "GH_USER=${ghUser}" -e "GH_PASS=${ghPass}"`,
+  //   "vagrant@192.168.33.10"
+  // );
   if (result.error) {
     process.exit(result.status);
   }

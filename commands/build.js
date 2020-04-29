@@ -28,6 +28,10 @@ async function run(job) {
     `/bakerx/cm/run-ansible.sh ${filePath} ${inventoryPath}`,
     "vagrant@192.168.33.10"
   );
+  // let result = sshSync(
+  //   `ansible-playbook ${filePath} -i ${inventoryPath} --ask-vault-pass`,
+  //   "vagrant@192.168.33.10"
+  // );
   if (result.error) {
     process.exit(result.status);
   }

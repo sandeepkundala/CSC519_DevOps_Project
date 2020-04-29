@@ -4,7 +4,7 @@
     project-type: freestyle
     builders:
       - shell: |
-          bash /home/vagrant/iTrustBuild.Unix.sh
+          bash /home/vagrant/iTrustBuild.sh
     publishers:
       - postbuildscript:
           builders:
