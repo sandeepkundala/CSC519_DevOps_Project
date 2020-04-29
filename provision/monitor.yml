@@ -1,5 +1,5 @@
 ---
-# see the best practices in ansible docs for how to get started with creating roles etc.: 
+# see the best practices in ansible docs for how to get started with creating roles etc.:
 # https://docs.ansible.com/ansible/latest/user_guide/playbooks_best_practices.html
 
 - hosts: monitor
@@ -9,8 +9,10 @@
     aws_home: /home/ubuntu
     jenkins_home: /home/vagrant
   vars_files:
-   - /bakerx/cm/vars/vars.yml
+    - /bakerx/cm/vars/vars.yml
   roles:
     - ping
     - init_setup
     - monitor_setup
+  vars:
+    ansible_python_interpreter: python3
