@@ -2,20 +2,20 @@
 
 - name: Copy the key
   copy:
-    src: /home/vagrant/192.168.33.20/home/vagrant/ec2-KP-devops06.pem
-    dest: /home/ubuntu/.ssh/ec2-KP-devops06
+    src:  "{{ jenkins_home }}/192.168.33.20/home/vagrant/ec2-KP-devops06.pem"
+    dest:  "{{ aws_home }}/.ssh/ec2-KP-devops06"
     owner: ubuntu
     group: ubuntu
     mode: u=r--,g=---,o=---
 
 - name: Copy the Monitor IP
   copy:
-    src: /bakerx/results/192.168.33.20/home/vagrant/monitor_ip.txt
-    dest: /home/ubuntu/
+    src: "/bakerx/results/192.168.33.20{{ jenkins_home }}/monitor_ip.txt"
+    dest:  "{{ aws_home }}"
 
 - name: Load data
   slurp:
-    src: /home/ubuntu/monitor_ip.txt
+    src:  "{{ aws_home }}/monitor_ip.txt"
   register: slurped_user_data
 
 - name: debug

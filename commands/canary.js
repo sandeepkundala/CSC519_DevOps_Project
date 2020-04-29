@@ -12,7 +12,6 @@ exports.desc = "Spin up 3 local machines";
 const inventoryPath = "/bakerx/cm/inventory.ini";
 const filePath = "/bakerx/canary/canary.yml";
 const filePath2 = "/bakerx/canary/runProxy.yml";
-const filePathUpdate = "/bakerx/canary/update.yml";
 
 exports.builder = (yargs) => {
   yargs.options({});
@@ -79,17 +78,6 @@ async function run(blueBranch, greenBranch) {
     process.exit(result.status);
   }
 
-  // result = sshSync(
-  //   `ansible-playbook ${filePathUpdate} -i ${inventoryPath} --vault-password-file /bakerx/cm/vars/pass.txt`,
-  //   "vagrant@192.168.33.10"
-  // );
-  // result = sshSync(
-  //   `ansible-playbook ${filePathUpdate} -i ${inventoryPath} --ask-vault-pass`,
-  //   "vagrant@192.168.33.10"
-  // );
-  if (result.error) {
-    process.exit(result.status);
-  }
 
   result = sshSync(
     `ansible-playbook ${filePath} -i ${inventoryPath} --vault-password-file /bakerx/cm/vars/pass.txt -e "blue=${blueBranch}" -e "green=${greenBranch}"`,

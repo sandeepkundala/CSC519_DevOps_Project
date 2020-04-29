@@ -23,14 +23,14 @@
 - name: Copy folder
   copy:
     src: /bakerx/provision/roles/monitor_setup/templates/dashboard
-    dest: /home/ubuntu/
+    dest: "{{ aws_home }}"
 
 - name: copy monitor_ip.txt
-  shell: cp /home/ubuntu/monitor_ip.txt /home/ubuntu/dashboard/metrics/ip.txt
+  shell: "cp {{ aws_home }}/monitor_ip.txt {{ aws_home }}/dashboard/metrics/ip.txt"
 
 - name: Install npm packages
   npm:
-    path: /home/ubuntu/dashboard
+    path: "{{ aws_home }}/dashboard"
 
 - name: Install forever
   npm:
@@ -40,12 +40,12 @@
 
 - name: Copy the iTrust IP
   copy:
-    src: /bakerx/results/192.168.33.20/home/vagrant/itrust_ip.txt
-    dest: /home/ubuntu/
+    src: "/bakerx/results/192.168.33.20{{ jenkins_home }}/itrust_ip.txt"
+    dest: "{{ aws_home }}"
 
 - name: Load data
   slurp:
-    src: /home/ubuntu/itrust_ip.txt
+    src: "{{ aws_home }}/itrust_ip.txt"
   register: slurped_user_data
 
 - name: debug
@@ -61,12 +61,12 @@
 
 - name: Copy the Checkbox IP
   copy:
-    src: /bakerx/results/192.168.33.20/home/vagrant/checkbox_ip.txt
-    dest: /home/ubuntu/
+    src: "/bakerx/results/192.168.33.20{{ jenkins_home }}/checkbox_ip.txt"
+    dest: "{{ aws_home }}"
 
 - name: Load data
   slurp:
-    src: /home/ubuntu/checkbox_ip.txt
+    src: "{{ aws_home }}/checkbox_ip.txt"
   register: slurped_user_data
 
 - name: debug
@@ -85,7 +85,7 @@
 
 - name: Run bin/www forever
   shell: |
-    cd /home/ubuntu/dashboard
+    cd "{{ aws_home }}"/dashboard
     forever stopall
     forever start bin/www
 

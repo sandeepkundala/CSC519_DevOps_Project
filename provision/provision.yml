@@ -5,6 +5,9 @@
 - hosts: jenkins
   gather_facts: false
   become: yes
+  vars:
+    jenkins_home: /home/vagrant
+    ansible_home: /home/vagrant
   vars_files:
    - /bakerx/cm/vars/vars.yml
   roles:

@@ -5,18 +5,20 @@
 - hosts: ansible
   gather_facts: false
   become: yes
+  vars:
+    jenkins_home: /home/vagrant
   vars_files:
    - /bakerx/cm/vars/vars.yml
   tasks:
     - name: Copy file to ~/.ssh/ec2-KP-devops06
       copy:
-        src: /home/vagrant/192.168.33.20/home/vagrant/ec2-KP-devops06.pem
-        dest: /home/vagrant/.ssh/ec2-KP-devops06
+        src: "{{ jenkins_home }}/192.168.33.20/home/vagrant/ec2-KP-devops06.pem"
+        dest: "{{ jenkins_home }}/.ssh/ec2-KP-devops06"
         owner: vagrant
         group: vagrant
         mode: u=r--,g=---,o=---
-        
+
     - name: Copy deploy.ini to /bakerx folder
       copy:
-        src: /bakerx/results/192.168.33.20/home/vagrant/deploy.ini
+        src: "/bakerx/results/192.168.33.20{{ jenkins_home }}/deploy.ini"
         dest: /bakerx/inventory.ini

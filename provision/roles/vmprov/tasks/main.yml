@@ -3,7 +3,8 @@
   shell: python {{ jenkins_homeuser_path }}/provision/create_aws_vm.py
   become: true
 
-- pause:
+- name: Pause for a minute
+  pause:
     minutes: 1
 
 - name: get jenkins-srv:/home/vagrant/deploy.ini
@@ -29,4 +30,4 @@
 - name: Get jenkins-srv:/home/vagrant/ec2-KP-devops06.pem
   fetch:
     src: "{{ jenkins_homeuser_path }}/ec2-KP-devops06.pem"
-    dest: /home/vagrant
+    dest: "{{ ansible_home }}"

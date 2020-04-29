@@ -1,7 +1,7 @@
 - name: Copy folder
   copy:
     src: /bakerx/provision/roles/webserver_setup/templates/agent
-    dest: /home/ubuntu/
+    dest: "{{ jenkins_home }}"
 
 - name: Set environment variable - VMNAME
   lineinfile:
@@ -25,6 +25,6 @@
 
 - name: run agent/index.js forever
   shell: |
-    cd /home/ubuntu/agent
+    cd "{{ aws_home }}"/agent
     forever stopall
     forever start index.js
