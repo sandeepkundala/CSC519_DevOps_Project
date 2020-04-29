@@ -9,6 +9,8 @@ Latency:
 	Status : Pass
 App Status:
 	Status: Fail
+Total Score out of 6:
+	Score: 2
 
 -------------------------------------
 

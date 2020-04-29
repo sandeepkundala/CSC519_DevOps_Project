@@ -1,10 +1,9 @@
----   
-
-- name: Install python
-  raw: sudo apt-get -y install python
+---
+# - name: Install python
+#   raw: sudo apt-get -y install python
 
 - name: Install forever
-  npm: 
+  npm:
     name: forever
     global: yes
     state: present
@@ -17,47 +16,41 @@
 
 - name: Install pip3
   shell: python /get-pip.py
-  
 
 - name: Adding Apt Key For Jenkins
   apt_key:
     url: "https://jenkins-ci.org/debian/jenkins-ci.org.key"
     state: present
-  
 
-- name: Check For Jenkins List, to see if it is already there   
-  stat: 
+- name: Check For Jenkins List, to see if it is already there
+  stat:
     path: /etc/apt/sources.list.d/jenkins.list
   register: jenkins_list
 
 - name: Adding Jenkins Source List
   shell: sh -c 'echo deb http://pkg.jenkins.io/debian-stable binary/ > /etc/apt/sources.list.d/jenkins.list'
   when: not jenkins_list.stat.exists
-  
 
-- name: Installing Jenkins 
+- name: Installing Jenkins
   apt:
-    name: jenkins     
+    name: jenkins
     state: present
     update_cache: yes
-  
 
 - name: Configure Jenkins port
   lineinfile:
     path: /etc/default/jenkins
-    regexp: '^HTTP_PORT=8080'
-    line: 'HTTP_PORT=9000'
-  
+    regexp: "^HTTP_PORT=8080"
+    line: "HTTP_PORT=9000"
 
 - name: Restarting Jenkins
   service:
     name: jenkins
     state: restarted
-  
 
 - name: Wait while Jenkins is getting restarted
-  wait_for: 
-    port: 9000 
+  wait_for:
+    port: 9000
     delay: 30
 
 - name: Create Directory For Groovy Script - Jenkins
@@ -66,7 +59,6 @@
     state: directory
     mode: 0755
   register: groovy_dir
-  
 
 - name: Copying Groovy Script For Deafult Jenkins User(ADMIN) Creation
   template:
@@ -74,22 +66,33 @@
     src: "{{ project_directory }}/roles/jenkins/templates/jenkins_user.groovy.j2"
     dest: "{{jenkins_path}}/init.groovy.d/basic-security.groovy"
     mode: 0755
-  
-  
+
 - name: Restarting Jenkins
   service:
     name: jenkins
     state: restarted
-  
 
 - name: Wait while Jenkins is getting restarted
-  wait_for: 
-    port: 9000 
+  wait_for:
+    port: 9000
     delay: 30
 
 - name: Installation of Jenkins plugins
   jenkins_plugin:
-    name: ['github', 'maven-plugin', 'junit', 'jacoco', 'test-stability', 'postbuildscript', 'build-timeout', 'postbuild-task', 'ws-cleanup', 'jenkins-job-builder', 'html-xml-utils']
+    name:
+      [
+        "github",
+        "maven-plugin",
+        "junit",
+        "jacoco",
+        "test-stability",
+        "postbuildscript",
+        "build-timeout",
+        "postbuild-task",
+        "ws-cleanup",
+        "jenkins-job-builder",
+        "html-xml-utils",
+      ]
     url_username: "{{jenkins_username}}"
     url_password: "{{jenkins_password}}"
     url: "{{jenkins_url}}"
@@ -99,18 +102,16 @@
   service:
     name: jenkins
     state: restarted
-  
 
 - name: Wait while Jenkins is getting restarted
-  wait_for: 
-    port: 9000 
+  wait_for:
+    port: 9000
     delay: 30
 
 - name: The Groovy Script should be  removed afer the creation of user once.
   file:
     path: "{{jenkins_path}}/init.groovy.d/basic-security.groovy"
     state: absent
-  
 
 - name: Getting Jenkins CLI Jar
   get_url:
@@ -120,7 +121,7 @@
 
 - name: Install python packages
   pip:
-    name: ['boto', 'boto3', 'jenkins-job-builder']
+    name: ["boto", "boto3", "jenkins-job-builder"]
 
 - name: Have the Jenkins configuration file in place (jenkins_jobs.ini)
   template:
@@ -133,8 +134,7 @@
     state: directory
 
 - name: Change the SSH config file
-  lineinfile: 
+  lineinfile:
     path: /etc/ssh/ssh_config
-    regexp: '#   StrictHostKeyChecking ask'
-    line: '   StrictHostKeyChecking no'
-  
+    regexp: "#   StrictHostKeyChecking ask"
+    line: "   StrictHostKeyChecking no"

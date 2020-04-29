@@ -166,7 +166,17 @@ http
       let statFlag = statTest == 1 ? "Pass" : "Fail";
 
       if (score > 3) {
-        var content = "Canary Passed";
+        //var content = "Canary Passed";
+        var content = "============= CANARY REPORT ============\n";
+        content += "-------- Statistical Difference --------\n";
+        content += `\nCPU Utilization:\n\tStatus: ${cpuFlag}`;
+        content += `\nMemory Utilization:\n\tStatus: ${memFlag}`;
+        content += `\nLatency:\n\tStatus : ${latFlag}`;
+        content += `\nApp Status:\n\tStatus: ${statFlag}`;
+        content += `\nTotal Score out of 6:\n\tScore: ${score}`;
+        content += "\n\n-------------------------------------\n";
+        content += `\n\n!!!!!!!CANARY PASS!!!!!!!\n`;
+
         fs.writeFileSync("/home/vagrant/canaryAnalysis.txt", content);
         console.log(content);
       } else {
@@ -176,6 +186,7 @@ http
         content += `\nMemory Utilization:\n\tStatus: ${memFlag}`;
         content += `\nLatency:\n\tStatus : ${latFlag}`;
         content += `\nApp Status:\n\tStatus: ${statFlag}`;
+        content += `\nTotal Score out of 6:\n\tScore: ${score}`;
         content += "\n\n-------------------------------------\n";
         content += `\n\n!!!!!!!CANARY FAIL!!!!!!!\n`;
 

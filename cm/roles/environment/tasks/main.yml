@@ -1,6 +1,6 @@
 ---
-- name: Install Python
-  raw: apt-get -y install python
+# - name: Install Python
+#   raw: apt-get -y install python
 
 - name: Update
   apt:
@@ -65,6 +65,11 @@
 - name: Installing Python-Pip
   apt:
     name: python-pip
+    state: latest
+
+- name: Installing Python-Pip
+  apt:
+    name: python3-pip
     state: latest
 
 - name: Installing pm2
