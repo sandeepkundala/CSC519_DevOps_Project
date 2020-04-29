@@ -8,14 +8,19 @@
     global: yes
     state: present
 
-- name: getting get-pip
-  get_url:
-    url: "https://bootstrap.pypa.io/get-pip.py"
-    dest: "/get-pip.py"
-    mode: 0755
+# - name: getting get-pip
+#   get_url:
+#     url: "https://bootstrap.pypa.io/get-pip.py"
+#     dest: "/get-pip.py"
+#     mode: 0755
 
-- name: Install pip3
-  shell: python /get-pip.py
+# - name: Install pip3
+#   shell: python /get-pip.py
+
+- name: Installing Python-Pip3
+  apt:
+    name: python3-pip
+    state: latest
 
 - name: Adding Apt Key For Jenkins
   apt_key:
