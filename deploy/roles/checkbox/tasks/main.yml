@@ -181,7 +181,7 @@
     path: '{{nginx_sites_path}}{{home_path}}'
     state: absent
 
-- name: Enable the mattermost configuration
+- name: Enable the checkbox configuration
   command: ln -s {{nginx_avbl_sites_path}}{{home_path}} {{nginx_sites_path}}{{home_path}}
   
 - name: Restart NGINX

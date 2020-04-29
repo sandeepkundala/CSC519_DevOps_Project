@@ -1,0 +1,13 @@
+- hosts: jenkins
+  gather_facts: false
+  become: yes
+  vars_files:
+    - ./vars/vars.yml
+  roles:
+    - build
+    # - java8
+    # - iTrust
+    
+  vars:
+    ansible_python_interpreter: python3
+

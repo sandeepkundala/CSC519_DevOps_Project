@@ -5,7 +5,10 @@ const chalk = require('chalk');
 const sshSync = require('../lib/ssh');
 const scpSync = require("../lib/scp");
 var inventoryPath = '';
-let filePathUpdate = "/bakerx/deploy/update.yml"
+let filePathUpdate = "/bakerx/deploy/update.yml";
+let buildUpdate = '/bakerx/deploy/build.yml';
+let buildPath = '/bakerx/buildInventory.ini';
+let iTrustbuild = false;
 
 exports.command = 'deploy <app>';
 exports.desc = 'Deploy the application in cloud servers';
@@ -28,6 +31,10 @@ exports.handler = async argv => {
         }
         else{
             inventoryPath = '/bakerx/' + inventory;
+        }
+        if (app == 'iTrust')
+        {
+            iTrustbuild = true;   
         }
         if (fs.existsSync(path.resolve('deploy/'+app+'.yml'))){
             await run(app, inventoryPath);
@@ -63,6 +70,11 @@ async function run(app, inventoryPath){
 
     // result = sshSync(`ansible-playbook ${filePathUpdate} -i ${inventoryPath} --ask-vault-pass`, 'vagrant@192.168.33.10');
     // if( result.error ) { process.exit( result.status ); }
+    
+    if(iTrustbuild){
+        result = sshSync(`ansible-playbook ${buildUpdate} -i ${buildPath} --vault-password-file /bakerx/deploy/vars/pass.txt`, 'vagrant@192.168.33.10');
+        if( result.error ) { process.exit( result.status ); }
+    }
 
     result = sshSync(`ansible-playbook ${filePath} -i ${inventoryPath} --vault-password-file /bakerx/deploy/vars/pass.txt`, 'vagrant@192.168.33.10');
     if( result.error ) { process.exit( result.status ); }
