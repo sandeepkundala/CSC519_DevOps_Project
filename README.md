@@ -36,7 +36,8 @@
   - [iTrust monitoring and checkbox monitoring](https://github.ncsu.edu/cscdevops-spring2020/DEVOPS-06/tree/master/provision/roles/webserver_setup/templates/agent)
   
 - Deploy checkbox.io and iTrust.
-  
+  - [Deployment of checkbox.io](https://github.ncsu.edu/cscdevops-spring2020/DEVOPS-06/blob/master/deploy/checkbox.io.yml)
+  - [Deployment of iTrust](https://github.ncsu.edu/cscdevops-spring2020/DEVOPS-06/blob/master/deploy/iTrust.yml)
   
 - Canary Analysis.
   - [Completed canary analysis task](https://github.ncsu.edu/cscdevops-spring2020/DEVOPS-06/blob/master/commands/canary.js) by provisioning VMs, running proxy, performing canary analysis and deleting the VMs)
@@ -103,6 +104,37 @@ pipeline canary <blueServer> <greenServer>
 *Note:*
 - *In slower machines,  there has been issues where IP address of Jenkins-srv is not assigned during provisioning of VMs (pipeline setup). In such cases, it is advised to run the command (pipeline setup) again* 
 - *It is also observed that, while provisioning VM, in ansible-srv or jenkins-srv, there is dpkg-lock error. In such cases, shut down the VM and run bakerx run \<vm-name\> bionic --ip \<ip_addr\>*
+
+### Output
+#### Provision
+EC2 Instances provisioned:</br>
+![](https://github.ncsu.edu/cscdevops-spring2020/DEVOPS-06/blob/master/resources/prov1.png)
+
+Monitor Dashboard @ monitor_ip:8080 </br>
+![](https://github.ncsu.edu/cscdevops-spring2020/DEVOPS-06/blob/master/resources/prov2.png)
+
+#### Deploy
+Deploy of checkbox.io application </br>
+![](https://github.ncsu.edu/cscdevops-spring2020/DEVOPS-06/blob/master/resources/checkboxDeploy.png)
+
+Build job output of iTrust2 </br>
+![](https://github.ncsu.edu/cscdevops-spring2020/DEVOPS-06/blob/master/resources/iTrustBuild.png)
+
+Deploy of iTrust2 application </br>
+![](https://github.ncsu.edu/cscdevops-spring2020/DEVOPS-06/blob/master/resources/deployItrust2.png)
+
+Monitor Dashboard @ monitor_ip:8080 after deploying of applications</br>
+![](https://github.ncsu.edu/cscdevops-spring2020/DEVOPS-06/blob/master/resources/deployMonitorDashboard.png)
+
+#### Canary
+Provision of instances in local machine:</br>
+![](https://github.ncsu.edu/cscdevops-spring2020/DEVOPS-06/blob/master/resources/canaryVB.png)
+
+Output of `pipeline canary master broken` </br>
+![](https://github.ncsu.edu/cscdevops-spring2020/DEVOPS-06/blob/master/resources/canaryFail.png)
+
+Output of `pipeline canary master master` </br>
+![](https://github.ncsu.edu/cscdevops-spring2020/DEVOPS-06/blob/master/resources/canaryPass.png)
 
 
 ### Screencast
