@@ -59,6 +59,7 @@
 - We faced some issue as we had wrongly installed python2 on our servers which was leading to conflicts while we were running our ansible scripts. Then we realised that it would be a good idea to use only the pre installed python3 version and set the python interpreter in ansible to python3
 - Writing logic for performing monitoring accurately.
 - Execution of Canary analysis took time because we had to understand the flow of the process and also check how the automation should be implemented.
+- Connecting jenkins server for triggering build and deploying war file from jenkins server to iTrust remote server.
 - While the execution of the "pipeline canary master broken" command we observed the blue and green servers were not comming up due to which we were not able to ssh into them. So we used the wait_for_connection module of ansible that helped.
 - Getting metrics from backend servers to proxy servers.
 
