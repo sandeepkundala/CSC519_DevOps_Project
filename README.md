@@ -139,7 +139,7 @@ Output of `pipeline canary master master` </br>
 
 
 ### Screencast
-The link of the screencast is [here](https://drive.google.com/open?id=1O39hjqkJGnAzt_sn3DD1DS3RbWT5DzHn)
+The link of the screencast is [here](https://drive.google.com/open?id=1UpFY0cuCdSbAtF2dJVvGigED_bcCyIAu)
 
 ### Issues
 
