@@ -105,6 +105,7 @@ pipeline canary <blueServer> <greenServer>
 *Note:*
 - *In slower machines,  there has been issues where IP address of Jenkins-srv is not assigned during provisioning of VMs (pipeline setup). In such cases, it is advised to run the command (pipeline setup) again* 
 - *It is also observed that, while provisioning VM, in ansible-srv or jenkins-srv, there is dpkg-lock error. In such cases, shut down the VM and run bakerx run \<vm-name\> bionic --ip \<ip_addr\>*
+- *If a dpkg error comes while an update is being performed by the ansible scrip, you might want to manually reboot the virtual machine, then assign IP and then run the command again or just delete the VM and run the command again*
 
 ### Output
 #### Provision
