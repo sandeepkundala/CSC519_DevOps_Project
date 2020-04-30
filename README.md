@@ -36,7 +36,8 @@
   - [iTrust monitoring and checkbox monitoring](https://github.ncsu.edu/cscdevops-spring2020/DEVOPS-06/tree/master/provision/roles/webserver_setup/templates/agent)
   
 - Deploy checkbox.io and iTrust.
-  
+  - [Deployment of checkbox.io](https://github.ncsu.edu/cscdevops-spring2020/DEVOPS-06/blob/master/deploy/checkbox.io.yml)
+  - [Deployment of iTrust](https://github.ncsu.edu/cscdevops-spring2020/DEVOPS-06/blob/master/deploy/iTrust.yml)
   
 - Canary Analysis.
   - [Completed canary analysis task](https://github.ncsu.edu/cscdevops-spring2020/DEVOPS-06/blob/master/commands/canary.js) by provisioning VMs, running proxy, performing canary analysis and deleting the VMs)
