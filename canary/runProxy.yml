@@ -9,15 +9,15 @@
     - /bakerx/cm/vars/vars.yml
   tasks:
     - name: npm install
-      shell: cd /home/vagrant/proxy/ && npm install
+      shell: "cd {{ jenkins_homeuser_path }}/proxy/ && npm install"
 
     - name: Run proxy.js for 10 min
-      shell: cd /home/vagrant/proxy/ && node proxy.js
+      shell: "cd {{ jenkins_homeuser_path }}/proxy/ && node proxy.js"
       become: yes
 
     - name: fetch canary report file
       fetch:
-        src: /home/vagrant/canaryAnalysis.txt
+        src: "{{ jenkins_homeuser_path }}/canaryAnalysis.txt"
         dest: /bakerx/results
 
   vars:

@@ -46,21 +46,21 @@
 - name: Clone the repository
   git:
     repo: "https://github.com/chrisparnin/checkbox.io-micro-preview.git"
-    dest: /home/vagrant/checkbox
+    dest: "{{ jenkins_homeuser_path }}/checkbox"
   become: true
 
 - name: Do npm install /home/vagrant/checkbox
   npm:
-    path: /home/vagrant/checkbox
+    path: "{{ jenkins_homeuser_path }}/checkbox"
 
 - name: Copy Agent
   copy:
     src: /bakerx/canary/roles/setup/templates/agent
-    dest: /home/vagrant
+    dest: "{{ jenkins_homeuser_path }}"
 
 - name: Do npm install /home/vagrant/agent
   npm:
-    path: /home/vagrant/agent
+    path: "{{ jenkins_homeuser_path }}/agent"
 
 - name: Set environment variable:VMNAME
   lineinfile:
@@ -74,9 +74,9 @@
 
 - name: run forever - AGENT and CHECKBOX APP
   shell: |
-    cd /home/vagrant/agent
+    cd {{ jenkins_homeuser_path }}/agent
     forever stopall
     forever start index.js
-    cd /home/vagrant/checkbox
+    cd {{ jenkins_homeuser_path }}/checkbox
     git checkout {{branch}}
     forever start index.js

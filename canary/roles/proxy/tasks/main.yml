@@ -54,7 +54,7 @@
 
 - name: Do npm install
   npm:
-    path: /home/vagrant/proxy
+    path: "{{ jenkins_homeuser_path }}/proxy"
   become: true
 
 - name: Make resources directory
@@ -86,7 +86,4 @@
     group: root
     mode: 0644
   notify: Redis Restart
-# - name: Run proxy.js
-#   shell: |
-#     cd /home/vagrant/proxy
-#     node proxy.js
+
