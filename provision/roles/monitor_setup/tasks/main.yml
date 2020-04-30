@@ -84,8 +84,5 @@
   shell: . /etc/environment
 
 - name: Run bin/www forever
-  shell: |
-    cd "{{ aws_home }}"/dashboard
-    forever stopall
-    forever start bin/www
+  shell: "cd {{ aws_home }}/dashboard && forever stopall && forever start bin/www"
 
