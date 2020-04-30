@@ -1,6 +1,7 @@
 ---
 - name: Running the Build job for Itrust
   command: java -jar ~/jenkins-cli.jar -s http://{{ jenkins_username }}:{{ jenkins_password }}@localhost:9000/ build {{ itrust_job_name }} -s
+  register: command_result
   ignore_errors: true
 
 - name: fetch war file
@@ -8,3 +9,4 @@
     src: "{{jenkins_homeuser_path}}{{iTrust_home}}/iTrust2/target/iTrust2.war"
     dest: /bakerx/deploy/roles/iTrust/templates/iTrust2.war
     flat: yes
+  when: "'SUCCESS' in command_result.stdout"
