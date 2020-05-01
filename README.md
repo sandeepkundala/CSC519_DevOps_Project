@@ -59,6 +59,7 @@
 - We faced some issue as we had wrongly installed python2 on our servers which was leading to conflicts while we were running our ansible scripts. Then we realised that it would be a good idea to use only the pre installed python3 version and set the python interpreter in ansible to python3
 - Writing logic for performing monitoring accurately.
 - Execution of Canary analysis took time because we had to understand the flow of the process and also check how the automation should be implemented.
+- Connecting jenkins server for triggering build and deploying war file from jenkins server to iTrust remote server.
 - While the execution of the "pipeline canary master broken" command we observed the blue and green servers were not comming up due to which we were not able to ssh into them. So we used the wait_for_connection module of ansible that helped.
 - Getting metrics from backend servers to proxy servers.
 
@@ -104,6 +105,7 @@ pipeline canary <blueServer> <greenServer>
 *Note:*
 - *In slower machines,  there has been issues where IP address of Jenkins-srv is not assigned during provisioning of VMs (pipeline setup). In such cases, it is advised to run the command (pipeline setup) again* 
 - *It is also observed that, while provisioning VM, in ansible-srv or jenkins-srv, there is dpkg-lock error. In such cases, shut down the VM and run bakerx run \<vm-name\> bionic --ip \<ip_addr\>*
+- *If a dpkg error comes while an update is being performed by the ansible scrip, you might want to manually reboot the virtual machine, then assign IP and then run the command again or just delete the VM and run the command again*
 
 ### Output
 #### Provision
@@ -138,7 +140,7 @@ Output of `pipeline canary master master` </br>
 
 
 ### Screencast
-The link of the screencast is [here](https://drive.google.com/open?id=1O39hjqkJGnAzt_sn3DD1DS3RbWT5DzHn)
+The link of the screencast is [here](https://drive.google.com/open?id=1UpFY0cuCdSbAtF2dJVvGigED_bcCyIAu)
 
 ### Issues
 
