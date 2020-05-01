@@ -117,8 +117,10 @@ Monitor Dashboard @ monitor_ip:8080 </br>
 
 #### Deploy
 Deploy of checkbox.io application </br>
-![](https://github.ncsu.edu/cscdevops-spring2020/DEVOPS-06/blob/master/resources/checkboxDeploy.png)</br>
+![](https://github.ncsu.edu/cscdevops-spring2020/DEVOPS-06/blob/master/resources/checkboxDeploy.png)
+
 ![](https://github.ncsu.edu/cscdevops-spring2020/DEVOPS-06/blob/master/resources/deployCheckboxApi.png)
+
 Build job output of iTrust2 </br>
 ![](https://github.ncsu.edu/cscdevops-spring2020/DEVOPS-06/blob/master/resources/iTrustBuild.png)
 
