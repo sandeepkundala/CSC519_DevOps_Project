@@ -77,7 +77,6 @@
     global: yes
 
 
-
 - name: Install the latest pymongo package
   pip: 
     name: pymongo
@@ -183,6 +182,12 @@
 
 - name: Enable the checkbox configuration
   command: ln -s {{nginx_avbl_sites_path}}{{home_path}} {{nginx_sites_path}}{{home_path}}
+
+- name: Copy html files
+  copy: 
+    src: "/checkbox/public_html"
+    dest: /usr/share/nginx/html
+    remote_src: yes
   
 - name: Restart NGINX
   service:
@@ -209,4 +214,12 @@
   npm:
     path: /checkbox/server-side/site
     state: latest
+    
+- name: stop checkbox
+  shell: forever stopall
+
+- name: start checkbox
+  shell: forever start server.js
+  args:
+    chdir: /checkbox/server-side/site
 
