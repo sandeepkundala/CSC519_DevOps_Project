@@ -144,14 +144,6 @@ Output of `pipeline canary master master` </br>
 ### Screencast
 The link of the screencast is [here](https://drive.google.com/open?id=1UpFY0cuCdSbAtF2dJVvGigED_bcCyIAu)
 
-### Issues
-
-All issues pertaining to Milestone 3 is [here](https://github.ncsu.edu/cscdevops-spring2020/DEVOPS-06/issues?utf8=%E2%9C%93&q=is%3Aissue+label%3A%22Milestone+3%22+)
-
-### Kanban board
-
-The kanban project board is [here](https://github.ncsu.edu/cscdevops-spring2020/DEVOPS-06/projects/3)
-
 
 ### Checkpoint reports
 #### Milestone 3 - 
