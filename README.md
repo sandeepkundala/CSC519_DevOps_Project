@@ -74,7 +74,7 @@
 
 #### Setup
 ``` 
-git clone https://github.ncsu.edu/cscdevops-spring2020/DEVOPS-06.git devops6
+git clone https://github.com/sandeepkundala/CSC519_DevOps_Project.git devops6
 cd devops6
 dos2unix cm/server-init.sh
 dos2unix cm/run-ansible.sh
