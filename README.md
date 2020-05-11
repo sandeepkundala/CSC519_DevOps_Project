@@ -26,7 +26,7 @@
 
 ### Report
 #### Architecture
-![](https://github.ncsu.edu/cscdevops-spring2020/DEVOPS-06/blob/master/resources/checkbox_io.png)
+![](resources/checkbox_io.png)
 
 #### Technologies Used
 - NodeJS: As a wrapper to execute custom commands like pipeline setup and pipeline build.
@@ -50,7 +50,7 @@
 
 #### Setup
 ``` 
-git clone https://github.ncsu.edu/cscdevops-spring2020/DEVOPS-06.git devops6
+git clone https://github.com/sandeepkundala/CSC519_DevOps_Project.git devops6
 cd devops6
 dos2unix cm/server-init.sh
 dos2unix cm/run-ansible.sh
@@ -69,13 +69,6 @@ pipeline build checkbox.io
 ### Screencast
 The link of the screencast is [here](https://drive.google.com/open?id=1YQkI-mi75f6QiPOK6zF41MpbfVinCOTS)
 
-### Issues
-
-All issues pertaining to Milestone 1 is [here](https://github.ncsu.edu/cscdevops-spring2020/DEVOPS-06/issues?q=is%3Aopen+is%3Aissue+project%3Acscdevops-spring2020%2FDEVOPS-06%2F1)
-
-### Kanban board
-
-The kanban project board is [here](https://github.ncsu.edu/cscdevops-spring2020/DEVOPS-06/projects/1)
 
 ### Checkpoint reports
-Read [CHECKPOINT.md](https://github.ncsu.edu/cscdevops-spring2020/DEVOPS-06/blob/master/CHECKPOINT.md)
+Read [CHECKPOINT.md](CHECKPOINT.md)
