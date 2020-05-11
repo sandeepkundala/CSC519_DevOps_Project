@@ -20,24 +20,24 @@
 
 ### Report
 #### Architecture
-![](https://github.ncsu.edu/cscdevops-spring2020/DEVOPS-06/blob/master/resources/m2.png)
+![](resources/m2.png)
 
 #### Tasks
 - Automatically configure a build environment and build job for a Java application (iTrust).
-  - [Build envirorment for iTrust](https://github.ncsu.edu/cscdevops-spring2020/DEVOPS-06/blob/master/cm/roles/iTrust_envi/tasks/main.yml)
-  - [Build job for iTrust](https://github.ncsu.edu/cscdevops-spring2020/DEVOPS-06/blob/master/cm/roles/create_jobs/templates/iTrust_jenkins_jobs.yml)
+  - [Build envirorment for iTrust](cm/roles/iTrust_envi/tasks/main.yml)
+  - [Build job for iTrust](cm/roles/create_jobs/templates/iTrust_jenkins_jobs.yml)
 
 - Implement a test suite analysis for detecting useful tests.
-  - Implemented [fuzzer](https://github.ncsu.edu/cscdevops-spring2020/DEVOPS-06/blob/master/Fuzzer/fuzzer.js) to 
+  - Implemented [fuzzer](Fuzzer/fuzzer.js) to 
     - swap "<" with ">"
     - swap "==" with "!="
     - swap 0 with 1
     - swap "true" with "false"
-  - Performed analysis to detect [useful tests](https://github.ncsu.edu/cscdevops-spring2020/DEVOPS-06/blob/master/Fuzzer/FS.js).
-  - The result for one such run is [here](https://github.ncsu.edu/cscdevops-spring2020/DEVOPS-06/blob/master/results/192.168.33.20/home/vagrant/Fuzzer/final_result_100.txt)
+  - Performed analysis to detect [useful tests](Fuzzer/FS.js).
+  - The result for one such run is [here](results/192.168.33.20/home/vagrant/Fuzzer/final_result_100.txt)
 
 - Implement a static analysis for detecting code smells.
-  - Implemented [static analysis](https://github.ncsu.edu/cscdevops-spring2020/DEVOPS-06/blob/master/Complexity/analysis.js) on checkbox.io which checks for the below conditions and fail the build if any of the below conditions are satisfied.
+  - Implemented [static analysis](Complexity/analysis.js) on checkbox.io which checks for the below conditions and fail the build if any of the below conditions are satisfied.
     - Long method: Detect long methods (>100 LOC).
     - Message Chains: Detect message chains (for .) (>10 chains)
     - MaxNestingDepth: Count the max number of if statements in a function (>5)
@@ -64,7 +64,7 @@
 
 #### Setup
 ``` 
-git clone https://github.ncsu.edu/cscdevops-spring2020/DEVOPS-06.git devops6
+git clone https://github.com/sandeepkundala/CSC519_DevOps_Project.git devops6
 cd devops6
 dos2unix cm/server-init.sh
 dos2unix cm/run-ansible.sh
@@ -91,18 +91,11 @@ pipeline build checkbox.io
 ### Screencast
 The link of the screencast is [here](https://drive.google.com/open?id=1O39hjqkJGnAzt_sn3DD1DS3RbWT5DzHn)
 
-### Issues
-
-All issues pertaining to Milestone 2 is [here](https://github.ncsu.edu/cscdevops-spring2020/DEVOPS-06/issues?utf8=%E2%9C%93&q=is%3Aissue+project%3Acscdevops-spring2020%2FDEVOPS-06%2F2+)
-
-### Kanban board
-
-The kanban project board is [here](https://github.ncsu.edu/cscdevops-spring2020/DEVOPS-06/projects/2)
 
 
 ### Checkpoint reports
 #### Milestone 2 - Test + Analysis
-Read [CHECKPOINT.md](https://github.ncsu.edu/cscdevops-spring2020/DEVOPS-06/blob/master/CHECKPOINT_MILESTONE2.md)
+Read [CHECKPOINT.md](CHECKPOINT_MILESTONE2.md)
 
 #### Milestone 1 - Build
-Read [CHECKPOINT.md](https://github.ncsu.edu/cscdevops-spring2020/DEVOPS-06/blob/master/CHECKPOINT.md)
+Read [CHECKPOINT.md](CHECKPOINT.md)
